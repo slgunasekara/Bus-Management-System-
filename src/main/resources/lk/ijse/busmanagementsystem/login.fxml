@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.LoginController">
+    <children>
+        <!-- Background -->
+        <AnchorPane style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);">
+            <children>
+                <!-- Decorative Side Bars -->
+                <AnchorPane layoutX="-50.0" layoutY="111.0" prefHeight="392.0" prefWidth="6.0" style="-fx-background-color: linear-gradient(to bottom, #3498db, #1a5580); -fx-background-radius: 3;" AnchorPane.leftAnchor="-50.0" AnchorPane.topAnchor="111.0" />
+                <AnchorPane layoutY="119.0" prefHeight="392.0" prefWidth="6.0" style="-fx-background-color: linear-gradient(to bottom, #3498db, #1a5580); -fx-background-radius: 3;" AnchorPane.rightAnchor="-51.0" AnchorPane.topAnchor="119.0" />
+            </children>
+        </AnchorPane>
+
+        <!-- Main Container - Centered -->
+        <HBox alignment="CENTER" maxHeight="625.0" maxWidth="1100.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 50, 0, 0, 8);">
+            <children>
+                <!-- Left Side - Branding Section -->
+                <AnchorPane prefHeight="625.0" prefWidth="550.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 30 0 0 30;">
+                    <children>
+                        <!-- Logo/Image -->
+                        <VBox alignment="CENTER" spacing="30" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="80.0">
+                            <children>
+                                <!-- Company Logo Card -->
+                                <AnchorPane prefHeight="240.0" prefWidth="380.0" style="-fx-background-color: rgba(255,255,255,0.1); -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);">
+                                    <children>
+                                        <AnchorPane layoutX="22.0" layoutY="22.0" prefHeight="188.0" prefWidth="354.0" style="-fx-background-color: white; -fx-background-radius: 20;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="22.0">
+                                            <children>
+                                                <ImageView fitHeight="162.0" fitWidth="310.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="13.0">
+                                                    <image>
+                                                        <Image url="@assets/Gunasekara.jpg" />
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+
+                                <!-- Welcome Text -->
+                                <VBox alignment="CENTER" spacing="12">
+                                    <children>
+                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="System Bold" size="24.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gunasekara Travels" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Book Antiqua Bold" size="36.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bus Management System" textAlignment="CENTER">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Decorative Elements -->
+                        <Circle fill="rgba(255,255,255,0.1)" layoutX="50.0" layoutY="50.0" radius="40.0" />
+                        <Circle fill="rgba(255,255,255,0.08)" layoutX="480.0" layoutY="530.0" radius="60.0" />
+                        <Circle fill="rgba(255,255,255,0.06)" layoutX="493.0" layoutY="70.0" radius="35.0" />
+                    </children>
+                </AnchorPane>
+
+                <!-- Right Side - Login Form -->
+                <VBox alignment="CENTER" prefHeight="625.0" prefWidth="550.0" spacing="20">
+                    <children>
+                        <!-- Animated GIF at top -->
+                        <ImageView fitHeight="138.0" fitWidth="252.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@assets/1000197784%20(640×320).gif" />
+                            </image>
+                        </ImageView>
+
+                        <!-- Login Form Container -->
+                        <VBox alignment="CENTER" spacing="25" VBox.vgrow="ALWAYS">
+                            <children>
+                                <!-- Login Header -->
+                                <VBox alignment="CENTER" spacing="8">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login to Your Account" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="System Bold" size="28.0" />
+                                            </font>
+                                            <fill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                    <stops>
+                                                        <Stop>
+                                                            <color>
+                                                                <Color red="0.2078431397676468" green="0.596078395843506" blue="0.8588235378265381" />
+                                                            </color>
+                                                        </Stop>
+                                                        <Stop offset="1.0">
+                                                            <color>
+                                                                <Color red="0.10196078568696976" green="0.33333334326744080" blue="0.5019607543945312" />
+                                                            </color>
+                                                        </Stop>
+                                                    </stops>
+                                                </LinearGradient>
+                                            </fill>
+                                        </Text>
+                                        <Text fill="#6c757d" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your credentials to continue" textAlignment="CENTER">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </VBox>
+
+                                <!-- Username Field -->
+                                <VBox maxWidth="400.0" spacing="8">
+                                    <children>
+                                        <Label text="Username" textFill="#495057">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER_LEFT" prefHeight="45.0" spacing="12" style="-fx-background-color: #f8f9fa; -fx-background-radius: 12; -fx-border-color: #dee2e6; -fx-border-radius: 12; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);">
+                                            <children>
+                                                <Text fill="#3498db" strokeType="OUTSIDE" strokeWidth="0.0" text="👤">
+                                                    <font>
+                                                        <Font size="20.0" />
+                                                    </font>
+                                                </Text>
+                                                <TextField fx:id="usernameField" prefHeight="40.0" promptText="Enter your username" style="-fx-background-color: transparent; -fx-border-width: 0;" HBox.hgrow="ALWAYS">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <padding>
+                                                <Insets left="15.0" right="15.0" />
+                                            </padding>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <!-- Password Field -->
+                                <VBox maxWidth="400.0" spacing="8">
+                                    <children>
+                                        <Label text="Password" textFill="#495057">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER_LEFT" prefHeight="45.0" spacing="12" style="-fx-background-color: #f8f9fa; -fx-background-radius: 12; -fx-border-color: #dee2e6; -fx-border-radius: 12; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);">
+                                            <children>
+                                                <Text fill="#3498db" strokeType="OUTSIDE" strokeWidth="0.0" text="🔒">
+                                                    <font>
+                                                        <Font size="20.0" />
+                                                    </font>
+                                                </Text>
+                                                <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Enter your password" style="-fx-background-color: transparent; -fx-border-width: 0;" HBox.hgrow="ALWAYS">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </PasswordField>
+                                            </children>
+                                            <padding>
+                                                <Insets left="15.0" right="15.0" />
+                                            </padding>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <!-- Login Button -->
+                                <StackPane maxWidth="400.0">
+                                    <children>
+                                        <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#login" prefHeight="50.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 4); -fx-cursor: hand;" text="Login to Dashboard" textFill="WHITE">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Button>
+                                        <Text fill="WHITE" mouseTransparent="true" strokeType="OUTSIDE" strokeWidth="0.0" text="🚀" StackPane.alignment="CENTER_LEFT">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                            <StackPane.margin>
+                                                <Insets left="20.0" />
+                                            </StackPane.margin>
+                                        </Text>
+                                    </children>
+                                </StackPane>
+                            </children>
+                            <padding>
+                                <Insets left="75.0" right="75.0" />
+                            </padding>
+                        </VBox>
+
+                        <!-- Footer -->
+                        <VBox alignment="CENTER" prefHeight="57.0" prefWidth="485.0" spacing="3" style="-fx-background-color: white; -fx-background-radius: 30;">
+                            <children>
+                                <Text fill="#495057" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2025 Gunasekara Travels - All Rights Reserved">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#6c757d" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Praveena Gunasekara (AMG)" />
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="37.5" left="90.0" right="90.0" top="37.5" />
+    </padding>
+</StackPane>

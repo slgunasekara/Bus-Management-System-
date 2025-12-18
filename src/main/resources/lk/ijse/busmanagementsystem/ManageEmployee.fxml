@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="employeeContent" prefHeight="700.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.ManageEmployeeController">
+    <children>
+        <!-- Header Section -->
+        <VBox prefHeight="60.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 3);">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1035.0" spacing="15">
+                    <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                        </ImageView>
+                        <VBox spacing="2">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Management">
+                                    <font>
+                                        <Font name="System Bold" size="26.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage your workforce efficiently">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <Region prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 1.5; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="25.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Main Content Area -->
+        <HBox layoutX="14.0" layoutY="80.0" prefHeight="309.0" prefWidth="1007.0" spacing="20">
+            <children>
+                <!-- Left Side - Form -->
+                <AnchorPane prefHeight="330.0" prefWidth="670.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                    <children>
+                        <!-- Form Header -->
+                        <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="15.0" prefHeight="40.0" prefWidth="605.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15;">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  Employee Information">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets left="15.0" />
+                            </padding>
+                        </HBox>
+                  <ScrollPane layoutX="25.0" layoutY="71.0" prefHeight="214.0" prefWidth="639.0" style="-fx-background-color: white;">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="424.0" prefWidth="619.0" style="-fx-background-color: white;">
+                           <children>
+            
+                                    <!-- Form Fields -->
+                                    <VBox layoutX="8.0" layoutY="6.0" prefHeight="295.0" prefWidth="605.0" spacing="8">
+                                        <children>
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Employee ID:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empId" prefHeight="30.0" prefWidth="445.0" promptText="Auto-generated ID" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Category:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <ComboBox fx:id="empCategory" prefHeight="30.0" prefWidth="445.0" promptText="Select Employee Category" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                        </ComboBox>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Name:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empName" prefHeight="30.0" prefWidth="445.0" promptText="Employee Full Name" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Address:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empAddress" prefHeight="30.0" prefWidth="445.0" promptText="Residential Address" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Contact Number:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empContact" prefHeight="30.0" prefWidth="445.0" promptText="e.g., 0771234567" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="NIC Number:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empNic" prefHeight="30.0" prefWidth="445.0" promptText="National Identity Card Number" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="NTC Number:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empNTC" prefHeight="30.0" prefWidth="445.0" promptText="National Transport Commission Number" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Driving License:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <TextField fx:id="empDriveLic" prefHeight="30.0" prefWidth="445.0" promptText="Driving License Number" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                        <font>
+                                                            <Font size="12.0" />
+                                                        </font>
+                                                    </TextField>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Join Date:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <DatePicker fx:id="empJoinDate" prefHeight="30.0" prefWidth="445.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                        </DatePicker>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Exit Date:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <DatePicker fx:id="empExitDate" prefHeight="30.0" prefWidth="445.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                        </DatePicker>
+                                                </children>
+                                            </HBox>
+            
+                                            <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                <children>
+                                                    <Label prefWidth="140.0" text="Status:" textFill="#495057">
+                                                        <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                        </font>
+                                                    </Label>
+                                                    <ComboBox fx:id="empStatus" prefHeight="30.0" prefWidth="445.0" promptText="Select Employee Status" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                        </ComboBox>
+                                                </children>
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+                    </children>
+                </AnchorPane>
+
+                <!-- Right Side - Image & Actions -->
+                <VBox prefHeight="305.0" prefWidth="332.0" spacing="15">
+                    <children>
+                        <!-- Image Card -->
+                        <AnchorPane prefHeight="180.0" prefWidth="332.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <ImageView fitHeight="160.0" fitWidth="312.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                                    <image>
+                                        <Image url="@assets/Gunasekara.jpg" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+
+                        <!-- Action Buttons Card -->
+                        <AnchorPane prefHeight="110.0" prefWidth="332.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <VBox alignment="CENTER" layoutX="15.0" layoutY="10.0" prefHeight="90.0" prefWidth="302.0" spacing="10">
+                                    <children>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#saveEmployee" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="💾 Save" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button mnemonicParsing="false" onAction="#handleEmployeeUpdate" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🔄 Update" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#handleEmployeeDelete" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #eb3349, #f45c43); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🗑️ Delete" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button mnemonicParsing="false" onAction="#handleEmployeeReset" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #757F9A, #D7DDE8); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="↺ Reset" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- Table Section -->
+        <AnchorPane layoutX="14.0" layoutY="410.0" prefHeight="280.0" prefWidth="1007.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+            <children>
+                <!-- Table Header -->
+                <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="15.0" prefHeight="45.0" prefWidth="967.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 12;">
+                    <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="  📋 Employee List">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                        </Text>
+                        <Region prefHeight="45.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtSearch" prefHeight="32.0" prefWidth="220.0" promptText="🔍 Search employees..." style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20; -fx-border-color: transparent; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </TextField>
+                        <Button mnemonicParsing="false" onAction="#handleSearchEmployee" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Search" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleRefresh" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Refresh" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="15.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <!-- Table -->
+                <TableView fx:id="tableEmployee" layoutX="20.0" layoutY="70.0" prefHeight="167.0" prefWidth="967.0" style="-fx-background-color: transparent; -fx-background-radius: 10; -fx-border-color: #e9ecef; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="45.0" style="-fx-alignment: CENTER;" text="ID" />
+                        <TableColumn fx:id="colEmpCategory" prefWidth="90.0" text="Category" />
+                        <TableColumn fx:id="colEmpName" prefWidth="120.0" text="Name" />
+                        <TableColumn fx:id="colEmpAddress" prefWidth="115.0" text="Address" />
+                        <TableColumn fx:id="colEmpContact" prefWidth="100.0" text="Contact No" />
+                        <TableColumn fx:id="colEmpNic" prefWidth="95.0" text="NIC No" />
+                        <TableColumn fx:id="colEmpNtc" prefWidth="80.0" text="NTC No" />
+                        <TableColumn fx:id="colEmpDriveLic" prefWidth="95.0" text="Driving Lic" />
+                        <TableColumn fx:id="colEmpJoinDate" prefWidth="85.0" text="Join Date" />
+                        <TableColumn fx:id="colEmpExitDate" prefWidth="85.0" text="Exit Date" />
+                        <TableColumn fx:id="colEmpStatus" prefWidth="75.0" style="-fx-alignment: CENTER;" text="Status" />
+                        <TableColumn fx:id="colCreatedBy" prefWidth="80.0" style="-fx-alignment: CENTER;" text="Created By" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

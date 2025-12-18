@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane style="-fx-background-color: linear-gradient(to bottom right, #3498db 0%, #1a5580 50%, #000000 100%);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.LayoutController">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1280.0" prefHeight="700.0" prefWidth="1280.0">
+            <left>
+                <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="255.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 5, 0);" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane prefHeight="700.0" prefWidth="228.0" style="-fx-background-radius: 25; -fx-background-color: rgba(255,255,255,0.95);">
+                            <VBox.margin>
+                                <Insets bottom="8.0" left="12.0" right="12.0" top="8.0" />
+                            </VBox.margin>
+                            <children>
+                                <AnchorPane layoutX="14.0" layoutY="10.0" prefHeight="90.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0, 0, 4);">
+                                    <children>
+                                        <ImageView fitHeight="72.0" fitWidth="174.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@assets/GIF_20251202_155145_183.gif" />
+                                            </image>
+                                        </ImageView>
+                                        <Button layoutX="-4.0" layoutY="-1.0" mnemonicParsing="false" onAction="#desktop" prefHeight="87.0" prefWidth="202.0" style="-fx-background-color: transparent; -fx-cursor: hand;" />
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane layoutX="30.0" layoutY="108.0" prefHeight="2.0" prefWidth="168.0" style="-fx-background-color: linear-gradient(to right, transparent, #3498db, transparent);" />
+                                <VBox layoutX="14.0" layoutY="118.0" prefHeight="560.0" prefWidth="200.0" spacing="8">
+                                    <children>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickBusNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Microsoft-Fluentui-Emoji-Flat-Bus-Flat.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Bus">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickTripNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Designbolts-Seo-SEO-Monitoring.256.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Trip">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickTripExpensesNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Custom-Icon-Design-Flatastic-5-Reports.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Trip Expenses">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickEmployeeNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Hopstarter-Sleek-Xp-Basic-Preppy.256.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickEmployeeSalaryNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Aha-Soft-Business-Toolbar-Payment.48.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Salary">
+                                                            <font>
+                                                                <Font name="System Bold" size="14.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickMaintenanceNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Custom-Icon-Design-Flatastic-8-Maintenance.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Maintenance">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickPartPurchaseNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Graphicloads-Colorful-Long-Shadow-Cart.256.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Part Purchases">
+                                                            <font>
+                                                                <Font name="System Bold" size="14.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickOtherServicesNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Cornmanthe3rd-Plex-Other-steam-red.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Other Services">
+                                                            <font>
+                                                                <Font name="System Bold" size="14.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickBusManagementToolsNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Custom-Icon-Design-Flatastic-5-Sales-report.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Tools">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickUpdatePricesNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Oxygen-Icons.org-Oxygen-Status-media-playlist-repeat.256.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Prices">
+                                                            <font>
+                                                                <Font name="System Bold" size="14.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#clickManageReportNav" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4); -fx-cursor: hand;" textFill="WHITE">
+                                            <graphic>
+                                                <HBox alignment="CENTER_LEFT" spacing="12">
+                                                    <children>
+                                                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Aha-Soft-Large-Seo-SEO.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Report">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Text>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="8.0" />
+                                                    </padding>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </VBox>
+                                <Circle fill="rgba(52, 152, 219, 0.08)" layoutX="30.0" layoutY="665.0" radius="20.0" />
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </left>
+            <center>
+                <AnchorPane fx:id="mainContent" prefHeight="700.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db 0%, #1a5580 50%, #000000 100%);" BorderPane.alignment="CENTER">
+                    <children>
+                        <AnchorPane style="-fx-background-color: white; -fx-background-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 30, 0, 0, 8);" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="70.0" spacing="15" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0">
+                                    <children>
+                                        <VBox alignment="CENTER_LEFT" spacing="3" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Gunasekara Bus Management System">
+                                                    <font>
+                                                        <Font name="System Bold" size="24.0" />
+                                                    </font>
+                                                </Text>
+                                                <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage your fleet with efficiency and excellence">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Text>
+                                            </children>
+                                            <HBox.margin>
+                                                <Insets left="25.0" />
+                                            </HBox.margin>
+                                        </VBox>
+                                        <Button mnemonicParsing="false" onAction="#logout" prefHeight="42.0" prefWidth="120.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 2; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets right="20.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <!-- මේක Part 1 එකේ අවසන් HBox එකෙන් පස්සේ දාන්න -->
+                                <HBox alignment="CENTER" prefHeight="180.0" spacing="25" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="115.0">
+                                    <children>
+                                        <AnchorPane prefHeight="180.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #667eea; -fx-background-radius: 15;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <children>
+                                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Microsoft-Fluentui-Emoji-Flat-Bus-Flat.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Buses">
+                                                            <font><Font name="System Bold" size="16.0" /></font>
+                                                        </Text>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="6">
+                                                            <font><Font name="System Bold" size="36.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="180.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: linear-gradient(to bottom right, #f39c12, #e67e22); -fx-background-radius: 15;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <children>
+                                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/bus1%20.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Trips">
+                                                            <font><Font name="System Bold" size="16.0" /></font>
+                                                        </Text>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="864">
+                                                            <font><Font name="System Bold" size="36.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="180.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <children>
+                                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Hopstarter-Sleek-Xp-Basic-Preppy.256.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employees">
+                                                            <font><Font name="System Bold" size="16.0" /></font>
+                                                        </Text>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="13">
+                                                            <font><Font name="System Bold" size="36.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane prefHeight="180.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 5);" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: linear-gradient(to bottom right, #2ecc71, #27ae60); -fx-background-radius: 15;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                    <children>
+                                                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@assets/Custom-Icon-Design-Flatastic-5-Sales-report.512.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Revenue">
+                                                            <font><Font name="System Bold" size="16.0" /></font>
+                                                        </Text>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Rs 4.5M">
+                                                            <font><Font name="System Bold" size="30.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" layoutX="74.0" prefHeight="60.0" prefWidth="821.0" spacing="25" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="315.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#clickBusNav" prefHeight="50.0" style="-fx-background-color: #667eea; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 5); -fx-cursor: hand;" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                            <graphic>
+                                                <HBox alignment="CENTER" spacing="8">
+                                                    <children>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="🚌" />
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Bus">
+                                                            <font><Font name="System Bold" size="14.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button mnemonicParsing="false" onAction="#clickTripNav" prefHeight="50.0" style="-fx-background-color: linear-gradient(to bottom right, #f39c12, #e67e22); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 5); -fx-cursor: hand;" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                            <graphic>
+                                                <HBox alignment="CENTER" spacing="8">
+                                                    <children>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="🗺️" />
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Trip">
+                                                            <font><Font name="System Bold" size="14.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button mnemonicParsing="false" onAction="#clickEmployeeNav" prefHeight="50.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 5); -fx-cursor: hand;" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                            <graphic>
+                                                <HBox alignment="CENTER" spacing="8">
+                                                    <children>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="👥" />
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Employee">
+                                                            <font><Font name="System Bold" size="13.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                        <Button mnemonicParsing="false" onAction="#clickManageReportNav" prefHeight="50.0" style="-fx-background-color: linear-gradient(to bottom right, #2ecc71, #27ae60); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 12, 0, 0, 5); -fx-cursor: hand;" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                            <graphic>
+                                                <HBox alignment="CENTER" spacing="8">
+                                                    <children>
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="📊" />
+                                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="View Reports">
+                                                            <font><Font name="System Bold" size="14.0" /></font>
+                                                        </Text>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                                <VBox alignment="CENTER" prefHeight="200.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom, rgba(52,152,219,0.05), rgba(255,255,255,0.8)); -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5);" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="230.0" AnchorPane.topAnchor="395.0">
+                                    <children>
+                                        <ImageView fitHeight="110.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@assets/Gunasekara.jpg" />
+                                            </image>
+                                        </ImageView>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Your Fleet Efficiently" textAlignment="CENTER">
+                                            <font><Font name="System Bold Italic" size="20.0" /></font>
+                                            <fill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                    <stops>
+                                                        <Stop><color><Color red="0.2078431397676468" green="0.596078395843506" blue="0.8588235378265381" /></color></Stop>
+                                                        <Stop offset="1.0"><color><Color red="0.10196078568696976" green="0.33333334326744080" blue="0.5019607543945312" /></color></Stop>
+                                                    </stops>
+                                                </LinearGradient>
+                                            </fill>
+                                        </Text>
+                                        <Text fill="#6c757d" strokeType="OUTSIDE" strokeWidth="0.0" text="Your trusted partner in transportation management" textAlignment="CENTER">
+                                            <font><Font size="13.0" /></font>
+                                        </Text>
+                                    </children>
+                                    <padding>
+                                        <Insets bottom="15.0" top="15.0" />
+                                    </padding>
+                                </VBox>
+                                <Button mnemonicParsing="false" onAction="#clickManageUserNav" prefHeight="38.0" prefWidth="145.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 5); -fx-cursor: hand;" textFill="WHITE" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="30.0">
+                                    <graphic>
+                                        <HBox alignment="CENTER" spacing="8">
+                                            <children>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="⚙️" />
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage User">
+                                                    <font><Font name="System Bold" size="13.0" /></font>
+                                                </Text>
+                                            </children>
+                                        </HBox>
+                                    </graphic>
+                                </Button>
+                                <HBox alignment="CENTER" prefHeight="30.0" spacing="8" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
+                                    <children>
+                                        <Text fill="#6c757d" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2025 Gunasekara Travels">
+                                            <font><Font name="System Bold" size="11.0" /></font>
+                                        </Text>
+                                        <Text fill="#adb5bd" strokeType="OUTSIDE" strokeWidth="0.0" text="•" />
+                                        <Text fill="#6c757d" strokeType="OUTSIDE" strokeWidth="0.0" text="All Rights Reserved">
+                                            <font><Font size="11.0" /></font>
+                                        </Text>
+                                    </children>
+                                </HBox>
+                                <Circle fill="rgba(52, 152, 219, 0.05)" layoutX="60.0" layoutY="356.0" radius="30.0" />
+                                <Circle fill="rgba(52, 152, 219, 0.03)" layoutX="868.0" layoutY="428.0" radius="86.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="361.0" />
+                                <ImageView fitHeight="189.0" fitWidth="197.0" layoutX="786.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="76.0" AnchorPane.rightAnchor="10.0">
+                                    <image>
+                                        <Image url="@assets/emp.gif" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="228.0" fitWidth="227.0" layoutY="390.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0">
+                                    <image>
+                                        <Image url="@assets/1000197785%20(640×640).gif" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

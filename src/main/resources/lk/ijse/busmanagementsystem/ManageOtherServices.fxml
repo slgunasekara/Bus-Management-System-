@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="otherServicesContent" prefHeight="700.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.ManageOtherServicesController">
+    <children>
+        <!-- Header Section -->
+        <VBox prefHeight="60.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 3);">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1035.0" spacing="15">
+                    <children>
+                        <VBox spacing="2">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Other Services Management">
+                                    <font>
+                                        <Font name="System Bold" size="26.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Track and manage additional bus services">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                        </VBox>
+                        <Region prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 1.5; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="25.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Main Content Area -->
+        <HBox layoutX="14.0" layoutY="75.0" prefHeight="333.0" prefWidth="1007.0" spacing="20">
+            <children>
+                <!-- Left Side - Form -->
+                <AnchorPane prefHeight="333.0" prefWidth="679.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                    <children>
+                        <!-- Form Header -->
+                        <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="15.0" prefHeight="40.0" prefWidth="630.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15;">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="     Service Information">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets left="15.0" />
+                            </padding>
+                        </HBox>
+
+                        <ScrollPane layoutX="25.0" layoutY="78.0" prefHeight="240.0" prefWidth="644.0" style="-fx-background-color: white;">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="629.0" style="-fx-background-color: white;">
+                                    <children>
+                                        <!-- Form Fields -->
+                                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="340.0" prefWidth="605.0" spacing="12">
+                                            <children>
+                                                <!-- Service ID -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Service ID:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="serviceId" onKeyPressed="#handleSearchService" prefHeight="30.0" prefWidth="445.0" promptText="Auto-generated ID" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Bus ID ComboBox -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Bus ID (Optional):" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <ComboBox fx:id="comboBusId" onAction="#handleSelectBus" prefHeight="30.0" prefWidth="445.0" promptText="Select Bus ID" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Bus Details Label -->
+                                                <HBox prefHeight="25.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="" />
+                                                        <Label fx:id="lblBusDetails" prefHeight="25.0" prefWidth="445.0" style="-fx-background-color: #e3f2fd; -fx-background-radius: 8; -fx-padding: 5;" text="-" textFill="#1565c0">
+                                                            <font>
+                                                                <Font name="System Italic" size="11.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Trip ID ComboBox -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Trip ID (Optional):" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <ComboBox fx:id="comboTripId" onAction="#handleSelectTrip" prefHeight="30.0" prefWidth="445.0" promptText="Select Trip ID" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Trip Details Label -->
+                                                <HBox prefHeight="25.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="" />
+                                                        <Label fx:id="lblTripDetails" prefHeight="25.0" prefWidth="445.0" style="-fx-background-color: #e8f5e9; -fx-background-radius: 8; -fx-padding: 5;" text="-" textFill="#2e7d32">
+                                                            <font>
+                                                                <Font name="System Italic" size="11.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Service Name -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Service Name:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="serviceName" prefHeight="30.0" prefWidth="445.0" promptText="e.g., Insurance, Route permit" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Cost -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Cost:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="cost" prefHeight="30.0" prefWidth="445.0" promptText="Service cost amount" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Date -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Date:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <DatePicker fx:id="datePicker" prefHeight="30.0" prefWidth="445.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;" />
+                                                    </children>
+                                                </HBox>
+
+                                                <!-- Description -->
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Description:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="description" prefHeight="30.0" prefWidth="445.0" promptText="Service description" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+
+                <!-- Right Side - Image & Actions -->
+                <VBox prefHeight="333.0" prefWidth="308.0" spacing="15">
+                    <children>
+                        <!-- Image Card -->
+                        <AnchorPane prefHeight="203.0" prefWidth="308.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <ImageView fitHeight="183.0" fitWidth="288.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@assets/Gunasekara.jpg" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+
+                        <!-- Action Buttons Card -->
+                        <AnchorPane prefHeight="110.0" prefWidth="308.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <VBox alignment="CENTER" layoutX="15.0" layoutY="10.0" prefHeight="90.0" prefWidth="278.0" spacing="10">
+                                    <children>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="278.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#saveService" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="💾 Save" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button mnemonicParsing="false" onAction="#handleServiceUpdate" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🔄 Update" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="278.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#handleServiceDelete" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to right, #eb3349, #f45c43); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🗑️ Delete" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button mnemonicParsing="false" onAction="#handleServiceReset" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: linear-gradient(to right, #757F9A, #D7DDE8); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="↺ Reset" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- Table Section -->
+        <AnchorPane layoutX="14.0" layoutY="421.0" prefHeight="266.0" prefWidth="1007.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+            <children>
+                <!-- Table Header -->
+                <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="15.0" prefHeight="45.0" prefWidth="967.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 12;">
+                    <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="     📋 Services Overview">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                        </Text>
+                        <Region prefHeight="45.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtSearch" prefHeight="32.0" prefWidth="220.0" promptText="🔍 Search services..." style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20; -fx-border-color: transparent;">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </TextField>
+                        <Button mnemonicParsing="false" onAction="#handleSearch" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Search" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleRefresh" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Refresh" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="15.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <!-- Table -->
+                <TableView fx:id="tableServices" layoutX="20.0" layoutY="70.0" prefHeight="180.0" prefWidth="967.0" style="-fx-background-color: transparent; -fx-background-radius: 10; -fx-border-color: #e9ecef; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <columns>
+                        <TableColumn fx:id="colServiceId" prefWidth="70.0" style="-fx-alignment: CENTER;" text="ID" />
+                        <TableColumn fx:id="colBusId" prefWidth="80.0" style="-fx-alignment: CENTER;" text="Bus ID" />
+                        <TableColumn fx:id="colTripId" prefWidth="80.0" style="-fx-alignment: CENTER;" text="Trip ID" />
+                        <TableColumn fx:id="colServiceName" prefWidth="150.0" text="Service Name" />
+                        <TableColumn fx:id="colCost" prefWidth="100.0" style="-fx-alignment: CENTER_RIGHT;" text="Cost" />
+                        <TableColumn fx:id="colDate" prefWidth="110.0" text="Date" />
+                        <TableColumn fx:id="colDescription" prefWidth="237.0" text="Description" />
+                        <TableColumn fx:id="colCreatedBy" prefWidth="140.0" style="-fx-alignment: CENTER;" text="Created By" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

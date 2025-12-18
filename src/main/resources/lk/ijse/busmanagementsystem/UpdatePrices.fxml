@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="statusContent" prefHeight="700.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.UpdatePricesController">
+    <children>
+        <!-- Header Section -->
+        <VBox prefHeight="60.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 3);">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1035.0" spacing="15">
+                    <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                        </ImageView>
+                        <VBox spacing="2">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Update Prices">
+                                    <font>
+                                        <Font name="System Bold" size="26.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage fuel and ticket price updates">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <Region prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 1.5; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="25.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Main Content Area -->
+        <HBox layoutX="14.0" layoutY="75.0" prefHeight="333.0" prefWidth="1007.0" spacing="20">
+            <children>
+                <!-- Left Side - Form -->
+                <AnchorPane prefHeight="357.0" prefWidth="679.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                    <children>
+                        <!-- Form Header -->
+                        <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="15.0" prefHeight="40.0" prefWidth="605.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15;">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="     Price Update Information">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets left="15.0" />
+                            </padding>
+                        </HBox>
+                        <ScrollPane layoutX="25.0" layoutY="64.0" prefHeight="250.0" prefWidth="636.0" style="-fx-background-color: white;">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="393.0" prefWidth="614.0" style="-fx-background-color: white;">
+                                    <children>
+                                        <!-- Form Fields -->
+                                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="255.0" prefWidth="605.0" spacing="12">
+                                            <children>
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Status ID:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="statusId" onKeyPressed="#handleSearchPrice" prefHeight="30.0" prefWidth="445.0" promptText="Auto-generated ID" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Update Type:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <ComboBox fx:id="updateTypeCombo" prefHeight="30.0" prefWidth="445.0" promptText="Select Update Type (Fuel/Ticket)" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);" />
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Change Type:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <ComboBox fx:id="changeTypeCombo" prefHeight="30.0" prefWidth="445.0" promptText="Select Change Type" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);" />
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Previous Value:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="previousValue" prefHeight="30.0" prefWidth="445.0" promptText="Enter previous value" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="New Value:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="newValue" prefHeight="30.0" prefWidth="445.0" promptText="Enter new value" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Change Amount:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="changeAmount" editable="false" prefHeight="30.0" prefWidth="445.0" promptText="Auto-calculated" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Change %:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="percentageChange" editable="false" prefHeight="30.0" prefWidth="445.0" promptText="Auto-calculated percentage" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Change Date:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <DatePicker fx:id="changeDate" prefHeight="30.0" prefWidth="445.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);" />
+                                                    </children>
+                                                </HBox>
+
+                                                <HBox prefHeight="30.0" prefWidth="605.0" spacing="10">
+                                                    <children>
+                                                        <Label prefWidth="140.0" text="Description:" textFill="#495057">
+                                                            <font>
+                                                                <Font name="System Bold" size="13.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <TextField fx:id="description" prefHeight="30.0" prefWidth="445.0" promptText="Enter description" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+                                                            <font>
+                                                                <Font size="12.0" />
+                                                            </font>
+                                                        </TextField>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+
+                <!-- Right Side - Image & Actions -->
+                <VBox prefHeight="305.0" prefWidth="332.0" spacing="15">
+                    <children>
+                        <!-- Image Card -->
+                        <AnchorPane prefHeight="180.0" prefWidth="332.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <ImageView fitHeight="160.0" fitWidth="312.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                                    <image>
+                                        <Image url="@assets/Gunasekara.jpg" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+
+                        <!-- Action Buttons Card -->
+                        <AnchorPane prefHeight="110.0" prefWidth="332.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                            <children>
+                                <VBox alignment="CENTER" layoutX="15.0" layoutY="10.0" prefHeight="90.0" prefWidth="302.0" spacing="10">
+                                    <children>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#savePrice" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="💾 Save" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#handlePriceDelete" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #eb3349, #f45c43); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🗑️ Delete" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                                <Button mnemonicParsing="false" onAction="#handlePriceReset" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #757F9A, #D7DDE8); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="↺ Reset" textFill="WHITE">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <!-- Table Section -->
+        <AnchorPane layoutX="14.0" layoutY="421.0" prefHeight="266.0" prefWidth="1007.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+            <children>
+                <!-- Table Header -->
+                <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="15.0" prefHeight="45.0" prefWidth="967.0" spacing="15" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 12;">
+                    <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="     📋 Price Updates Overview">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font>
+                        </Text>
+                        <Region prefHeight="45.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtSearch" prefHeight="32.0" prefWidth="220.0" promptText="🔍 Search updates..." style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20; -fx-border-color: transparent; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);">
+                            <font>
+                                <Font size="12.0" />
+                            </font>
+                        </TextField>
+                        <Button mnemonicParsing="false" onAction="#handleSearch" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Search" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleRefresh" prefHeight="32.0" prefWidth="85.0" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 20; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 1.5; -fx-cursor: hand;" text="Refresh" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="11.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="15.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <!-- Table -->
+                <TableView fx:id="tablePrices" layoutX="20.0" layoutY="70.0" prefHeight="180.0" prefWidth="967.0" style="-fx-background-color: transparent; -fx-background-radius: 10; -fx-border-color: #e9ecef; -fx-border-radius: 10; -fx-border-width: 1;">
+                    <columns>
+                        <TableColumn fx:id="colId" prefWidth="50.0" style="-fx-alignment: CENTER;" text="ID" />
+                        <TableColumn fx:id="colUpdateType" prefWidth="100.0" text="Update Type" />
+                        <TableColumn fx:id="colChangeType" prefWidth="106.0" text="Change Type" />
+                        <TableColumn fx:id="colPreviousValue" prefWidth="110.0" style="-fx-alignment: CENTER_RIGHT;" text="Previous Value" />
+                        <TableColumn fx:id="colNewValue" prefWidth="95.0" style="-fx-alignment: CENTER_RIGHT;" text="New Value" />
+                        <TableColumn fx:id="colChangeAmount" prefWidth="115.0" style="-fx-alignment: CENTER_RIGHT;" text="Change Amount" />
+                        <TableColumn fx:id="colPercentageChange" prefWidth="125.0" style="-fx-alignment: CENTER;" text="Change %" />
+                        <TableColumn fx:id="colChangeDate" prefWidth="100.0" text="Change Date" />
+                        <TableColumn fx:id="colDescription" prefWidth="90.0" text="Description" />
+                        <TableColumn fx:id="colCreatedBy" prefWidth="75.0" style="-fx-alignment: CENTER;" text="Created By" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

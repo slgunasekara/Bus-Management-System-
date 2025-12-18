@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="BusFleetReport"
+              pageWidth="842"
+              pageHeight="595"
+              orientation="Landscape"
+              columnWidth="782"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="20"
+              bottomMargin="20">
+
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+
+    <parameter name="ReportTitle" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["Bus Fleet Management Report"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="CompanyName" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["Bus Management System"]]></defaultValueExpression>
+    </parameter>
+    <parameter name="GeneratedDate" class="java.lang.String"/>
+    <parameter name="TotalBuses" class="java.lang.String"/>
+    <parameter name="ActiveBuses" class="java.lang.String"/>
+    <parameter name="MaintenanceBuses" class="java.lang.String"/>
+
+    <field name="busId" class="java.lang.Integer"/>
+    <field name="busBrandName" class="java.lang.String"/>
+    <field name="busNumber" class="java.lang.String"/>
+    <field name="busType" class="java.lang.String"/>
+    <field name="noOfSeats" class="java.lang.Integer"/>
+    <field name="busStatus" class="java.lang.String"/>
+    <field name="manufactureDate" class="java.time.LocalDate"/>
+    <field name="insuranceExpiryDate" class="java.time.LocalDate"/>
+    <field name="licenseRenewalDate" class="java.time.LocalDate"/>
+    <field name="currentMileage" class="java.lang.Integer"/>
+
+    <variable name="BusCount" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{busId}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="120">
+            <rectangle>
+                <reportElement x="0" y="0" width="782" height="60" backcolor="#3498DB"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="20" y="8" width="742" height="25" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Bus Fleet Management Report]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="20" y="33" width="742" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated on: " + $P{GeneratedDate}]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="0" y="70" width="250" height="45" backcolor="#E8F5E9"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="75" width="230" height="15" forecolor="#2E7D32"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Buses in Fleet]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="10" y="90" width="230" height="20" forecolor="#1B5E20"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{BusCount}]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="266" y="70" width="250" height="45" backcolor="#E3F2FD"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="276" y="75" width="230" height="15" forecolor="#1565C0"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Active Buses]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="276" y="90" width="230" height="20" forecolor="#0D47A1"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{ActiveBuses}]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="532" y="70" width="250" height="45" backcolor="#FFF3E0"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="542" y="75" width="230" height="15" forecolor="#EF6C00"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Under Maintenance]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="542" y="90" width="230" height="20" forecolor="#E65100"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{MaintenanceBuses}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <rectangle>
+                <reportElement x="0" y="5" width="782" height="25" backcolor="#2980B9"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="5" y="8" width="45" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Bus ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="55" y="8" width="80" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Brand]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="140" y="8" width="75" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Bus Number]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="220" y="8" width="75" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Type]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="8" width="45" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Seats]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="350" y="8" width="70" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="425" y="8" width="75" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Manufacture]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="505" y="8" width="75" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Insurance]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="585" y="8" width="75" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[License]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="665" y="8" width="110" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Mileage (km)]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25">
+            <rectangle>
+                <reportElement x="0" y="0" width="782" height="25" backcolor="#F8F9FA">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="5" y="3" width="45" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{busId}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="55" y="3" width="80" height="20"/>
+                <textElement textAlignment="Left">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{busBrandName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="3" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{busNumber}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="220" y="3" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{busType}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="3" width="45" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{noOfSeats}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="3" width="70" height="20">
+                    <printWhenExpression><![CDATA[$F{busStatus}.equals("Active")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["✓ " + $F{busStatus}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="3" width="70" height="20" forecolor="#E74C3C">
+                    <printWhenExpression><![CDATA[!$F{busStatus}.equals("Active")]]></printWhenExpression>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{busStatus}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="425" y="3" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{manufactureDate}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="505" y="3" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{insuranceExpiryDate} != null ? $F{insuranceExpiryDate} : "N/A"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="585" y="3" width="75" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{licenseRenewalDate} != null ? $F{licenseRenewalDate} : "N/A"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="665" y="3" width="110" height="20"/>
+                <textElement textAlignment="Center">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{currentMileage} != null ? $F{currentMileage} + " km" : "N/A"]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="24" width="782" height="1" forecolor="#DEE2E6"/>
+            </line>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="30">
+            <line>
+                <reportElement x="0" y="3" width="782" height="1" forecolor="#CCCCCC"/>
+            </line>
+            <textField>
+                <reportElement x="10" y="8" width="300" height="20"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated by Bus Management System"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="650" y="8" width="80" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="730" y="8" width="52" height="20"/>
+                <textElement textAlignment="Left">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="50">
+            <rectangle>
+                <reportElement x="0" y="10" width="782" height="35" backcolor="#ECF0F1"/>
+                <graphicElement>
+                    <pen lineWidth="0.0"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="500" y="18" width="150" height="20"/>
+                <textElement textAlignment="Right">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total Buses Listed:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="660" y="18" width="100" height="20" forecolor="#2980B9"/>
+                <textElement textAlignment="Left">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{BusCount}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
