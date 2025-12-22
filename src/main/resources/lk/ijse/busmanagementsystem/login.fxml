@@ -18,6 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Hyperlink?>
 <StackPane style="-fx-background-color: linear-gradient(to bottom, #f8f9fa, #e9ecef);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.busmanagementsystem.controller.LoginController">
     <children>
         <!-- Background -->
@@ -183,6 +184,20 @@
                                         </HBox>
                                     </children>
                                 </VBox>
+
+                                <!-- Forgot Password Link -->
+                                <HBox alignment="CENTER_RIGHT" maxWidth="400.0">
+                                    <children>
+                                        <Hyperlink fx:id="forgotPasswordLink"
+                                                   onAction="#handleForgotPassword"
+                                                   text="Forgot Password?"
+                                                   textFill="#3498db">
+                                            <font>
+                                                <Font name="System Bold" size="13.0" />
+                                            </font>
+                                        </Hyperlink>
+                                    </children>
+                                </HBox>
 
                                 <!-- Login Button -->
                                 <StackPane maxWidth="400.0">

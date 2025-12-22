@@ -8,10 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.*;
 import lk.ijse.busmanagementsystem.enums.TripCategory;
 import lk.ijse.busmanagementsystem.model.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -597,16 +599,16 @@ public class ManageTripController implements Initializable {
      * Logout
      */
     @FXML
-    public void logout(ActionEvent event) {
+    public void logout(ActionEvent event) throws IOException {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Logout");
         confirmAlert.setHeaderText("Confirm Logout");
         confirmAlert.setContentText("Are you sure you want to logout?");
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
-
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            System.out.println("🔒 Logging out...");
+            Main.setRoot("login");
+            System.out.println("Logging out...");
         }
     }
 

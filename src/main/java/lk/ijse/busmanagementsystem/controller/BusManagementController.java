@@ -61,17 +61,14 @@ public class BusManagementController implements Initializable {
 
     private void addHoverEffect(Button button) {
         button.setOnMouseEntered(e -> {
-            // Scale up the button slightly
             button.setScaleX(1.05);
             button.setScaleY(1.05);
 
-            // Find and scale up text inside the button
             if (button.getGraphic() instanceof HBox) {
                 HBox graphic = (HBox) button.getGraphic();
                 graphic.getChildren().forEach(child -> {
                     if (child instanceof Text) {
                         Text text = (Text) child;
-                        // Store original size if not already stored
                         if (text.getUserData() == null) {
                             text.setUserData(text.getFont().getSize());
                         }
@@ -107,7 +104,7 @@ public class BusManagementController implements Initializable {
                 });
             }
 
-            // Reset to original style (remove white glow, keep original dropshadow)
+            // Reset to original style
             String originalStyle = button.getStyle();
             if (originalStyle.contains("; -fx-effect: dropshadow(gaussian, rgba(255,255,255")) {
                 int effectIndex = originalStyle.indexOf("; -fx-effect: dropshadow(gaussian, rgba(255,255,255");

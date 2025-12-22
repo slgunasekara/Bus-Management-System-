@@ -6,6 +6,7 @@ module lk.ijse.busmanagementsystem {
     requires javafx.base;
     requires java.desktop;
     requires javafx.graphics;
+    requires java.mail;
 
     // Export packages to JavaFX
     opens lk.ijse.busmanagementsystem to javafx.fxml;

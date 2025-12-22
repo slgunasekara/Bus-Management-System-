@@ -213,8 +213,8 @@ public class ManageBusController implements Initializable {
                     Integer.parseInt(noOfSeats.getText().trim()),
                     busStatus.getValue(),
                     manufactureDate.getValue(),
-                    insuranceExpiryDate.getValue(), // Can be null
-                    licenseRenewalDate.getValue(), // Can be null
+                    insuranceExpiryDate.getValue(),
+                    licenseRenewalDate.getValue(),
                     currentMileage.getText().trim().isEmpty() ? 0 : Integer.parseInt(currentMileage.getText().trim()),
                     currentUserId
             );

@@ -27,6 +27,19 @@ INSERT INTO User (username, password, name, role, contact, NIC, email)
 VALUES ('sampath', 'sampath123', 'Sampath Kumara', 'Manager', '0771234567', '200184529425', 'mendisdanushka886@gmail.com');
 
 
+CREATE TABLE Password_Reset_OTP (
+                                    otp_id INT AUTO_INCREMENT PRIMARY KEY,
+                                    user_id INT NOT NULL,
+                                    otp_code VARCHAR(6) NOT NULL,
+                                    email VARCHAR(100) NOT NULL,
+                                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                    expires_at TIMESTAMP NOT NULL,
+                                    is_used BOOLEAN DEFAULT FALSE,
+                                    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
+                                    INDEX idx_otp_code (otp_code),
+                                    INDEX idx_email (email),
+                                    INDEX idx_expires (expires_at)
+);
 
 CREATE TABLE Update_Prices (
                                update_prices_id INT AUTO_INCREMENT PRIMARY KEY,

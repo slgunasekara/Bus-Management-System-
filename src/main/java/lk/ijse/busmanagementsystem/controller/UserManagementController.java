@@ -434,7 +434,7 @@ public class UserManagementController {
 
     @FXML
     private void goBack() throws IOException {
-        setRoot("Layout"); // Your main layout page
+        setRoot("Layout");
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

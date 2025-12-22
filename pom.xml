@@ -53,6 +53,20 @@
           <version>6.21.5</version>
       </dependency>
 
+      <!-- JavaMail API for sending emails -->
+      <dependency>
+          <groupId>com.sun.mail</groupId>
+          <artifactId>javax.mail</artifactId>
+          <version>1.6.2</version>
+      </dependency>
+
+      <!-- Activation Framework (required by JavaMail) -->
+      <dependency>
+          <groupId>javax.activation</groupId>
+          <artifactId>activation</artifactId>
+          <version>1.1.1</version>
+      </dependency>
+
 <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>

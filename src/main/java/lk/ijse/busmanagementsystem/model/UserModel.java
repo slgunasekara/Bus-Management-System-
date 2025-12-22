@@ -29,7 +29,7 @@ public class UserModel {
                     resultSet.getString("role"),
                     resultSet.getString("contact"),
                     resultSet.getString("NIC"),
-                    resultSet.getString("email"),  // NEW
+                    resultSet.getString("email"),
                     resultSet.getTimestamp("created_at").toLocalDateTime()
             );
         }
@@ -54,7 +54,7 @@ public class UserModel {
                     resultSet.getString("role"),
                     resultSet.getString("contact"),
                     resultSet.getString("NIC"),
-                    resultSet.getString("email"),  // NEW
+                    resultSet.getString("email"),
                     resultSet.getTimestamp("created_at").toLocalDateTime()
             );
             users.add(user);
@@ -75,7 +75,7 @@ public class UserModel {
         pstm.setString(4, user.getRole());
         pstm.setString(5, user.getContact());
         pstm.setString(6, user.getNic());
-        pstm.setString(7, user.getEmail());  // NEW
+        pstm.setString(7, user.getEmail());
 
         return pstm.executeUpdate() > 0;
     }
@@ -92,7 +92,7 @@ public class UserModel {
         pstm.setString(4, user.getRole());
         pstm.setString(5, user.getContact());
         pstm.setString(6, user.getNic());
-        pstm.setString(7, user.getEmail());  // NEW
+        pstm.setString(7, user.getEmail());
         pstm.setInt(8, user.getUserId());
 
         return pstm.executeUpdate() > 0;
@@ -138,7 +138,6 @@ public class UserModel {
         return false;
     }
 
-    // NEW METHOD - Check if email exists
     public boolean isEmailExists(String email) throws SQLException {
         String sql = "SELECT COUNT(*) FROM User WHERE email = ?";
 
@@ -153,7 +152,6 @@ public class UserModel {
         return false;
     }
 
-    // NEW METHOD - Check if email exists for update
     public boolean isEmailExistsForUpdate(String email, int userId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM User WHERE email = ? AND user_id != ?";
 
@@ -167,5 +165,80 @@ public class UserModel {
             return rs.getInt(1) > 0;
         }
         return false;
+    }
+
+    // ========== NEW METHODS FOR PASSWORD RESET ==========
+
+    /**
+     * Get user by email address
+     */
+    public UserDTO getUserByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM User WHERE email = ?";
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, email);
+
+        ResultSet rs = pstm.executeQuery();
+
+        if (rs.next()) {
+            return new UserDTO(
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("name"),
+                    rs.getString("role"),
+                    rs.getString("contact"),
+                    rs.getString("NIC"),
+                    rs.getString("email"),
+                    rs.getTimestamp("created_at").toLocalDateTime()
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Update only the password for a user
+     */
+    public boolean updatePassword(int userId, String newPassword) throws SQLException {
+        String sql = "UPDATE User SET password = ? WHERE user_id = ?";
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setString(1, newPassword);
+        pstm.setInt(2, userId);
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    /**
+     * Get user by username (for checking username availability)
+     */
+    public UserDTO getUserByUsername(String username) throws SQLException {
+        String sql = "SELECT * FROM User WHERE username = ?";
+
+        Connection connection = DBConnection.getInstance().getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, username);
+
+        ResultSet rs = pstm.executeQuery();
+
+        if (rs.next()) {
+            return new UserDTO(
+                    rs.getInt("user_id"),
+                    rs.getString("username"),
+                    rs.getString("password"),
+                    rs.getString("name"),
+                    rs.getString("role"),
+                    rs.getString("contact"),
+                    rs.getString("NIC"),
+                    rs.getString("email"),
+                    rs.getTimestamp("created_at").toLocalDateTime()
+            );
+        }
+
+        return null;
     }
 }

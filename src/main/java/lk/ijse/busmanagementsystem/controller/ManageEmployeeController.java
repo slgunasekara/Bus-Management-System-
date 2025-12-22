@@ -8,11 +8,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.EmployeeDTO;
 import lk.ijse.busmanagementsystem.enums.EmployeeCategory;
 import lk.ijse.busmanagementsystem.enums.EmployeeStatus;
 import lk.ijse.busmanagementsystem.model.EmployeeModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -338,7 +340,7 @@ public class ManageEmployeeController implements Initializable {
     }
 
     @FXML
-    public void logout(ActionEvent event) {
+    public void logout(ActionEvent event) throws IOException {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Logout");
         confirmAlert.setHeaderText("Confirm Logout");
@@ -346,7 +348,7 @@ public class ManageEmployeeController implements Initializable {
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Navigate to login page
+            Main.setRoot("login");
             System.out.println("Logging out...");
         }
     }
