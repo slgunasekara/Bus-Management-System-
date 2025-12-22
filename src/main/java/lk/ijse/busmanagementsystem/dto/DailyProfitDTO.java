@@ -1,7 +1,9 @@
 package lk.ijse.busmanagementsystem.dto;
 
+import java.time.LocalDate;
+
 public class DailyProfitDTO {
-    private String date;
+    private LocalDate date;
     private double totalIncome;
     private double tripExpenses;
     private double salaries;
@@ -10,12 +12,15 @@ public class DailyProfitDTO {
     private double otherServices;
     private double totalExpenses;
     private double netProfit;
+    private int totalTrips;
 
-    public DailyProfitDTO() {}
+    public DailyProfitDTO() {
+    }
 
-    public DailyProfitDTO(String date, double totalIncome, double tripExpenses,
+    public DailyProfitDTO(LocalDate date, double totalIncome, double tripExpenses,
                           double salaries, double maintenance, double partPurchases,
-                          double otherServices, double totalExpenses, double netProfit) {
+                          double otherServices, double totalExpenses, double netProfit,
+                          int totalTrips) {
         this.date = date;
         this.totalIncome = totalIncome;
         this.tripExpenses = tripExpenses;
@@ -25,14 +30,14 @@ public class DailyProfitDTO {
         this.otherServices = otherServices;
         this.totalExpenses = totalExpenses;
         this.netProfit = netProfit;
+        this.totalTrips = totalTrips;
     }
 
-    // Getters and Setters
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -100,10 +105,18 @@ public class DailyProfitDTO {
         this.netProfit = netProfit;
     }
 
+    public int getTotalTrips() {
+        return totalTrips;
+    }
+
+    public void setTotalTrips(int totalTrips) {
+        this.totalTrips = totalTrips;
+    }
+
     @Override
     public String toString() {
         return "DailyProfitDTO{" +
-                "date='" + date + '\'' +
+                "date=" + date +
                 ", totalIncome=" + totalIncome +
                 ", tripExpenses=" + tripExpenses +
                 ", salaries=" + salaries +
@@ -112,6 +125,7 @@ public class DailyProfitDTO {
                 ", otherServices=" + otherServices +
                 ", totalExpenses=" + totalExpenses +
                 ", netProfit=" + netProfit +
+                ", totalTrips=" + totalTrips +
                 '}';
     }
 }

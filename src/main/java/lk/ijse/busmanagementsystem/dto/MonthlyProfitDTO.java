@@ -1,7 +1,9 @@
 package lk.ijse.busmanagementsystem.dto;
 
+import java.time.YearMonth;
+
 public class MonthlyProfitDTO {
-    private String month;
+    private YearMonth month;
     private double totalIncome;
     private double tripExpenses;
     private double salaries;
@@ -12,11 +14,13 @@ public class MonthlyProfitDTO {
     private double netProfit;
     private int totalTrips;
 
-    public MonthlyProfitDTO() {}
+    public MonthlyProfitDTO() {
+    }
 
-    public MonthlyProfitDTO(String month, double totalIncome, double tripExpenses,
+    public MonthlyProfitDTO(YearMonth month, double totalIncome, double tripExpenses,
                             double salaries, double maintenance, double partPurchases,
-                            double otherServices, double totalExpenses, double netProfit, int totalTrips) {
+                            double otherServices, double totalExpenses, double netProfit,
+                            int totalTrips) {
         this.month = month;
         this.totalIncome = totalIncome;
         this.tripExpenses = tripExpenses;
@@ -29,12 +33,11 @@ public class MonthlyProfitDTO {
         this.totalTrips = totalTrips;
     }
 
-    // Getters and Setters
-    public String getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
     }
 
@@ -113,7 +116,7 @@ public class MonthlyProfitDTO {
     @Override
     public String toString() {
         return "MonthlyProfitDTO{" +
-                "month='" + month + '\'' +
+                "month=" + month +
                 ", totalIncome=" + totalIncome +
                 ", tripExpenses=" + tripExpenses +
                 ", salaries=" + salaries +

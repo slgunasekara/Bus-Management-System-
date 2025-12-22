@@ -1,27 +1,16 @@
 package lk.ijse.busmanagementsystem.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import lk.ijse.busmanagementsystem.Main;
-import lk.ijse.busmanagementsystem.dto.*;
-import lk.ijse.busmanagementsystem.model.ReportModel;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.net.URL;
 
