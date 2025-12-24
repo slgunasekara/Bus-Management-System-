@@ -93,6 +93,32 @@ public class MaintenanceModel {
         return rst.next();
     }
 
+    /**
+     * Get all available bus IDs from the Bus table
+     */
+    public List<Integer> getAllBusIds() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT bus_id FROM Bus ORDER BY bus_id DESC");
+        List<Integer> busIds = new ArrayList<>();
+
+        while (rst.next()) {
+            busIds.add(rst.getInt("bus_id"));
+        }
+        return busIds;
+    }
+
+    /**
+     * Get bus details (Bus Number) by bus ID
+     */
+    public String getBusDetails(int busId) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT bus_number FROM Bus WHERE bus_id=?";
+        ResultSet rst = CrudUtil.execute(sql, busId);
+
+        if (rst.next()) {
+            return "Bus Number: " + rst.getString("bus_number");
+        }
+        return "Bus not found";
+    }
+
     public List<MaintenanceDTO> searchMaintenance(String keyword) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Maintenance WHERE " +
                 "maint_id LIKE ? OR " +

@@ -23,74 +23,49 @@ import java.util.ResourceBundle;
 
 public class ManageMaintenanceController implements Initializable {
 
-    @FXML
-    private AnchorPane maintenanceContent;
+    @FXML private AnchorPane maintenanceContent;
 
-    @FXML
-    private TextField maintenanceId;
+    // Form Fields
+    @FXML private TextField maintenanceId;
+    @FXML private ComboBox<Integer> comboBusId;
+    @FXML private Label lblBusDetails;
+    @FXML private ComboBox<MaintenanceType> maintenanceType;
+    @FXML private DatePicker date;
+    @FXML private TextField mileage;
+    @FXML private TextField cost;
+    @FXML private TextField maintainedBy;
+    @FXML private TextField description;
+    @FXML private TextField txtSearch;
 
-    @FXML
-    private TextField busId;
-
-    @FXML
-    private ComboBox<MaintenanceType> maintenanceType;
-
-    @FXML
-    private DatePicker date;
-
-    @FXML
-    private TextField mileage;
-
-    @FXML
-    private TextField cost;
-
-    @FXML
-    private TextField maintainedBy;
-
-    @FXML
-    private TextField description;
-
-    @FXML
-    private TextField txtSearch;
-
-    @FXML
-    private TableView<MaintenanceDTO> tableMaintenance;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, Integer> colMaintenanceId;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, Integer> colBusId;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, MaintenanceType> colMaintenanceType;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, LocalDate> colServiceDate;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, Double> colMileage;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, Double> colCost;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, String> colTechnician;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, String> colDescription;
-
-    @FXML
-    private TableColumn<MaintenanceDTO, Integer> colCreatedBy;
+    // Table
+    @FXML private TableView<MaintenanceDTO> tableMaintenance;
+    @FXML private TableColumn<MaintenanceDTO, Integer> colMaintenanceId;
+    @FXML private TableColumn<MaintenanceDTO, Integer> colBusId;
+    @FXML private TableColumn<MaintenanceDTO, MaintenanceType> colMaintenanceType;
+    @FXML private TableColumn<MaintenanceDTO, LocalDate> colServiceDate;
+    @FXML private TableColumn<MaintenanceDTO, Double> colMileage;
+    @FXML private TableColumn<MaintenanceDTO, Double> colCost;
+    @FXML private TableColumn<MaintenanceDTO, String> colTechnician;
+    @FXML private TableColumn<MaintenanceDTO, String> colDescription;
+    @FXML private TableColumn<MaintenanceDTO, Integer> colCreatedBy;
 
     private final MaintenanceModel maintenanceModel = new MaintenanceModel();
     private int currentUserId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("ManageMaintenance is loaded");
+        System.out.println(" ManageMaintenanceController initialized");
 
-        // Set up table columns
+        setupTableColumns();
+        loadComboData();
+        loadMaintenanceTable();
+        setupEventListeners();
+
+        maintenanceId.setEditable(false);
+        lblBusDetails.setText("-");
+    }
+
+    private void setupTableColumns() {
         colMaintenanceId.setCellValueFactory(new PropertyValueFactory<>("maintId"));
         colBusId.setCellValueFactory(new PropertyValueFactory<>("busId"));
         colMaintenanceType.setCellValueFactory(new PropertyValueFactory<>("maintenanceType"));
@@ -100,23 +75,55 @@ public class ManageMaintenanceController implements Initializable {
         colTechnician.setCellValueFactory(new PropertyValueFactory<>("technician"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+    }
 
-        // Populate ComboBox with all MaintenanceType values
+    private void loadComboData() {
+        // Load Maintenance Types
         maintenanceType.getItems().addAll(MaintenanceType.values());
         maintenanceType.setValue(MaintenanceType.FULL_SERVICE);
 
-        // Load maintenance records
-        loadMaintenanceTable();
+        // Load Bus IDs
+        try {
+            List<Integer> busIds = maintenanceModel.getAllBusIds();
+            ObservableList<Integer> busIdList = FXCollections.observableArrayList(busIds);
+            comboBusId.setItems(busIdList);
+            System.out.println(" Loaded " + busIds.size() + " bus IDs");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load bus IDs: " + e.getMessage());
+        }
+    }
 
-        // Make maintenance ID non-editable (auto-generated)
-        maintenanceId.setEditable(false);
-
-        // Table row selection listener
+    private void setupEventListeners() {
         tableMaintenance.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                fillFieldsFromSelectedMaintenance(newSelection);
+                fillFieldsFromSelected(newSelection);
             }
         });
+
+        comboBusId.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                loadBusDetails(newValue);
+            }
+        });
+    }
+
+    @FXML
+    private void handleSelectBus(ActionEvent event) {
+        Integer selectedBusId = comboBusId.getValue();
+        if (selectedBusId != null) {
+            loadBusDetails(selectedBusId);
+        }
+    }
+
+    private void loadBusDetails(int busId) {
+        try {
+            String details = maintenanceModel.getBusDetails(busId);
+            lblBusDetails.setText(details);
+        } catch (Exception e) {
+            lblBusDetails.setText("Error loading bus details");
+            e.printStackTrace();
+        }
     }
 
     private void loadMaintenanceTable() {
@@ -124,6 +131,7 @@ public class ManageMaintenanceController implements Initializable {
             List<MaintenanceDTO> maintenanceList = maintenanceModel.getAllMaintenance();
             ObservableList<MaintenanceDTO> obList = FXCollections.observableArrayList(maintenanceList);
             tableMaintenance.setItems(obList);
+            System.out.println(" Loaded " + maintenanceList.size() + " maintenance records");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Load Error",
@@ -131,15 +139,17 @@ public class ManageMaintenanceController implements Initializable {
         }
     }
 
-    private void fillFieldsFromSelectedMaintenance(MaintenanceDTO maintenance) {
+    private void fillFieldsFromSelected(MaintenanceDTO maintenance) {
         maintenanceId.setText(String.valueOf(maintenance.getMaintId()));
-        busId.setText(String.valueOf(maintenance.getBusId()));
+        comboBusId.setValue(maintenance.getBusId());
         maintenanceType.setValue(maintenance.getMaintenanceType());
         date.setValue(maintenance.getServiceDate());
         mileage.setText(String.valueOf(maintenance.getMileage()));
         cost.setText(String.valueOf(maintenance.getCost()));
         maintainedBy.setText(maintenance.getTechnician());
         description.setText(maintenance.getDescription());
+
+        loadBusDetails(maintenance.getBusId());
     }
 
     @FXML
@@ -149,14 +159,15 @@ public class ManageMaintenanceController implements Initializable {
         }
 
         try {
-            int busIdValue = Integer.parseInt(busId.getText().trim());
+            int busIdValue = comboBusId.getValue();
+
             if (!maintenanceModel.isBusExists(busIdValue)) {
-                showAlert(Alert.AlertType.WARNING, "Invalid Bus ID",
-                        "Bus ID does not exist! Please enter a valid Bus ID.");
+                showAlert(Alert.AlertType.WARNING, "Invalid Bus",
+                        "Bus ID does not exist!");
                 return;
             }
 
-            MaintenanceDTO maintenanceDTO = new MaintenanceDTO(
+            MaintenanceDTO dto = new MaintenanceDTO(
                     0,
                     busIdValue,
                     maintenanceType.getValue(),
@@ -168,7 +179,7 @@ public class ManageMaintenanceController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = maintenanceModel.saveMaintenance(maintenanceDTO);
+            boolean isSaved = maintenanceModel.saveMaintenance(dto);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -203,14 +214,15 @@ public class ManageMaintenanceController implements Initializable {
         }
 
         try {
-            int busIdValue = Integer.parseInt(busId.getText().trim());
+            int busIdValue = comboBusId.getValue();
+
             if (!maintenanceModel.isBusExists(busIdValue)) {
-                showAlert(Alert.AlertType.WARNING, "Invalid Bus ID",
-                        "Bus ID does not exist! Please enter a valid Bus ID.");
+                showAlert(Alert.AlertType.WARNING, "Invalid Bus",
+                        "Bus ID does not exist!");
                 return;
             }
 
-            MaintenanceDTO maintenanceDTO = new MaintenanceDTO(
+            MaintenanceDTO dto = new MaintenanceDTO(
                     Integer.parseInt(maintenanceId.getText().trim()),
                     busIdValue,
                     maintenanceType.getValue(),
@@ -222,7 +234,7 @@ public class ManageMaintenanceController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = maintenanceModel.updateMaintenance(maintenanceDTO);
+            boolean isUpdated = maintenanceModel.updateMaintenance(dto);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -234,9 +246,6 @@ public class ManageMaintenanceController implements Initializable {
                         "Failed to update maintenance record!");
             }
 
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Invalid Input",
-                    "Please enter valid numeric values!");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error",
@@ -288,6 +297,31 @@ public class ManageMaintenanceController implements Initializable {
     }
 
     @FXML
+    private void handleSearchMaintenance(KeyEvent event) {
+        String id = maintenanceId.getText();
+
+        if (id.isEmpty()) {
+            return;
+        }
+
+        try {
+            List<MaintenanceDTO> searchResults = maintenanceModel.searchMaintenance(id);
+
+            if (!searchResults.isEmpty()) {
+                fillFieldsFromSelected(searchResults.get(0));
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, "Not Found",
+                        "No maintenance record found with ID: " + id);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Search Error",
+                    "Error searching maintenance: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void handleSearch(ActionEvent event) {
         String keyword = txtSearch.getText().trim();
 
@@ -314,14 +348,10 @@ public class ManageMaintenanceController implements Initializable {
     }
 
     @FXML
-    public void handleSearchMaintenance(KeyEvent event) {
-        // Maintenance ID field is auto-generated, no need for Enter key search
-    }
-
-    @FXML
     public void handleRefresh(ActionEvent event) {
         txtSearch.clear();
         loadMaintenanceTable();
+        loadComboData();
         showAlert(Alert.AlertType.INFORMATION, "Refreshed",
                 "Maintenance list refreshed successfully!");
     }
@@ -341,39 +371,30 @@ public class ManageMaintenanceController implements Initializable {
     }
 
     private boolean validateFields() {
+        if (comboBusId.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Validation Error",
+                    "Please select a Bus ID!");
+            comboBusId.requestFocus();
+            return false;
+        }
+
         if (maintenanceType.getValue() == null) {
             showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Please select a Maintenance Type!");
+                    "Please select Maintenance Type!");
             maintenanceType.requestFocus();
-            return false;
-        }
-
-        if (busId.getText().trim().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Please enter Bus ID!");
-            busId.requestFocus();
-            return false;
-        }
-
-        try {
-            Integer.parseInt(busId.getText().trim());
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Bus ID must be a valid number!");
-            busId.requestFocus();
             return false;
         }
 
         if (date.getValue() == null) {
             showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Please select service date!");
+                    "Please select maintenance date!");
             date.requestFocus();
             return false;
         }
 
         if (date.getValue().isAfter(LocalDate.now())) {
             showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Service date cannot be in the future!");
+                    "Maintenance date cannot be in the future!");
             date.requestFocus();
             return false;
         }
@@ -409,9 +430,9 @@ public class ManageMaintenanceController implements Initializable {
 
         try {
             double costValue = Double.parseDouble(cost.getText().trim());
-            if (costValue < 0) {
+            if (costValue <= 0) {
                 showAlert(Alert.AlertType.WARNING, "Validation Error",
-                        "Cost cannot be negative!");
+                        "Cost must be greater than 0!");
                 cost.requestFocus();
                 return false;
             }
@@ -424,7 +445,7 @@ public class ManageMaintenanceController implements Initializable {
 
         if (maintainedBy.getText().trim().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validation Error",
-                    "Please enter technician/company name!");
+                    "Please enter who maintained the bus!");
             maintainedBy.requestFocus();
             return false;
         }
@@ -434,7 +455,8 @@ public class ManageMaintenanceController implements Initializable {
 
     private void cleanFields() {
         maintenanceId.setText("");
-        busId.setText("");
+        comboBusId.setValue(null);
+        lblBusDetails.setText("-");
         maintenanceType.setValue(MaintenanceType.FULL_SERVICE);
         date.setValue(null);
         mileage.setText("");
@@ -444,7 +466,6 @@ public class ManageMaintenanceController implements Initializable {
         tableMaintenance.getSelectionModel().clearSelection();
     }
 
-    // Helper method to show alerts with consistent formatting
     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="TripReport"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="535"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="20"
+              bottomMargin="20">
+
+    <parameter name="FromDate" class="java.lang.String"/>
+    <parameter name="ToDate" class="java.lang.String"/>
+    <parameter name="GeneratedDate" class="java.lang.String"/>
+
+    <field name="tripId" class="java.lang.Integer"/>
+    <field name="tripDate" class="java.time.LocalDate"/>
+    <field name="busNumber" class="java.lang.String"/>
+    <field name="route" class="java.lang.String"/>
+    <field name="category" class="java.lang.String"/>
+
+    <title>
+        <band height="120">
+            <rectangle>
+                <reportElement x="0" y="0" width="535" height="60" backcolor="#667EEA"/>
+                <graphicElement><pen lineWidth="0.0"/></graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="10" width="515" height="25" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Trip Report]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="10" y="35" width="515" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Period: " + $P{FromDate} + " to " + $P{ToDate}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="10" y="75" width="100" height="20"/>
+                <textElement><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Generated Date:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="75" width="200" height="20"/>
+                <textElement><font size="10"/></textElement>
+                <textFieldExpression><![CDATA[$P{GeneratedDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <rectangle>
+                <reportElement x="0" y="5" width="535" height="25" backcolor="#5568D3"/>
+                <graphicElement><pen lineWidth="0.0"/></graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="8" width="60" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center"><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Trip ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="80" y="8" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center"><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="190" y="8" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center"><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Bus Number]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="8" width="130" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center"><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Route]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="440" y="8" width="85" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center"><font size="10" isBold="true"/></textElement>
+                <text><![CDATA[Category]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25">
+            <rectangle>
+                <reportElement x="0" y="0" width="535" height="25" backcolor="#EBF4FF">
+                    <printWhenExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></printWhenExpression>
+                </reportElement>
+                <graphicElement><pen lineWidth="0.0"/></graphicElement>
+            </rectangle>
+            <textField>
+                <reportElement x="10" y="3" width="60" height="20"/>
+                <textElement textAlignment="Center"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{tripId}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="80" y="3" width="100" height="20"/>
+                <textElement textAlignment="Center"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{tripDate}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="190" y="3" width="100" height="20"/>
+                <textElement textAlignment="Center"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{busNumber}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="3" width="130" height="20"/>
+                <textElement textAlignment="Left"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{route}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="440" y="3" width="85" height="20"/>
+                <textElement textAlignment="Center"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="0" y="24" width="535" height="1" forecolor="#DEE2E6"/>
+            </line>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="30">
+            <line>
+                <reportElement x="0" y="3" width="535" height="1" forecolor="#CCCCCC"/>
+            </line>
+            <staticText>
+                <reportElement x="10" y="8" width="300" height="20"/>
+                <textElement><font size="9"/></textElement>
+                <text><![CDATA[Gunasekara Bus Management System]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="450" y="8" width="40" height="20"/>
+                <textElement textAlignment="Right"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="490" y="8" width="45" height="20"/>
+                <textElement textAlignment="Left"><font size="9"/></textElement>
+                <textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

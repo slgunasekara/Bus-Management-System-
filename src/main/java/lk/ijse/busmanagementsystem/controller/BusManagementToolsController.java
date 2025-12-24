@@ -12,10 +12,14 @@ import javafx.scene.text.Text;
 import lk.ijse.busmanagementsystem.Main;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-public class BusManagementController implements Initializable {
+public class BusManagementToolsController implements Initializable {
 
+    // Calculator Fields
     @FXML
     private TextField txtDisplay;
 
@@ -33,6 +37,33 @@ public class BusManagementController implements Initializable {
     @FXML
     private Button btn0, btnDot, btnEquals;
 
+    // Fuel Calculator Fields
+    @FXML
+    private TextField txtDistance;
+    @FXML
+    private TextField txtFuelPrice;
+    @FXML
+    private TextField txtMileage;
+    @FXML
+    private Label lblFuelResult;
+
+    // Profit Calculator Fields
+    @FXML
+    private TextField txtRevenue;
+    @FXML
+    private TextField txtExpenses;
+    @FXML
+    private Label lblProfitResult;
+
+    // Time Calculator Fields
+    @FXML
+    private TextField txtStartTime;
+    @FXML
+    private TextField txtEndTime;
+    @FXML
+    private Label lblTimeResult;
+
+    // Calculator Variables
     private double num1 = 0;
     private String operator = "";
     private boolean startNewNumber = true;
@@ -41,14 +72,12 @@ public class BusManagementController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("BusManagementTools is loaded");
 
-        // Use Platform.runLater to ensure scene is fully loaded
         Platform.runLater(() -> {
             setupHoverEffects();
         });
     }
 
     private void setupHoverEffects() {
-        // Check if scene is available
         if (txtDisplay.getScene() != null) {
             txtDisplay.getScene().getRoot().lookupAll(".button").forEach(node -> {
                 if (node instanceof Button) {
@@ -78,7 +107,6 @@ public class BusManagementController implements Initializable {
                 });
             }
 
-            // Add glow effect
             String currentStyle = button.getStyle();
             if (!currentStyle.contains("-fx-effect: dropshadow(gaussian, rgba(255,255,255")) {
                 button.setStyle(currentStyle + "; -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.6), 20, 0, 0, 0);");
@@ -86,11 +114,9 @@ public class BusManagementController implements Initializable {
         });
 
         button.setOnMouseExited(e -> {
-            // Reset button scale
             button.setScaleX(1.0);
             button.setScaleY(1.0);
 
-            // Reset text size
             if (button.getGraphic() instanceof HBox) {
                 HBox graphic = (HBox) button.getGraphic();
                 graphic.getChildren().forEach(child -> {
@@ -104,7 +130,6 @@ public class BusManagementController implements Initializable {
                 });
             }
 
-            // Reset to original style
             String originalStyle = button.getStyle();
             if (originalStyle.contains("; -fx-effect: dropshadow(gaussian, rgba(255,255,255")) {
                 int effectIndex = originalStyle.indexOf("; -fx-effect: dropshadow(gaussian, rgba(255,255,255");
@@ -113,7 +138,7 @@ public class BusManagementController implements Initializable {
         });
     }
 
-    // Calculator Methods
+    // =============== CALCULATOR METHODS ===============
     @FXML
     private void handleNumber(ActionEvent event) {
         Button button = (Button) event.getSource();
@@ -231,14 +256,91 @@ public class BusManagementController implements Initializable {
             }
         }
 
-        // Format the result
         if (num1 == (long) num1) {
             txtDisplay.setText(String.valueOf((long) num1));
         } else {
-            txtDisplay.setText(String.valueOf(num1));
+            txtDisplay.setText(String.format("%.2f", num1));
         }
     }
 
+    // =============== FUEL CALCULATOR METHODS ===============
+    @FXML
+    private void calculateFuel(ActionEvent event) {
+        try {
+            double distance = Double.parseDouble(txtDistance.getText());
+            double fuelPrice = Double.parseDouble(txtFuelPrice.getText());
+            double mileage = Double.parseDouble(txtMileage.getText());
+
+            if (mileage == 0) {
+                lblFuelResult.setText("❌ Mileage cannot be zero!");
+                lblFuelResult.setStyle("-fx-text-fill: #ef4444;");
+                return;
+            }
+
+            double fuelNeeded = distance / mileage;
+            double totalCost = fuelNeeded * fuelPrice;
+
+            lblFuelResult.setText(String.format("✓ Fuel: %.2f L | Cost: Rs %.2f", fuelNeeded, totalCost));
+            lblFuelResult.setStyle("-fx-text-fill: #10b981;");
+
+        } catch (NumberFormatException e) {
+            lblFuelResult.setText("❌ Please enter valid numbers!");
+            lblFuelResult.setStyle("-fx-text-fill: #ef4444;");
+        }
+    }
+
+    // =============== PROFIT CALCULATOR METHODS ===============
+    @FXML
+    private void calculateProfit(ActionEvent event) {
+        try {
+            double revenue = Double.parseDouble(txtRevenue.getText());
+            double expenses = Double.parseDouble(txtExpenses.getText());
+
+            double profit = revenue - expenses;
+            double margin = (revenue != 0) ? (profit / revenue) * 100 : 0;
+
+            String resultText = String.format("✓ Profit: Rs %.2f | Margin: %.2f%%", profit, margin);
+            lblProfitResult.setText(resultText);
+
+            if (profit >= 0) {
+                lblProfitResult.setStyle("-fx-text-fill: #10b981;");
+            } else {
+                lblProfitResult.setStyle("-fx-text-fill: #ef4444;");
+            }
+
+        } catch (NumberFormatException e) {
+            lblProfitResult.setText("❌ Please enter valid numbers!");
+            lblProfitResult.setStyle("-fx-text-fill: #ef4444;");
+        }
+    }
+
+    // =============== TIME CALCULATOR METHODS ===============
+    @FXML
+    private void calculateTime(ActionEvent event) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime start = LocalTime.parse(txtStartTime.getText(), formatter);
+            LocalTime end = LocalTime.parse(txtEndTime.getText(), formatter);
+
+            long minutes = start.until(end, ChronoUnit.MINUTES);
+
+            if (minutes < 0) {
+                minutes += 24 * 60;
+            }
+
+            long hours = minutes / 60;
+            long mins = minutes % 60;
+
+            lblTimeResult.setText(String.format("✓ Duration: %d hours %d minutes", hours, mins));
+            lblTimeResult.setStyle("-fx-text-fill: #3b82f6;");
+
+        } catch (Exception e) {
+            lblTimeResult.setText("❌ Invalid time format! Use HH:MM (e.g., 14:30)");
+            lblTimeResult.setStyle("-fx-text-fill: #ef4444;");
+        }
+    }
+
+    // =============== LOGOUT METHOD ===============
     @FXML
     private void logout(ActionEvent event) throws Exception {
         Main.setRoot("login");

@@ -287,7 +287,7 @@ CREATE TABLE Trip_Employee (
 
 
 
-SELECT * FROM Bus;
+SELECT * FROM Maintenance;
 
 
 
