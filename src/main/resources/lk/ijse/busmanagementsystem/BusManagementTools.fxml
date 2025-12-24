@@ -58,110 +58,110 @@
         <!-- Main Content Area -->
         <HBox layoutX="30.0" layoutY="90.0" prefHeight="580.0" prefWidth="975.0" spacing="20">
             <!-- Left Side - Calculator (Smaller) -->
-            <AnchorPane prefHeight="580.0" prefWidth="380.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
+            <AnchorPane prefHeight="556.0" prefWidth="330.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
                 <children>
-                    <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="560.0" prefWidth="360.0" spacing="12.0">
+                    <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="39.0" prefHeight="503.0" prefWidth="310.0" spacing="10.0">
                         <children>
-                            <AnchorPane prefHeight="50.0" prefWidth="360.0" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1); -fx-background-radius: 15;">
+                            <AnchorPane prefHeight="45.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1); -fx-background-radius: 15;">
                                 <children>
-                                    <Label alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="50.0" prefWidth="360.0" text="Calculator" textFill="WHITE">
+                                    <Label alignment="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="45.0" prefWidth="310.0" text="Calculator" textFill="WHITE">
                                         <font>
-                                            <Font name="System Bold" size="20.0" />
+                                            <Font name="System Bold" size="18.0" />
                                         </font>
                                     </Label>
                                 </children>
                             </AnchorPane>
 
-                            <AnchorPane prefHeight="80.0" prefWidth="360.0" style="-fx-background-color: linear-gradient(to bottom right, #1e293b, #0f172a); -fx-background-radius: 15;">
+                            <AnchorPane prefHeight="70.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(to bottom right, #1e293b, #0f172a); -fx-background-radius: 15;">
                                 <children>
-                                    <VBox alignment="CENTER_RIGHT" layoutX="15.0" layoutY="10.0" prefHeight="60.0" prefWidth="330.0" spacing="3.0">
+                                    <VBox alignment="CENTER_RIGHT" layoutX="12.0" layoutY="8.0" prefHeight="54.0" prefWidth="286.0" spacing="2.0">
                                         <children>
-                                            <Label fx:id="lblOperation" alignment="CENTER_RIGHT" prefWidth="330.0" text=" " textFill="#94a3b8">
+                                            <Label fx:id="lblOperation" alignment="CENTER_RIGHT" prefWidth="286.0" text=" " textFill="#94a3b8">
                                                 <font>
-                                                    <Font name="System Bold" size="10.0" />
+                                                    <Font name="System Bold" size="9.0" />
                                                 </font>
                                             </Label>
-                                            <TextField fx:id="txtDisplay" alignment="CENTER_RIGHT" editable="false" prefHeight="40.0" prefWidth="330.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 28; -fx-font-weight: bold; -fx-border-color: transparent;" text="0" />
+                                            <TextField fx:id="txtDisplay" alignment="CENTER_RIGHT" editable="false" prefHeight="36.0" prefWidth="286.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 24; -fx-font-weight: bold; -fx-border-color: transparent;" text="0" />
                                         </children>
                                     </VBox>
                                 </children>
                             </AnchorPane>
 
-                            <GridPane hgap="8.0" prefHeight="400.0" prefWidth="360.0" vgap="8.0">
+                            <GridPane hgap="7.0" prefHeight="353.0" prefWidth="310.0" vgap="7.0">
                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="70.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                 <children>
-                                    <Button fx:id="btnClear" mnemonicParsing="false" onAction="#handleClear" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #ef4444, #dc2626); -fx-background-radius: 12; -fx-cursor: hand;" text="AC" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                        <font><Font name="System Bold" size="16.0" /></font>
-                                    </Button>
-                                    <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDelete" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #f97316, #ea580c); -fx-background-radius: 12; -fx-cursor: hand;" text="DEL" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Button fx:id="btnClear" mnemonicParsing="false" onAction="#handleClear" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #ef4444, #dc2626); -fx-background-radius: 10; -fx-cursor: hand;" text="AC" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                         <font><Font name="System Bold" size="14.0" /></font>
                                     </Button>
-                                    <Button fx:id="btnPercent" mnemonicParsing="false" onAction="#handlePercent" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-cursor: hand;" text="\%" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="0">
-                                        <font><Font name="System Bold" size="20.0" /></font>
+                                    <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#handleDelete" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #f97316, #ea580c); -fx-background-radius: 10; -fx-cursor: hand;" text="DEL" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                        <font><Font name="System Bold" size="12.0" /></font>
                                     </Button>
-                                    <Button fx:id="btnDivide" mnemonicParsing="false" onAction="#handleDivide" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-cursor: hand;" text="/" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                    <Button fx:id="btnPercent" mnemonicParsing="false" onAction="#handlePercent" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="\%" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="0">
                                         <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
+                                    <Button fx:id="btnDivide" mnemonicParsing="false" onAction="#handleDivide" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="/" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                                        <font><Font name="System Bold" size="14.0" /></font>
+                                    </Button>
 
-                                    <Button fx:id="btn7" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="7" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                        <font><Font name="System Bold" size="18.0" /></font>
-                                    </Button>
-                                    <Button fx:id="btn8" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="8" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                        <font><Font name="System Bold" size="18.0" /></font>
-                                    </Button>
-                                    <Button fx:id="btn9" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="9" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                        <font><Font name="System Bold" size="18.0" /></font>
-                                    </Button>
-                                    <Button fx:id="btnMultiply" mnemonicParsing="false" onAction="#handleMultiply" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-cursor: hand;" text="X" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                    <Button fx:id="btn7" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="7" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="1">
                                         <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-
-                                    <Button fx:id="btn4" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="4" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                        <font><Font name="System Bold" size="18.0" /></font>
+                                    <Button fx:id="btn8" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="8" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btn5" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="5" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                        <font><Font name="System Bold" size="18.0" /></font>
+                                    <Button fx:id="btn9" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="9" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btn6" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="6" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                        <font><Font name="System Bold" size="18.0" /></font>
-                                    </Button>
-                                    <Button fx:id="btnMinus" mnemonicParsing="false" onAction="#handleMinus" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-cursor: hand;" text="-" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                        <font><Font name="System Bold" size="20.0" /></font>
+                                    <Button fx:id="btnMultiply" mnemonicParsing="false" onAction="#handleMultiply" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="X" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                        <font><Font name="System Bold" size="14.0" /></font>
                                     </Button>
 
-                                    <Button fx:id="btn1" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="1" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="3">
-                                        <font><Font name="System Bold" size="18.0" /></font>
+                                    <Button fx:id="btn4" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="4" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btn2" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="2" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                        <font><Font name="System Bold" size="18.0" /></font>
+                                    <Button fx:id="btn5" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="5" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btn3" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="3" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                        <font><Font name="System Bold" size="18.0" /></font>
+                                    <Button fx:id="btn6" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="6" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btnPlus" mnemonicParsing="false" onAction="#handlePlus" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-cursor: hand;" text="+" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                        <font><Font name="System Bold" size="20.0" /></font>
+                                    <Button fx:id="btnMinus" mnemonicParsing="false" onAction="#handleMinus" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="-" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                        <font><Font name="System Bold" size="18.0" /></font>
                                     </Button>
 
-                                    <Button fx:id="btn0" mnemonicParsing="false" onAction="#handleNumber" prefHeight="60.0" prefWidth="156.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="0" textFill="WHITE" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                                    <Button fx:id="btn1" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="1" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                        <font><Font name="System Bold" size="16.0" /></font>
+                                    </Button>
+                                    <Button fx:id="btn2" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="2" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                        <font><Font name="System Bold" size="16.0" /></font>
+                                    </Button>
+                                    <Button fx:id="btn3" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="3" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                        <font><Font name="System Bold" size="16.0" /></font>
+                                    </Button>
+                                    <Button fx:id="btnPlus" mnemonicParsing="false" onAction="#handlePlus" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="+" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="3">
                                         <font><Font name="System Bold" size="18.0" /></font>
                                     </Button>
-                                    <Button fx:id="btnDot" mnemonicParsing="false" onAction="#handleDot" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 12; -fx-cursor: hand;" text="." textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                        <font><Font name="System Bold" size="24.0" /></font>
+
+                                    <Button fx:id="btn0" mnemonicParsing="false" onAction="#handleNumber" prefHeight="55.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="0" textFill="WHITE" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                                        <font><Font name="System Bold" size="16.0" /></font>
                                     </Button>
-                                    <Button fx:id="btnEquals" mnemonicParsing="false" onAction="#handleEquals" prefHeight="60.0" prefWidth="80.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #059669); -fx-background-radius: 12; -fx-cursor: hand;" text="=" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                    <Button fx:id="btnDot" mnemonicParsing="false" onAction="#handleDot" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #475569, #334155); -fx-background-radius: 10; -fx-cursor: hand;" text="." textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                         <font><Font name="System Bold" size="20.0" /></font>
+                                    </Button>
+                                    <Button fx:id="btnEquals" mnemonicParsing="false" onAction="#handleEquals" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: linear-gradient(to bottom right, #10b981, #059669); -fx-background-radius: 10; -fx-cursor: hand;" text="=" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                        <font><Font name="System Bold" size="18.0" /></font>
                                     </Button>
                                 </children>
                             </GridPane>
@@ -171,139 +171,201 @@
             </AnchorPane>
 
             <!-- Right Side - Other Tools -->
-            <VBox prefHeight="580.0" prefWidth="575.0" spacing="15">
-                <!-- Fuel Cost Calculator -->
-                <AnchorPane prefHeight="180.0" prefWidth="575.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
+            <VBox prefHeight="580.0" prefWidth="625.0" spacing="15">
+                <!-- Route Finder with Google Maps -->
+                <AnchorPane prefHeight="170.0" prefWidth="625.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
                     <children>
-                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="160.0" prefWidth="545.0" spacing="10">
+                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="150.0" prefWidth="595.0" spacing="10">
                             <children>
-                                <Label style="-fx-background-color: linear-gradient(to right, #f97316, #ea580c); -fx-background-radius: 12; -fx-padding: 10;" text="⛽ Fuel Cost Calculator" textFill="WHITE">
+                                <Label style="-fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1); -fx-background-radius: 12; -fx-padding: 10;" text="🗺️ Route Finder (Google Maps)" textFill="WHITE">
                                     <font><Font name="System Bold" size="16.0" /></font>
                                 </Label>
                                 <HBox spacing="10">
                                     <children>
                                         <VBox spacing="5" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label text="Distance (km):" textFill="#475569">
+                                                <Label text="From Location:" textFill="#475569">
                                                     <font><Font name="System Bold" size="11.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtDistance" promptText="Enter distance" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtFromLocation" promptText="e.g., Colombo Fort" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" spacing="5">
+                                            <children>
+                                                <Label text=" " textFill="transparent">
+                                                    <font><Font size="11.0" /></font>
+                                                </Label>
+                                                <Button onAction="#swapLocations" prefHeight="36.0" prefWidth="45.0" style="-fx-background-color: linear-gradient(to right, #64748b, #475569); -fx-background-radius: 8; -fx-cursor: hand;" text="↔" textFill="WHITE">
+                                                    <font><Font name="System Bold" size="16.0" /></font>
+                                                </Button>
                                             </children>
                                         </VBox>
                                         <VBox spacing="5" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label text="Fuel Price (Rs/L):" textFill="#475569">
+                                                <Label text="To Location:" textFill="#475569">
                                                     <font><Font name="System Bold" size="11.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtFuelPrice" promptText="Price per liter" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
-                                            </children>
-                                        </VBox>
-                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
-                                            <children>
-                                                <Label text="Mileage (km/L):" textFill="#475569">
-                                                    <font><Font name="System Bold" size="11.0" /></font>
-                                                </Label>
-                                                <TextField fx:id="txtMileage" promptText="Km per liter" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtToLocation" promptText="e.g., Kandy City" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
                                             </children>
                                         </VBox>
                                     </children>
                                 </HBox>
-                                <HBox spacing="10" alignment="CENTER_LEFT">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
                                     <children>
-                                        <Button onAction="#calculateFuel" prefWidth="120.0" style="-fx-background-color: linear-gradient(to right, #f97316, #ea580c); -fx-background-radius: 10; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
+                                        <Button onAction="#findRoute" prefWidth="150.0" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1); -fx-background-radius: 10; -fx-cursor: hand;" text="🔍 Open in Maps" textFill="WHITE">
                                             <font><Font name="System Bold" size="12.0" /></font>
                                         </Button>
-                                        <Label fx:id="lblFuelResult" text="Result will appear here" textFill="#64748b">
-                                            <font><Font name="System Bold" size="12.0" /></font>
+                                        <Label fx:id="lblRouteResult" text="Enter locations and click to open" textFill="#64748b">
+                                            <font><Font name="System Bold" size="11.0" /></font>
                                         </Label>
                                     </children>
                                 </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <!-- Fuel Cost Calculator -->
+                <AnchorPane prefHeight="130.0" prefWidth="625.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
+                    <children>
+                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="110.0" prefWidth="595.0" spacing="8">
+                            <children>
+                                <Label style="-fx-background-color: linear-gradient(to right, #f97316, #ea580c); -fx-background-radius: 12; -fx-padding: 8;" text="⛽ Fuel Cost Calculator" textFill="WHITE">
+                                    <font><Font name="System Bold" size="14.0" /></font>
+                                </Label>
+                                <HBox spacing="10">
+                                    <children>
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Distance (km):" textFill="#475569">
+                                                    <font><Font name="System Bold" size="10.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="txtDistance" promptText="Distance" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Price (Rs/L):" textFill="#475569">
+                                                    <font><Font name="System Bold" size="10.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="txtFuelPrice" promptText="Price/liter" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Mileage (km/L):" textFill="#475569">
+                                                    <font><Font name="System Bold" size="10.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="txtMileage" promptText="Km/liter" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" spacing="4">
+                                            <children>
+                                                <Label text=" " textFill="transparent">
+                                                    <font><Font size="10.0" /></font>
+                                                </Label>
+                                                <Button onAction="#calculateFuel" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: linear-gradient(to right, #f97316, #ea580c); -fx-background-radius: 8; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
+                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                </Button>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblFuelResult" text="Result will appear here" textFill="#64748b">
+                                    <font><Font name="System Bold" size="11.0" /></font>
+                                </Label>
                             </children>
                         </VBox>
                     </children>
                 </AnchorPane>
 
                 <!-- Profit Calculator -->
-                <AnchorPane prefHeight="180.0" prefWidth="575.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
+                <AnchorPane prefHeight="130.0" prefWidth="625.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
                     <children>
-                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="160.0" prefWidth="545.0" spacing="10">
+                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="110.0" prefWidth="595.0" spacing="8">
                             <children>
-                                <Label style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-background-radius: 12; -fx-padding: 10;" text="📊 Trip Profit Calculator" textFill="WHITE">
-                                    <font><Font name="System Bold" size="16.0" /></font>
+                                <Label style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-background-radius: 12; -fx-padding: 8;" text="📊 Trip Profit Calculator" textFill="WHITE">
+                                    <font><Font name="System Bold" size="14.0" /></font>
                                 </Label>
                                 <HBox spacing="10">
                                     <children>
-                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="Revenue (Rs):" textFill="#475569">
-                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                    <font><Font name="System Bold" size="10.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtRevenue" promptText="Total income" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtRevenue" promptText="Total income" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
                                             </children>
                                         </VBox>
-                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="Expenses (Rs):" textFill="#475569">
-                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                    <font><Font name="System Bold" size="10.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtExpenses" promptText="Total costs" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtExpenses" promptText="Total costs" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" spacing="4">
+                                            <children>
+                                                <Label text=" " textFill="transparent">
+                                                    <font><Font size="10.0" /></font>
+                                                </Label>
+                                                <Button onAction="#calculateProfit" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-background-radius: 8; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
+                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                </Button>
                                             </children>
                                         </VBox>
                                     </children>
                                 </HBox>
-                                <HBox spacing="10" alignment="CENTER_LEFT">
-                                    <children>
-                                        <Button onAction="#calculateProfit" prefWidth="120.0" style="-fx-background-color: linear-gradient(to right, #10b981, #059669); -fx-background-radius: 10; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
-                                            <font><Font name="System Bold" size="12.0" /></font>
-                                        </Button>
-                                        <Label fx:id="lblProfitResult" text="Result will appear here" textFill="#64748b">
-                                            <font><Font name="System Bold" size="12.0" /></font>
-                                        </Label>
-                                    </children>
-                                </HBox>
+                                <Label fx:id="lblProfitResult" text="Result will appear here" textFill="#64748b">
+                                    <font><Font name="System Bold" size="11.0" /></font>
+                                </Label>
                             </children>
                         </VBox>
                     </children>
                 </AnchorPane>
 
                 <!-- Time Duration Calculator -->
-                <AnchorPane prefHeight="180.0" prefWidth="575.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
+                <AnchorPane prefHeight="130.0" prefWidth="625.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
                     <children>
-                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="160.0" prefWidth="545.0" spacing="10">
+                        <VBox layoutX="15.0" layoutY="10.0" prefHeight="110.0" prefWidth="595.0" spacing="8">
                             <children>
-                                <Label style="-fx-background-color: linear-gradient(to right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-padding: 10;" text="⏰ Trip Duration Calculator" textFill="WHITE">
-                                    <font><Font name="System Bold" size="16.0" /></font>
+                                <Label style="-fx-background-color: linear-gradient(to right, #3b82f6, #2563eb); -fx-background-radius: 12; -fx-padding: 8;" text="⏰ Trip Duration Calculator" textFill="WHITE">
+                                    <font><Font name="System Bold" size="14.0" /></font>
                                 </Label>
                                 <HBox spacing="10">
                                     <children>
-                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="Start Time:" textFill="#475569">
-                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                    <font><Font name="System Bold" size="10.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtStartTime" promptText="HH:MM (24hr)" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtStartTime" promptText="HH:MM (24hr)" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
                                             </children>
                                         </VBox>
-                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                        <VBox spacing="4" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <Label text="End Time:" textFill="#475569">
-                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                    <font><Font name="System Bold" size="10.0" /></font>
                                                 </Label>
-                                                <TextField fx:id="txtEndTime" promptText="HH:MM (24hr)" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8;" />
+                                                <TextField fx:id="txtEndTime" promptText="HH:MM (24hr)" style="-fx-background-radius: 8; -fx-border-color: #cbd5e1; -fx-border-radius: 8; -fx-pref-height: 32;" />
+                                            </children>
+                                        </VBox>
+                                        <VBox alignment="CENTER" spacing="4">
+                                            <children>
+                                                <Label text=" " textFill="transparent">
+                                                    <font><Font size="10.0" /></font>
+                                                </Label>
+                                                <Button onAction="#calculateTime" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: linear-gradient(to right, #3b82f6, #2563eb); -fx-background-radius: 8; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
+                                                    <font><Font name="System Bold" size="11.0" /></font>
+                                                </Button>
                                             </children>
                                         </VBox>
                                     </children>
                                 </HBox>
-                                <HBox spacing="10" alignment="CENTER_LEFT">
-                                    <children>
-                                        <Button onAction="#calculateTime" prefWidth="120.0" style="-fx-background-color: linear-gradient(to right, #3b82f6, #2563eb); -fx-background-radius: 10; -fx-cursor: hand;" text="Calculate" textFill="WHITE">
-                                            <font><Font name="System Bold" size="12.0" /></font>
-                                        </Button>
-                                        <Label fx:id="lblTimeResult" text="Result will appear here" textFill="#64748b">
-                                            <font><Font name="System Bold" size="12.0" /></font>
-                                        </Label>
-                                    </children>
-                                </HBox>
+                                <Label fx:id="lblTimeResult" text="Result will appear here" textFill="#64748b">
+                                    <font><Font name="System Bold" size="11.0" /></font>
+                                </Label>
                             </children>
                         </VBox>
                     </children>

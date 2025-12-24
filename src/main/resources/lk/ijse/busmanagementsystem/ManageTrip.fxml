@@ -173,11 +173,11 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <HBox layoutX="14.0" prefHeight="365.0" prefWidth="985.0" spacing="15">
+                  <HBox layoutX="14.0" prefHeight="305.0" prefWidth="985.0" spacing="15">
                      <children>
                         <VBox prefHeight="365.0" prefWidth="490.0" spacing="15">
                            <children>
-                              <AnchorPane prefHeight="295.0" prefWidth="490.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
+                              <AnchorPane prefHeight="298.0" prefWidth="479.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5);">
                                  <children>
                                     <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="15.0" prefHeight="40.0" prefWidth="450.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15;">
                                        <children>

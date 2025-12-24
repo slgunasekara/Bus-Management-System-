@@ -11,7 +11,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import lk.ijse.busmanagementsystem.Main;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -62,6 +67,14 @@ public class BusManagementToolsController implements Initializable {
     private TextField txtEndTime;
     @FXML
     private Label lblTimeResult;
+
+    // Route Finder Fields
+    @FXML
+    private TextField txtFromLocation;
+    @FXML
+    private TextField txtToLocation;
+    @FXML
+    private Label lblRouteResult;
 
     // Calculator Variables
     private double num1 = 0;
@@ -338,6 +351,57 @@ public class BusManagementToolsController implements Initializable {
             lblTimeResult.setText("❌ Invalid time format! Use HH:MM (e.g., 14:30)");
             lblTimeResult.setStyle("-fx-text-fill: #ef4444;");
         }
+    }
+
+    // =============== ROUTE FINDER METHODS ===============
+    @FXML
+    private void findRoute(ActionEvent event) {
+        try {
+            String fromLocation = txtFromLocation.getText().trim();
+            String toLocation = txtToLocation.getText().trim();
+
+            if (fromLocation.isEmpty() || toLocation.isEmpty()) {
+                lblRouteResult.setText("❌ Please enter both locations!");
+                lblRouteResult.setStyle("-fx-text-fill: #ef4444;");
+                return;
+            }
+
+            // URL encode the locations for Google Maps
+            String encodedFrom = URLEncoder.encode(fromLocation, StandardCharsets.UTF_8);
+            String encodedTo = URLEncoder.encode(toLocation, StandardCharsets.UTF_8);
+
+            // Build Google Maps directions URL
+            String mapsUrl = String.format(
+                    "https://www.google.com/maps/dir/?api=1&origin=%s&destination=%s&travelmode=driving",
+                    encodedFrom, encodedTo
+            );
+
+            // Open in default browser
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(mapsUrl));
+
+                lblRouteResult.setText("✓ Opening Google Maps in browser...");
+                lblRouteResult.setStyle("-fx-text-fill: #10b981;");
+            } else {
+                lblRouteResult.setText("❌ Cannot open browser on this system!");
+                lblRouteResult.setStyle("-fx-text-fill: #ef4444;");
+            }
+
+        } catch (Exception e) {
+            lblRouteResult.setText("❌ Error: " + e.getMessage());
+            lblRouteResult.setStyle("-fx-text-fill: #ef4444;");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void swapLocations(ActionEvent event) {
+        String temp = txtFromLocation.getText();
+        txtFromLocation.setText(txtToLocation.getText());
+        txtToLocation.setText(temp);
+
+        lblRouteResult.setText("↔ Locations swapped!");
+        lblRouteResult.setStyle("-fx-text-fill: #3b82f6;");
     }
 
     // =============== LOGOUT METHOD ===============
