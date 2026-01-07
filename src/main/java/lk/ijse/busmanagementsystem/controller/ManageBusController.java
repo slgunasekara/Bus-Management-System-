@@ -109,25 +109,25 @@ public class ManageBusController implements Initializable {
     private TableColumn<BusDTO, LocalDateTime> colUpdatedAt;
 
     private final BusModel busModel = new BusModel();
-    private int currentUserId = 1; // This should come from your login session
+    private int currentUserId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("ManageBus is loaded");
 
-        // Initialize ComboBoxes
+
         setupComboBoxes();
 
-        // Setup table columns
+
         setupTableColumns();
 
-        // Load all buses
+
         loadBusTable();
 
-        // Make busId field non-editable
+
         busId.setEditable(false);
 
-        // Add table row selection listener
+
         tableCustomer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFieldsFromSelectedBus(newSelection);

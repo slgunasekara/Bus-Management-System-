@@ -112,7 +112,7 @@ public class UpdatePricesModel {
         return ((newValue - previousValue) / previousValue) * 100;
     }
 
-    // Get latest price for a specific type (FUEL or TICKET)
+    // Get latest price for a specific type (FUEL / TICKET)
     public Double getLatestPrice(String updateType) throws SQLException, ClassNotFoundException {
         String sql = "SELECT new_value FROM Update_Prices WHERE update_type=? " +
                 "ORDER BY change_date DESC, update_prices_id DESC LIMIT 1";

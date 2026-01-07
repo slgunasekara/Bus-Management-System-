@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class OtherServicesDTO {
     private int serviceId;
-    private Integer busId;          // Changed to Integer (nullable)
-    private Integer tripId;         // Changed to Integer (nullable)
+    private Integer busId;
+    private Integer tripId;
     private String serviceName;
     private double cost;
     private LocalDate date;
@@ -28,7 +28,7 @@ public class OtherServicesDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
+
     public int getServiceId() {
         return serviceId;
     }

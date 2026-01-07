@@ -25,13 +25,13 @@ public class Main extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.F11) {
                 primaryStage.setFullScreen(!primaryStage.isFullScreen());
-                event.consume(); // Event  consume
+                event.consume();
             }
         });
 
         stage.setScene(scene);
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint(""); // ESC message remove  (optional)
+        stage.setFullScreenExitHint("");
         stage.show();
         stage.setResizable(true);
         stage.setTitle("Bus Management System");

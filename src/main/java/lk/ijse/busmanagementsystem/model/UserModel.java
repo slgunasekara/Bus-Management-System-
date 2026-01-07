@@ -167,11 +167,9 @@ public class UserModel {
         return false;
     }
 
-    // ========== NEW METHODS FOR PASSWORD RESET ==========
+    // NEW METHODS FOR PASSWORD RESET ==========
 
-    /**
-     * Get user by email address
-     */
+    //Get user by email address
     public UserDTO getUserByEmail(String email) throws SQLException {
         String sql = "SELECT * FROM User WHERE email = ?";
 
@@ -198,9 +196,7 @@ public class UserModel {
         return null;
     }
 
-    /**
-     * Update only the password for a user
-     */
+    //Update only the password for a user
     public boolean updatePassword(int userId, String newPassword) throws SQLException {
         String sql = "UPDATE User SET password = ? WHERE user_id = ?";
 
@@ -213,9 +209,7 @@ public class UserModel {
         return pstm.executeUpdate() > 0;
     }
 
-    /**
-     * Get user by username (for checking username availability)
-     */
+    //Get user by username (for checking username availability)
     public UserDTO getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM User WHERE username = ?";
 

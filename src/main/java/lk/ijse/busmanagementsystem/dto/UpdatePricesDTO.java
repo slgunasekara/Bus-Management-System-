@@ -14,11 +14,11 @@ public class UpdatePricesDTO {
     private String description;
     private int createdBy;
 
-    // Default Constructor
+
     public UpdatePricesDTO() {
     }
 
-    // Parameterized Constructor
+
     public UpdatePricesDTO(int updatePricesId, String updateType, String changeType,
                            double previousValue, double newValue, double changeAmount,
                            double percentageChange, LocalDate changeDate,
@@ -35,7 +35,7 @@ public class UpdatePricesDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
+
     public int getUpdatePricesId() {
         return updatePricesId;
     }

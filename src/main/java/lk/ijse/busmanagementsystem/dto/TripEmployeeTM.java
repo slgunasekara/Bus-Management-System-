@@ -1,9 +1,6 @@
 package lk.ijse.busmanagementsystem.dto;
 
-/**
- * TM (Table Model) Class - Trip එකට assign කරපු employees display කරන්න
- * UI table එකේ පෙන්වන සියලු fields තියෙනවා
- */
+
 public class TripEmployeeTM {
 
     private int tripEmpId;
@@ -17,7 +14,7 @@ public class TripEmployeeTM {
     public TripEmployeeTM() {
     }
 
-    // Full Constructor (Database එකෙන් load කරද්දී)
+
     public TripEmployeeTM(int tripEmpId, int empId, String empName, String empCategory,
                           String roleInTrip, String contactNo, String assignedDate) {
         this.tripEmpId = tripEmpId;
@@ -29,7 +26,7 @@ public class TripEmployeeTM {
         this.assignedDate = assignedDate;
     }
 
-    // Constructor without tripEmpId and date (UI වලින් add කරද්දී)
+
     public TripEmployeeTM(int empId, String empName, String empCategory,
                           String roleInTrip, String contactNo) {
         this.empId = empId;
@@ -39,7 +36,7 @@ public class TripEmployeeTM {
         this.contactNo = contactNo;
     }
 
-    // Getters and Setters
+
     public int getTripEmpId() {
         return tripEmpId;
     }

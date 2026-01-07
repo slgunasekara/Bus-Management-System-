@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class BusManagementToolsController implements Initializable {
 
-    // Calculator Fields
+
     @FXML
     private TextField txtDisplay;
 
@@ -42,7 +42,7 @@ public class BusManagementToolsController implements Initializable {
     @FXML
     private Button btn0, btnDot, btnEquals;
 
-    // Fuel Calculator Fields
+
     @FXML
     private TextField txtDistance;
     @FXML
@@ -52,7 +52,7 @@ public class BusManagementToolsController implements Initializable {
     @FXML
     private Label lblFuelResult;
 
-    // Profit Calculator Fields
+
     @FXML
     private TextField txtRevenue;
     @FXML
@@ -60,7 +60,7 @@ public class BusManagementToolsController implements Initializable {
     @FXML
     private Label lblProfitResult;
 
-    // Time Calculator Fields
+
     @FXML
     private TextField txtStartTime;
     @FXML
@@ -68,7 +68,7 @@ public class BusManagementToolsController implements Initializable {
     @FXML
     private Label lblTimeResult;
 
-    // Route Finder Fields
+
     @FXML
     private TextField txtFromLocation;
     @FXML
@@ -76,7 +76,7 @@ public class BusManagementToolsController implements Initializable {
     @FXML
     private Label lblRouteResult;
 
-    // Calculator Variables
+
     private double num1 = 0;
     private String operator = "";
     private boolean startNewNumber = true;
@@ -151,7 +151,7 @@ public class BusManagementToolsController implements Initializable {
         });
     }
 
-    // =============== CALCULATOR METHODS ===============
+
     @FXML
     private void handleNumber(ActionEvent event) {
         Button button = (Button) event.getSource();
@@ -276,7 +276,7 @@ public class BusManagementToolsController implements Initializable {
         }
     }
 
-    // =============== FUEL CALCULATOR METHODS ===============
+    // FUEL CALCULATOR METHODS
     @FXML
     private void calculateFuel(ActionEvent event) {
         try {
@@ -302,7 +302,7 @@ public class BusManagementToolsController implements Initializable {
         }
     }
 
-    // =============== PROFIT CALCULATOR METHODS ===============
+    // PROFIT CALCULATOR METHODS
     @FXML
     private void calculateProfit(ActionEvent event) {
         try {
@@ -327,7 +327,7 @@ public class BusManagementToolsController implements Initializable {
         }
     }
 
-    // =============== TIME CALCULATOR METHODS ===============
+    // TIME CALCULATOR METHODS
     @FXML
     private void calculateTime(ActionEvent event) {
         try {
@@ -353,7 +353,7 @@ public class BusManagementToolsController implements Initializable {
         }
     }
 
-    // =============== ROUTE FINDER METHODS ===============
+    // ROUTE FINDER METHODS
     @FXML
     private void findRoute(ActionEvent event) {
         try {
@@ -404,7 +404,7 @@ public class BusManagementToolsController implements Initializable {
         lblRouteResult.setStyle("-fx-text-fill: #3b82f6;");
     }
 
-    // =============== LOGOUT METHOD ===============
+
     @FXML
     private void logout(ActionEvent event) throws Exception {
         Main.setRoot("login");

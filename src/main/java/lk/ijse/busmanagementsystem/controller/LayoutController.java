@@ -66,9 +66,7 @@ public class LayoutController implements Initializable {
         });
     }
 
-    /**
-     * Load dashboard summary data (Total buses, trips, employees, net profit)
-     */
+
     private void loadDashboardData() {
         try {
             DashboardDTO dashboardData = dashboardModel.getDashboardSummary();
@@ -88,9 +86,7 @@ public class LayoutController implements Initializable {
         }
     }
 
-    /**
-     * Load profit chart with last 30 days data
-     */
+    //Load profit chart with last 30 days data
     private void loadProfitChart() {
         try {
             List<ProfitChartDTO> chartData = dashboardModel.getSimplifiedProfitData();

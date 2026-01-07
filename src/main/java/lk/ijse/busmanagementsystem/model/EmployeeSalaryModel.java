@@ -11,9 +11,7 @@ import java.util.List;
 
 public class EmployeeSalaryModel {
 
-    /**
-     * Get all employee salaries with employee names and creator usernames
-     */
+    //Get all employee salaries with employee names and creator usernames
     public List<EmployeeSalaryTM> getAllEmployeeSalaries() throws SQLException, ClassNotFoundException {
         String sql = "SELECT es.salary_id, es.emp_id, e.emp_name, es.trip_id, " +
                 "es.amount, es.description, es.date, u.username " +
@@ -51,9 +49,7 @@ public class EmployeeSalaryModel {
         return salaryList;
     }
 
-    /**
-     * Save employee salary
-     */
+    //Save employee salary
     public boolean saveEmployeeSalary(EmployeeSalaryDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Employee_Salary(emp_id, trip_id, amount, " +
                 "description, date, created_by) VALUES (?, ?, ?, ?, ?, ?)";
@@ -68,9 +64,7 @@ public class EmployeeSalaryModel {
         );
     }
 
-    /**
-     * Update employee salary
-     */
+    //Update employee salary
     public boolean updateEmployeeSalary(EmployeeSalaryDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Employee_Salary SET emp_id=?, trip_id=?, amount=?, " +
                 "description=?, date=? WHERE salary_id=?";
@@ -85,32 +79,24 @@ public class EmployeeSalaryModel {
         );
     }
 
-    /**
-     * Delete employee salary
-     */
+    //Delete employee salary
     public boolean deleteEmployeeSalary(String salaryId) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("DELETE FROM Employee_Salary WHERE salary_id=?", salaryId);
     }
 
-    /**
-     * Check if employee exists
-     */
+    //Check if employee exists
     public boolean isEmployeeExists(int empId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT emp_id FROM Employee WHERE emp_id=?", empId);
         return rst.next();
     }
 
-    /**
-     * Check if trip exists
-     */
+    //Check if trip exists
     public boolean isTripExists(int tripId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT trip_id FROM Trip WHERE trip_id=?", tripId);
         return rst.next();
     }
 
-    /**
-     * Get all active employee IDs
-     */
+    //Get all active employee IDs
     public List<Integer> getAllActiveEmployeeIds() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute(
                 "SELECT emp_id FROM Employee WHERE emp_status='ACTIVE' ORDER BY emp_id DESC"
@@ -123,9 +109,7 @@ public class EmployeeSalaryModel {
         return empIds;
     }
 
-    /**
-     * Get all trip IDs
-     */
+    //Get all trip IDs
     public List<Integer> getAllTripIds() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT trip_id FROM Trip ORDER BY trip_id DESC");
         List<Integer> tripIds = new ArrayList<>();
@@ -136,9 +120,7 @@ public class EmployeeSalaryModel {
         return tripIds;
     }
 
-    /**
-     * Search employee salaries
-     */
+    //Search employee salaries
     public List<EmployeeSalaryTM> searchEmployeeSalaries(String keyword) throws SQLException, ClassNotFoundException {
         String sql = "SELECT es.salary_id, es.emp_id, e.emp_name, es.trip_id, " +
                 "es.amount, es.description, es.date, u.username " +
@@ -183,9 +165,7 @@ public class EmployeeSalaryModel {
         return salaryList;
     }
 
-    /**
-     * Get employee details by ID
-     */
+    //Get employee details by ID
     public String getEmployeeDetails(int empId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT emp_name, emp_category, contact_no FROM Employee WHERE emp_id=?";
         ResultSet rst = CrudUtil.execute(sql, empId);
@@ -198,9 +178,7 @@ public class EmployeeSalaryModel {
         return "Employee not found";
     }
 
-    /**
-     * Get trip details by ID
-     */
+    //Get trip details by ID
     public String getTripDetails(int tripId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT start_location, end_location, trip_date FROM Trip WHERE trip_id=?";
         ResultSet rst = CrudUtil.execute(sql, tripId);

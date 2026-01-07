@@ -11,9 +11,7 @@ import java.util.List;
 
 public class DailyProfitModel {
 
-    /**
-     * Get daily profit data for a specific date range
-     */
+    //Get daily profit data for a specific date range
     public List<DailyProfitDTO> getDailyProfitByDateRange(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -83,9 +81,7 @@ public class DailyProfitModel {
         return dailyProfitList;
     }
 
-    /**
-     * Get summary statistics for date range
-     */
+    //Get summary statistics for date range
     public DailyProfitDTO getSummaryStats(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -119,9 +115,7 @@ public class DailyProfitModel {
         );
     }
 
-    /**
-     * Get all daily profit data (no date filter)
-     */
+    //Get all daily profit data
     public List<DailyProfitDTO> getAllDailyProfit()
             throws SQLException, ClassNotFoundException {
 

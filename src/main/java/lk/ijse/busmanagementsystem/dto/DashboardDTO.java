@@ -1,9 +1,6 @@
 package lk.ijse.busmanagementsystem.dto;
 
-/**
- * Dashboard Summary Data Transfer Object
- * Stores summary statistics for dashboard display
- */
+
 public class DashboardDTO {
     private int totalBuses;
     private int totalTrips;
@@ -12,11 +9,11 @@ public class DashboardDTO {
     private double totalExpenses;
     private double netProfit;
 
-    // Default Constructor
+
     public DashboardDTO() {
     }
 
-    // Parameterized Constructor
+
     public DashboardDTO(int totalBuses, int totalTrips, int totalEmployees,
                         double totalIncome, double totalExpenses, double netProfit) {
         this.totalBuses = totalBuses;
@@ -27,7 +24,7 @@ public class DashboardDTO {
         this.netProfit = netProfit;
     }
 
-    // Getters and Setters
+
     public int getTotalBuses() {
         return totalBuses;
     }

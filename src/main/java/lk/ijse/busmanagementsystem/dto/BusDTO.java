@@ -18,11 +18,11 @@ public class BusDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Default Constructor
+
     public BusDTO() {
     }
 
-    // Full Constructor
+
     public BusDTO(int busId, String busBrandName, String busNumber, String busType,
                   int noOfSeats, String busStatus, LocalDate manufactureDate,
                   LocalDate insuranceExpiryDate, LocalDate licenseRenewalDate,
@@ -43,7 +43,7 @@ public class BusDTO {
         this.updatedAt = updatedAt;
     }
 
-    // Constructor without timestamps (for insert operations)
+
     public BusDTO(int busId, String busBrandName, String busNumber, String busType,
                   int noOfSeats, String busStatus, LocalDate manufactureDate,
                   LocalDate insuranceExpiryDate, LocalDate licenseRenewalDate,
@@ -61,7 +61,7 @@ public class BusDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
+
     public int getBusId() {
         return busId;
     }

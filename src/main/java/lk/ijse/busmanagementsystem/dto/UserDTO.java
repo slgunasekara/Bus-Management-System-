@@ -10,10 +10,10 @@ public class UserDTO {
     private String role;
     private String contact;
     private String nic;
-    private String email;  // NEW FIELD
+    private String email;
     private LocalDateTime createdAt;
 
-    // Constructors
+
     public UserDTO() {}
 
     public UserDTO(Integer userId, String username, String password, String name,
@@ -25,11 +25,11 @@ public class UserDTO {
         this.role = role;
         this.contact = contact;
         this.nic = nic;
-        this.email = email;  // NEW
+        this.email = email;
         this.createdAt = createdAt;
     }
 
-    // Getters and Setters
+
     public Integer getUserId() { return userId; }
     public void setUserId(Integer userId) { this.userId = userId; }
     public String getUsername() { return username; }

@@ -443,32 +443,3 @@ public class UpdatePricesController implements Initializable {
     }
 }
 
-
-//package lk.ijse.busmanagementsystem.controller;
-//
-//import javafx.event.ActionEvent;
-//import javafx.fxml.FXML;
-//import javafx.fxml.Initializable;
-//import lk.ijse.busmanagementsystem.Main;
-//import java.io.IOException;
-//
-//import java.util.ResourceBundle;
-//import java.net.URL;
-//
-//public class UpdatePricesController implements Initializable {
-//
-//    @Override
-//    public void initialize(URL url, ResourceBundle rb){
-//        // TODO
-//        System.out.println("CheckStatus is loaded");
-//    }
-//
-//    // == Back Button ==
-//    @FXML
-//    void logout(ActionEvent event) throws IOException {
-//        Main.setRoot("login");
-//        System.out.println("Logout");
-//    }
-//
-//
-//}

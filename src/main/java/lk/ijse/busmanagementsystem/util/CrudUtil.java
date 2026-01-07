@@ -23,31 +23,3 @@ public class CrudUtil {
         }
     }
 }
-
-//----------------------------------------------------------------------------
-
-//import lk.ijse.busSystem.db.DBConnection;
-//
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-
-//public class CrudUtil {
-//
-//    public static boolean execute(String sql, Object... params) throws SQLException {
-//        PreparedStatement pstm = DBConnection.getInstance().getConnection().prepareStatement(sql);
-//        for (int i = 0; i < params.length; i++) {
-//            pstm.setObject(i + 1, params[i]);
-//        }
-//        return pstm.executeUpdate() > 0;
-//    }
-//
-//    public static ResultSet executeQuery(String sql, Object... params) throws SQLException {
-//        PreparedStatement pstm = DBConnection.getInstance().getConnection().prepareStatement(sql);
-//        for (int i = 0; i < params.length; i++) {
-//            pstm.setObject(i + 1, params[i]);
-//        }
-//        return pstm.executeQuery();
-//    }
-//}

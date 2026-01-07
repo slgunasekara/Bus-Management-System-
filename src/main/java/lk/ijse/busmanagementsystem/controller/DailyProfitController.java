@@ -104,13 +104,10 @@ public class DailyProfitController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("DailyProfit window is loaded");
 
-        // Setup table columns
         setupTableColumns();
 
-        // Setup button actions
         setupButtonActions();
 
-        // Load initial data (all data)
         loadAllDailyProfitData();
     }
 

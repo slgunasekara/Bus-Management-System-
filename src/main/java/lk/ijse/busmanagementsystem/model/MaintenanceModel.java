@@ -93,9 +93,7 @@ public class MaintenanceModel {
         return rst.next();
     }
 
-    /**
-     * Get all available bus IDs from the Bus table
-     */
+    //Get all available bus IDs from the Bus table
     public List<Integer> getAllBusIds() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT bus_id FROM Bus ORDER BY bus_id DESC");
         List<Integer> busIds = new ArrayList<>();
@@ -106,9 +104,7 @@ public class MaintenanceModel {
         return busIds;
     }
 
-    /**
-     * Get bus details (Bus Number) by bus ID
-     */
+    //Get bus details (Bus Number) by bus ID
     public String getBusDetails(int busId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT bus_number FROM Bus WHERE bus_id=?";
         ResultSet rst = CrudUtil.execute(sql, busId);

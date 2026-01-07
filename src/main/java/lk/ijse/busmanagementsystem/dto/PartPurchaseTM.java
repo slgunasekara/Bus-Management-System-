@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class PartPurchaseTM {
     private int purchaseId;
     private Integer busId;
-    private String busNumber;        // Bus number for display in table
+    private String busNumber;
     private Integer maintId;
     private String partName;
     private int quantity;
@@ -14,13 +14,13 @@ public class PartPurchaseTM {
     private String supplierName;
     private String partDescription;
     private LocalDate date;
-    private String createdByUsername; // Username for display
+    private String createdByUsername;
 
-    // Default Constructor
+
     public PartPurchaseTM() {
     }
 
-    // Parameterized Constructor
+
     public PartPurchaseTM(int purchaseId, Integer busId, String busNumber, Integer maintId,
                           String partName, int quantity, double unitPrice, double totalCost,
                           String supplierName, String partDescription, LocalDate date,
@@ -39,7 +39,7 @@ public class PartPurchaseTM {
         this.createdByUsername = createdByUsername;
     }
 
-    // Getters and Setters
+
     public int getPurchaseId() {
         return purchaseId;
     }

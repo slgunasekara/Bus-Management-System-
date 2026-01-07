@@ -304,14 +304,15 @@ public class ManageReportController implements Initializable {
             Parent root = Main.loadFXML(fxmlName);
             Stage stage = new Stage();
             stage.setTitle(title);
+            stage.setFullScreen(true);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
             stage.setMaximized(true);
-            stage.setMinWidth(1280);
-            stage.setMinHeight(700);
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/assets/Gunasekara.jpg")));
             stage.setResizable(true);
             stage.showAndWait();
+
+
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading " + fxmlName + " window: " + e.getMessage());
@@ -333,113 +334,3 @@ public class ManageReportController implements Initializable {
     }
 }
 
-
-
-
-
-//package lk.ijse.busmanagementsystem.controller;
-//
-//import javafx.event.ActionEvent;
-//import javafx.fxml.FXML;
-//import javafx.fxml.Initializable;
-//import javafx.scene.Parent;
-//import javafx.scene.Scene;
-//import javafx.scene.image.Image;
-//import javafx.stage.Stage;
-//import javafx.stage.Modality;
-//import lk.ijse.busmanagementsystem.Main;
-//
-//import java.io.IOException;
-//import java.util.ResourceBundle;
-//import java.net.URL;
-//
-//
-//public class ManageReportController implements Initializable {
-//
-//    @Override
-//    public void initialize(URL url, ResourceBundle rb){
-//        System.out.println("ManageReport is loaded");
-//    }
-//
-//    @FXML
-//    private void logout(ActionEvent event) throws Exception {
-//        Main.setRoot("login");
-//        System.out.println("Logout");
-//    }
-//
-//    @FXML
-//    private void dailyProfit(ActionEvent event) throws Exception {
-//        try {
-//            // Load the DailyProfit FXML using Main class method
-//            Parent root = Main.loadFXML("DailyProfit");
-//
-//            // Create a new stage (window)
-//            Stage dailyProfitStage = new Stage();
-//            dailyProfitStage.setTitle("Daily Profit Report - Gunasekara Bus Management");
-//
-//            // Set modality to block interaction with parent window
-//            dailyProfitStage.initModality(Modality.APPLICATION_MODAL);
-//
-//            // Create and set the scene
-//            Scene scene = new Scene(root);
-//            dailyProfitStage.setScene(scene);
-//
-//            // Make window full screen
-//            dailyProfitStage.setMaximized(true);
-//
-//            // Set minimum window size
-//            dailyProfitStage.setMinWidth(1280);
-//            dailyProfitStage.setMinHeight(700);
-//
-//            dailyProfitStage.getIcons().add(new Image(getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/assets/Gunasekara.jpg"))); // add icon
-//
-//            // Allow window resizing
-//            dailyProfitStage.setResizable(true);
-//
-//            // Show the window and wait for it to close
-//            dailyProfitStage.showAndWait();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.err.println("Error loading Daily Profit window: " + e.getMessage());
-//        }
-//    }
-//
-//    @FXML
-//    private void monthlyProfit(ActionEvent event) throws Exception {
-//        try {
-//            // Load the DailyProfit FXML using Main class method
-//            Parent root = Main.loadFXML("MonthlyProfit");
-//
-//            // Create a new stage (window)
-//            Stage monthlyProfitStage = new Stage();
-//            monthlyProfitStage.setTitle("Monthly Profit Report - Gunasekara Bus Management");
-//
-//            // Set modality to block interaction with parent window
-//            monthlyProfitStage.initModality(Modality.APPLICATION_MODAL);
-//
-//            // Create and set the scene
-//            Scene scene = new Scene(root);
-//            monthlyProfitStage.setScene(scene);
-//
-//            // Make window full screen
-//            monthlyProfitStage.setMaximized(true);
-//
-//            // Set minimum window size
-//            monthlyProfitStage.setMinWidth(1280);
-//            monthlyProfitStage.setMinHeight(700);
-//
-//            monthlyProfitStage.getIcons().add(new Image(getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/assets/Gunasekara.jpg"))); // add icon
-//
-//            // Allow window resizing
-//            monthlyProfitStage.setResizable(true);
-//
-//            // Show the window and wait for it to close
-//            monthlyProfitStage.showAndWait();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.err.println("Error loading Monthly Profit window: " + e.getMessage());
-//        }
-//    }
-//}

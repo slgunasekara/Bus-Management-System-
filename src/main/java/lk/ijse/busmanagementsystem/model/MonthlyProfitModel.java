@@ -13,9 +13,7 @@ import java.util.List;
 
 public class MonthlyProfitModel {
 
-    /**
-     * Get monthly profit data for a specific year and month
-     */
+    //Get monthly profit data for a specific year and month
     public MonthlyProfitDTO getMonthlyProfit(int year, int month)
             throws SQLException, ClassNotFoundException {
 
@@ -81,9 +79,7 @@ public class MonthlyProfitModel {
         return null;
     }
 
-    /**
-     * Get daily breakdown for a specific month
-     */
+    //Get daily breakdown for a specific month
     public List<DailyProfitDTO> getDailyBreakdownForMonth(int year, int month)
             throws SQLException, ClassNotFoundException {
 
@@ -156,9 +152,7 @@ public class MonthlyProfitModel {
         return dailyList;
     }
 
-    /**
-     * Get all monthly profit data
-     */
+    //Get all monthly profit data
     public List<MonthlyProfitDTO> getAllMonthlyProfit()
             throws SQLException, ClassNotFoundException {
 

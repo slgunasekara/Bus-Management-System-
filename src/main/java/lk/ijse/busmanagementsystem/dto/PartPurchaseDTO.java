@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class PartPurchaseDTO {
     private int purchaseId;
-    private Integer busId;           // Added Bus ID
-    private Integer maintId;         // Nullable - can be null if not related to maintenance
+    private Integer busId;
+    private Integer maintId;
     private String partName;
     private int quantity;
     private double unitPrice;
@@ -15,11 +15,11 @@ public class PartPurchaseDTO {
     private LocalDate date;
     private int createdBy;
 
-    // Default Constructor
+
     public PartPurchaseDTO() {
     }
 
-    // Parameterized Constructor
+
     public PartPurchaseDTO(int purchaseId, Integer busId, Integer maintId, String partName,
                            int quantity, double unitPrice, double totalCost, String supplierName,
                            String partDescription, LocalDate date, int createdBy) {
@@ -36,7 +36,7 @@ public class PartPurchaseDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
+
     public int getPurchaseId() {
         return purchaseId;
     }

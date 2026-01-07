@@ -102,7 +102,7 @@ public class ManageEmployeeController implements Initializable {
     private TableColumn<EmployeeDTO, Integer> colCreatedBy;
 
     private final EmployeeModel employeeModel = new EmployeeModel();
-    private int currentUserId = 1; // This should come from your login session
+    private int currentUserId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

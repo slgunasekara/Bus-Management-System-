@@ -11,9 +11,7 @@ import java.util.List;
 
 public class TripExpensesModel {
 
-    /**
-     * Get all trip expenses
-     */
+    //Get all trip expenses
     public List<TripExpensesDTO> getAllTripExpenses() throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Trip_Expenses ORDER BY trip_exp_id DESC";
 
@@ -54,9 +52,7 @@ public class TripExpensesModel {
         return expensesList;
     }
 
-    /**
-     * Save trip expense
-     */
+    //Save trip expense
     public boolean saveTripExpense(TripExpensesDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Trip_Expenses(trip_id, trip_exp_type, " +
                 "amount, description, date, created_by) " +
@@ -72,9 +68,7 @@ public class TripExpensesModel {
         );
     }
 
-    /**
-     * Update trip expense
-     */
+    //Update trip expense
     public boolean updateTripExpense(TripExpensesDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Trip_Expenses SET trip_id=?, trip_exp_type=?, " +
                 "amount=?, description=?, date=? WHERE trip_exp_id=?";
@@ -89,24 +83,18 @@ public class TripExpensesModel {
         );
     }
 
-    /**
-     * Delete trip expense
-     */
+    //Delete trip expense
     public boolean deleteTripExpense(String expenseId) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("DELETE FROM Trip_Expenses WHERE trip_exp_id=?", expenseId);
     }
 
-    /**
-     * Check if trip exists
-     */
+    //Check if trip exists
     public boolean isTripExists(int tripId) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT trip_id FROM Trip WHERE trip_id=?", tripId);
         return rst.next();
     }
 
-    /**
-     * Get all available trip IDs
-     */
+    //Get all available trip IDs
     public List<Integer> getAllTripIds() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT trip_id FROM Trip ORDER BY trip_id DESC");
         List<Integer> tripIds = new ArrayList<>();
@@ -117,9 +105,7 @@ public class TripExpensesModel {
         return tripIds;
     }
 
-    /**
-     * Search trip expenses
-     */
+    //Search trip expenses
     public List<TripExpensesDTO> searchTripExpenses(String keyword) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Trip_Expenses " +
                 "WHERE trip_exp_id LIKE ? OR " +
@@ -166,9 +152,7 @@ public class TripExpensesModel {
         return expensesList;
     }
 
-    /**
-     * Get trip details by ID
-     */
+    //Get trip details by ID
     public String getTripDetails(int tripId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT start_location, end_location, trip_date FROM Trip WHERE trip_id=?";
         ResultSet rst = CrudUtil.execute(sql, tripId);

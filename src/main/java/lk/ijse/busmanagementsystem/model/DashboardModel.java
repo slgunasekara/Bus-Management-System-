@@ -15,10 +15,9 @@ public class DashboardModel {
 
     private final DailyProfitModel dailyProfitModel = new DailyProfitModel();
 
-    /**
-     * Get dashboard summary data (Total buses, trips, employees, net profit)
-     * Uses DailyProfitModel for consistent profit calculation
-     */
+
+     // Get dashboard summary data
+     // Uses DailyProfitModel for consistent profit calculation
     public DashboardDTO getDashboardSummary() throws SQLException, ClassNotFoundException {
         DashboardDTO dto = new DashboardDTO();
 
@@ -49,10 +48,9 @@ public class DashboardModel {
         return dto;
     }
 
-    /**
-     * Calculate net profit using DailyProfitModel for consistency
-     * This ensures dashboard shows the same values as the DailyProfit report
-     */
+
+//     Calculate net profit using DailyProfitModel for consistency
+//     This ensures dashboard shows the same values as the DailyProfit report
     private void calculateNetProfitFromDailyData(DashboardDTO dto)
             throws SQLException, ClassNotFoundException {
 
@@ -75,10 +73,10 @@ public class DashboardModel {
         dto.setNetProfit(netProfit);
     }
 
-    /**
-     * Get profit chart data for the last N days
-     * Uses DailyProfitModel for consistent data
-     */
+
+//     Get profit chart data for the last N days
+//     Uses DailyProfitModel for consistent data
+
     public List<ProfitChartDTO> getProfitChartData(int days)
             throws SQLException, ClassNotFoundException {
 
@@ -104,10 +102,9 @@ public class DashboardModel {
         return chartData;
     }
 
-    /**
-     * Get simplified profit chart data (last 30 days)
-     * Creates entries for all 30 days, even if no data exists
-     */
+
+//      Get simplified profit chart data (last 30 days)
+//      Creates entries for all 30 days, even if no data exists
     public List<ProfitChartDTO> getSimplifiedProfitData()
             throws SQLException, ClassNotFoundException {
 
@@ -146,10 +143,10 @@ public class DashboardModel {
         return chartData;
     }
 
-    /**
-     * Alternative method: Get profit data with all days filled
-     * This ensures the chart has continuous data points
-     */
+
+//      Alternative method: Get profit data with all days filled
+//      This ensures the chart has continuous data points
+
     public List<ProfitChartDTO> getContinuousProfitData(int days)
             throws SQLException, ClassNotFoundException {
 

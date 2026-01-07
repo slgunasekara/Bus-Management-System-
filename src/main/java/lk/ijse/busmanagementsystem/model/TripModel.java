@@ -11,9 +11,7 @@ import java.util.List;
 
 public class TripModel {
 
-    /**
-     * ⭐ Get all trips with JOIN to User table to get username
-     */
+    //Get all trips with JOIN to User table to get username
     public List<TripDTO> getAllTrips() throws SQLException, ClassNotFoundException {
         String sql = "SELECT t.*, u.username " +
                 "FROM Trip t " +
@@ -35,7 +33,7 @@ public class TripModel {
                     rst.getDate("trip_date").toLocalDate(),
                     rst.getString("description"),
                     rst.getInt("created_by"),
-                    rst.getString("username")  // ⭐ Username එක add කරනවා
+                    rst.getString("username")
             );
             tripList.add(tripDTO);
         }
@@ -80,9 +78,7 @@ public class TripModel {
         return CrudUtil.execute("DELETE FROM Trip WHERE trip_id=?", tripId);
     }
 
-    /**
-     * ⭐ Search trip with username
-     */
+    //Search trip with username
     public TripDTO searchTrip(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT t.*, u.username " +
                 "FROM Trip t " +
@@ -114,9 +110,7 @@ public class TripModel {
         return rst.next();
     }
 
-    /**
-     * ⭐ Search trips with username
-     */
+    //Search trips with username
     public List<TripDTO> searchTrips(String keyword) throws SQLException, ClassNotFoundException {
         String sql = "SELECT t.*, u.username " +
                 "FROM Trip t " +
@@ -127,7 +121,7 @@ public class TripModel {
                 "t.start_location LIKE ? OR " +
                 "t.end_location LIKE ? OR " +
                 "t.description LIKE ? OR " +
-                "u.username LIKE ? " +  // ⭐ Username search එකත් add කරනවා
+                "u.username LIKE ? " +
                 "ORDER BY t.trip_id DESC";
 
         String searchPattern = "%" + keyword + "%";

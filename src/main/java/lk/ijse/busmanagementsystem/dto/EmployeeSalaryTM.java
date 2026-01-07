@@ -5,18 +5,18 @@ import java.time.LocalDate;
 public class EmployeeSalaryTM {
     private int salaryId;
     private int empId;
-    private String empName;  // For display in table
+    private String empName;
     private Integer tripId;
     private double amount;
     private String description;
     private LocalDate date;
     private String createdByUsername;
 
-    // Default Constructor
+
     public EmployeeSalaryTM() {
     }
 
-    // Constructor
+
     public EmployeeSalaryTM(int salaryId, int empId, String empName,
                             Integer tripId, double amount, String description,
                             LocalDate date, String createdByUsername) {
@@ -30,7 +30,7 @@ public class EmployeeSalaryTM {
         this.createdByUsername = createdByUsername;
     }
 
-    // Getters and Setters
+
     public int getSalaryId() {
         return salaryId;
     }

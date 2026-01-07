@@ -11,9 +11,7 @@ import java.util.List;
 
 public class ReportModel {
 
-    /**
-     * Get report summary for date range
-     */
+    //Get report summary for date range
     public ReportDTO getReportSummary(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -26,9 +24,7 @@ public class ReportModel {
         return new ReportDTO(totalIncome, totalExpenses, totalSalary, netProfit, totalTrips);
     }
 
-    /**
-     * Get total income for date range
-     */
+    //Get total income for date range
     private double getTotalIncome(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
         String sql = "SELECT COALESCE(SUM(total_income), 0) as total " +
@@ -40,9 +36,7 @@ public class ReportModel {
         return 0.0;
     }
 
-    /**
-     * Get total expenses for date range
-     */
+    //Get total expenses for date range
     private double getTotalExpenses(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
         String sql = "SELECT COALESCE(SUM(amount), 0) as total " +
@@ -54,9 +48,7 @@ public class ReportModel {
         return 0.0;
     }
 
-    /**
-     * Get total salary for date range
-     */
+    //Get total salary for date range
     private double getTotalSalary(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
         String sql = "SELECT COALESCE(SUM(amount), 0) as total " +
@@ -68,9 +60,7 @@ public class ReportModel {
         return 0.0;
     }
 
-    /**
-     * Get total trips for date range
-     */
+    //Get total trips for date range
     private int getTotalTrips(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
         String sql = "SELECT COUNT(*) as total FROM Trip WHERE trip_date BETWEEN ? AND ?";
@@ -81,9 +71,7 @@ public class ReportModel {
         return 0;
     }
 
-    /**
-     * Get income report (Trip Income)
-     */
+    //Get income report (Trip Income)
     public List<TripDTO> getIncomeReport(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -117,9 +105,7 @@ public class ReportModel {
         return tripList;
     }
 
-    /**
-     * Get expense report (Trip Expenses)
-     */
+    //Get expense report (Trip Expenses)
     public List<TripExpensesDTO> getExpenseReport(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -150,9 +136,7 @@ public class ReportModel {
         return expenseList;
     }
 
-    /**
-     * Get salary report
-     */
+    //Get salary report
     public List<EmployeeSalaryTM> getSalaryReport(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
 
@@ -183,17 +167,13 @@ public class ReportModel {
         return salaryList;
     }
 
-    /**
-     * Get trip report
-     */
+    //Get trip report
     public List<TripDTO> getTripReport(LocalDate fromDate, LocalDate toDate)
             throws SQLException, ClassNotFoundException {
         return getIncomeReport(fromDate, toDate);
     }
 
-    /**
-     * Get bus number by bus ID
-     */
+    //Get bus number by bus ID
     public String getBusNumberById(int busId) throws SQLException, ClassNotFoundException {
         String sql = "SELECT bus_number FROM Bus WHERE bus_id = ?";
         ResultSet rst = CrudUtil.execute(sql, busId);

@@ -2,21 +2,18 @@ package lk.ijse.busmanagementsystem.dto;
 
 import java.time.LocalDate;
 
-/**
- * Profit Chart Data Transfer Object
- * Stores daily profit data for chart visualization
- */
+
 public class ProfitChartDTO {
     private LocalDate date;
     private double income;
     private double expense;
     private double profit;
 
-    // Default Constructor
+
     public ProfitChartDTO() {
     }
 
-    // Parameterized Constructor
+
     public ProfitChartDTO(LocalDate date, double income, double expense, double profit) {
         this.date = date;
         this.income = income;
@@ -24,7 +21,7 @@ public class ProfitChartDTO {
         this.profit = profit;
     }
 
-    // Getters and Setters
+
     public LocalDate getDate() {
         return date;
     }
@@ -57,16 +54,13 @@ public class ProfitChartDTO {
         this.profit = profit;
     }
 
-    /**
-     * Get formatted date string for chart X-axis (MM-dd format)
-     */
+    //Get formatted date string for chart X-axis (MM-dd format)
+
     public String getFormattedDate() {
         return String.format("%02d-%02d", date.getMonthValue(), date.getDayOfMonth());
     }
 
-    /**
-     * Get full formatted date string (yyyy-MM-dd format)
-     */
+    //Get full formatted date string (yyyy-MM-dd format)
     public String getFullFormattedDate() {
         return date.toString();
     }
