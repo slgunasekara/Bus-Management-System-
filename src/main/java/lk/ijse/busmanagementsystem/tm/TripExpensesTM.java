@@ -1,4 +1,4 @@
-package lk.ijse.busmanagementsystem.dto;
+package lk.ijse.busmanagementsystem.tm;
 
 import lk.ijse.busmanagementsystem.enums.TripExpType;
 import java.time.LocalDate;

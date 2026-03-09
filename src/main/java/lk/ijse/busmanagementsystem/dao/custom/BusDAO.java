@@ -1,27 +1,24 @@
-package lk.ijse.busmanagementsystem.dao;
+package lk.ijse.busmanagementsystem.dao.custom;
 
+import lk.ijse.busmanagementsystem.dao.CrudDAO;
 import lk.ijse.busmanagementsystem.dto.BusDTO;
-import lk.ijse.busmanagementsystem.util.CrudUtil;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-public interface BusDAO {
-    public List<BusDTO> getAllBuses() throws SQLException, ClassNotFoundException ;
+public interface BusDAO extends CrudDAO<BusDTO> {
 
-    public boolean saveBus(BusDTO busDTO) throws SQLException, ClassNotFoundException ;
+    BusDTO get(Integer id) throws SQLException, ClassNotFoundException;
 
-    public boolean updateBus(BusDTO busDTO) throws SQLException, ClassNotFoundException ;
+    Integer getNextId() throws SQLException, ClassNotFoundException;
 
-    public boolean deleteBus(String busId) throws SQLException, ClassNotFoundException ;
+    List<String> getAllBusNumbers() throws SQLException, ClassNotFoundException;
 
-    public BusDTO searchBus(String id) throws SQLException, ClassNotFoundException ;
+    BusDTO getByBusNumber(String busNumber) throws SQLException, ClassNotFoundException;
 
-    public boolean isBusNumberExists(String busNumber) throws SQLException, ClassNotFoundException ;
+    List<BusDTO> searchBuses(String keyword) throws SQLException, ClassNotFoundException;
 
-    public boolean isBusNumberExistsForUpdate(String busNumber, int busId) throws SQLException, ClassNotFoundException ;
+    int getCountByStatus(String status) throws SQLException, ClassNotFoundException;
 
-    public List<BusDTO> searchBuses(String keyword) throws SQLException, ClassNotFoundException ;
+    int getTotalCount() throws SQLException, ClassNotFoundException;
 }

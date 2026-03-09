@@ -1,238 +1,157 @@
-package lk.ijse.busmanagementsystem.dao.impl;
+package lk.ijse.busmanagementsystem.dao.custom.impl;
 
+import lk.ijse.busmanagementsystem.dao.custom.UserDAO;
 import lk.ijse.busmanagementsystem.db.DBConnection;
-import lk.ijse.busmanagementsystem.dto.UserDTO;
+import lk.ijse.busmanagementsystem.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl {
+public class UserDAOImpl implements UserDAO {
 
-    public UserDTO authenticateUser(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM User WHERE username = ? AND password = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, username);
-        pstm.setString(2, password);
-
-        ResultSet resultSet = pstm.executeQuery();
-
-        if (resultSet.next()) {
-            return new UserDTO(
-                    resultSet.getInt("user_id"),
-                    resultSet.getString("username"),
-                    resultSet.getString("password"),
-                    resultSet.getString("name"),
-                    resultSet.getString("role"),
-                    resultSet.getString("contact"),
-                    resultSet.getString("NIC"),
-                    resultSet.getString("email"),
-                    resultSet.getTimestamp("created_at").toLocalDateTime()
-            );
-        }
-
-        return null;
+    @Override
+    public List<User> getAll() throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM User ORDER BY created_at DESC");
+        ResultSet rs = pstm.executeQuery();
+        List<User> list = new ArrayList<>();
+        while (rs.next()) list.add(mapResultSet(rs));
+        return list;
     }
 
-    public List<UserDTO> getAllUsers() throws SQLException {
-        List<UserDTO> users = new ArrayList<>();
-        String sql = "SELECT * FROM User ORDER BY created_at DESC";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
-
-        while (resultSet.next()) {
-            UserDTO user = new UserDTO(
-                    resultSet.getInt("user_id"),
-                    resultSet.getString("username"),
-                    resultSet.getString("password"),
-                    resultSet.getString("name"),
-                    resultSet.getString("role"),
-                    resultSet.getString("contact"),
-                    resultSet.getString("NIC"),
-                    resultSet.getString("email"),
-                    resultSet.getTimestamp("created_at").toLocalDateTime()
-            );
-            users.add(user);
-        }
-
-        return users;
-    }
-
-    public boolean saveUser(UserDTO user) throws SQLException {
-        String sql = "INSERT INTO User (username, password, name, role, contact, NIC, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, user.getUsername());
-        pstm.setString(2, user.getPassword());
-        pstm.setString(3, user.getName());
-        pstm.setString(4, user.getRole());
-        pstm.setString(5, user.getContact());
-        pstm.setString(6, user.getNic());
+    @Override
+    public boolean save(User user) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(
+                "INSERT INTO User(username, password, name, role, contact, NIC, email) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        pstm.setString(1, user.getUsername()); pstm.setString(2, user.getPassword());
+        pstm.setString(3, user.getName()); pstm.setString(4, user.getRole());
+        pstm.setString(5, user.getContact()); pstm.setString(6, user.getNic());
         pstm.setString(7, user.getEmail());
-
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean updateUser(UserDTO user) throws SQLException {
-        String sql = "UPDATE User SET username = ?, password = ?, name = ?, role = ?, contact = ?, NIC = ?, email = ? WHERE user_id = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, user.getUsername());
-        pstm.setString(2, user.getPassword());
-        pstm.setString(3, user.getName());
-        pstm.setString(4, user.getRole());
-        pstm.setString(5, user.getContact());
-        pstm.setString(6, user.getNic());
-        pstm.setString(7, user.getEmail());
-        pstm.setInt(8, user.getUserId());
-
+    @Override
+    public boolean update(User user) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(
+                "UPDATE User SET username=?, password=?, name=?, role=?, contact=?, NIC=?, email=? WHERE user_id=?");
+        pstm.setString(1, user.getUsername()); pstm.setString(2, user.getPassword());
+        pstm.setString(3, user.getName()); pstm.setString(4, user.getRole());
+        pstm.setString(5, user.getContact()); pstm.setString(6, user.getNic());
+        pstm.setString(7, user.getEmail()); pstm.setInt(8, user.getUserId());
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean deleteUser(int userId) throws SQLException {
-        String sql = "DELETE FROM User WHERE user_id = ?";
+    @Override
+    public boolean delete(String userId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("DELETE FROM User WHERE user_id=?");
+        pstm.setInt(1, Integer.parseInt(userId));
+        return pstm.executeUpdate() > 0;
+    }
 
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
+    @Override
+    public boolean delete(int userId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("DELETE FROM User WHERE user_id=?");
         pstm.setInt(1, userId);
-
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean isUsernameExists(String username) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM User WHERE username = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public boolean exists(String username) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT COUNT(*) FROM User WHERE username=?");
         pstm.setString(1, username);
-
         ResultSet rs = pstm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
-        }
-        return false;
+        return rs.next() && rs.getInt(1) > 0;
     }
 
+    @Override
+    public boolean exists(int userId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT user_id FROM User WHERE user_id=?");
+        pstm.setInt(1, userId);
+        return pstm.executeQuery().next();
+    }
+
+    @Override
+    public User search(String id) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM User WHERE user_id=?");
+        pstm.setInt(1, Integer.parseInt(id));
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) return mapResultSet(rs);
+        return null;
+    }
+
+    @Override
+    public User authenticateUser(String username, String password) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM User WHERE username=? AND password=?");
+        pstm.setString(1, username); pstm.setString(2, password);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) return mapResultSet(rs);
+        return null;
+    }
+
+    @Override
     public boolean isUsernameExistsForUpdate(String username, int userId) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM User WHERE username = ? AND user_id != ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, username);
-        pstm.setInt(2, userId);
-
+        PreparedStatement pstm = conn().prepareStatement("SELECT COUNT(*) FROM User WHERE username=? AND user_id!=?");
+        pstm.setString(1, username); pstm.setInt(2, userId);
         ResultSet rs = pstm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
-        }
-        return false;
+        return rs.next() && rs.getInt(1) > 0;
     }
 
+    @Override
     public boolean isEmailExists(String email) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM User WHERE email = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
+        PreparedStatement pstm = conn().prepareStatement("SELECT COUNT(*) FROM User WHERE email=?");
         pstm.setString(1, email);
-
         ResultSet rs = pstm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
-        }
-        return false;
+        return rs.next() && rs.getInt(1) > 0;
     }
 
+    @Override
     public boolean isEmailExistsForUpdate(String email, int userId) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM User WHERE email = ? AND user_id != ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, email);
-        pstm.setInt(2, userId);
-
+        PreparedStatement pstm = conn().prepareStatement("SELECT COUNT(*) FROM User WHERE email=? AND user_id!=?");
+        pstm.setString(1, email); pstm.setInt(2, userId);
         ResultSet rs = pstm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0;
-        }
-        return false;
+        return rs.next() && rs.getInt(1) > 0;
     }
 
-    // NEW METHODS FOR PASSWORD RESET ==========
-
-    //Get user by email address
-    public UserDTO getUserByEmail(String email) throws SQLException {
-        String sql = "SELECT * FROM User WHERE email = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public User getUserByEmail(String email) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM User WHERE email=?");
         pstm.setString(1, email);
-
         ResultSet rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            return new UserDTO(
-                    rs.getInt("user_id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("name"),
-                    rs.getString("role"),
-                    rs.getString("contact"),
-                    rs.getString("NIC"),
-                    rs.getString("email"),
-                    rs.getTimestamp("created_at").toLocalDateTime()
-            );
-        }
-
+        if (rs.next()) return mapResultSet(rs);
         return null;
     }
 
-    //Update only the password for a user
+    @Override
     public boolean updatePassword(int userId, String newPassword) throws SQLException {
-        String sql = "UPDATE User SET password = ? WHERE user_id = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, newPassword);
-        pstm.setInt(2, userId);
-
+        PreparedStatement pstm = conn().prepareStatement("UPDATE User SET password=? WHERE user_id=?");
+        pstm.setString(1, newPassword); pstm.setInt(2, userId);
         return pstm.executeUpdate() > 0;
     }
 
-    //Get user by username (for checking username availability)
-    public UserDTO getUserByUsername(String username) throws SQLException {
-        String sql = "SELECT * FROM User WHERE username = ?";
-
-        Connection connection = DBConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public User getUserByUsername(String username) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM User WHERE username=?");
         pstm.setString(1, username);
-
         ResultSet rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            return new UserDTO(
-                    rs.getInt("user_id"),
-                    rs.getString("username"),
-                    rs.getString("password"),
-                    rs.getString("name"),
-                    rs.getString("role"),
-                    rs.getString("contact"),
-                    rs.getString("NIC"),
-                    rs.getString("email"),
-                    rs.getTimestamp("created_at").toLocalDateTime()
-            );
-        }
-
+        if (rs.next()) return mapResultSet(rs);
         return null;
+    }
+
+    private Connection conn() throws SQLException {
+        return DBConnection.getInstance().getConnection();
+    }
+
+    private User mapResultSet(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setUserId(rs.getInt("user_id"));
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setName(rs.getString("name"));
+        user.setRole(rs.getString("role"));
+        user.setContact(rs.getString("contact"));
+        user.setNic(rs.getString("NIC"));
+        user.setEmail(rs.getString("email"));
+        user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        return user;
     }
 }

@@ -1,269 +1,192 @@
-package lk.ijse.busmanagementsystem.dao.impl;
+package lk.ijse.busmanagementsystem.dao.custom.impl;
 
+import lk.ijse.busmanagementsystem.dao.custom.PartPurchaseDAO;
 import lk.ijse.busmanagementsystem.db.DBConnection;
-import lk.ijse.busmanagementsystem.dto.PartPurchaseDTO;
-import lk.ijse.busmanagementsystem.dto.PartPurchaseTM;
+import lk.ijse.busmanagementsystem.entity.PartPurchase;
+import lk.ijse.busmanagementsystem.tm.PartPurchaseTM;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartPurchaseDAOImpl {
+public class PartPurchaseDAOImpl implements PartPurchaseDAO {
 
-    // Get all active Bus IDs for ComboBox
-    public List<Integer> getAllActiveBusIds() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT bus_id FROM Bus WHERE bus_status = 'Active' ORDER BY bus_id";
+    private static final String TM_SQL =
+            "SELECT pp.purchase_id, pp.bus_id, b.bus_number, pp.maint_id, pp.part_name, " +
+                    "pp.quantity, pp.unit_price, pp.total_cost, pp.supplier_name, " +
+                    "pp.part_description, pp.date, u.username " +
+                    "FROM Part_Purchases pp " +
+                    "LEFT JOIN Bus b ON pp.bus_id = b.bus_id " +
+                    "LEFT JOIN User u ON pp.created_by = u.user_id ";
 
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public List<PartPurchase> getAll() throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM Part_Purchases ORDER BY purchase_id DESC");
         ResultSet rs = pstm.executeQuery();
-
-        List<Integer> busIds = new ArrayList<>();
-        while (rs.next()) {
-            busIds.add(rs.getInt("bus_id"));
-        }
-        return busIds;
+        List<PartPurchase> list = new ArrayList<>();
+        while (rs.next()) list.add(mapResultSet(rs));
+        return list;
     }
 
-    // Get all Maintenance IDs for ComboBox
-    public List<Integer> getAllMaintenanceIds() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT maint_id FROM Maintenance ORDER BY maint_id DESC";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet rs = pstm.executeQuery();
-
-        List<Integer> maintIds = new ArrayList<>();
-        while (rs.next()) {
-            maintIds.add(rs.getInt("maint_id"));
-        }
-        return maintIds;
+    @Override
+    public List<PartPurchaseTM> getAllTM() throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(TM_SQL + "ORDER BY pp.purchase_id DESC");
+        return mapTMResultSet(pstm.executeQuery());
     }
 
-    // Get Bus Details to display below ComboBox
-    public String getBusDetails(int busId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT bus_number, bus_brand_name, bus_type FROM Bus WHERE bus_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, busId);
-        ResultSet rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            return String.format("%s - %s (%s)",
-                    rs.getString("bus_number"),
-                    rs.getString("bus_brand_name"),
-                    rs.getString("bus_type"));
-        }
-        return "Bus not found";
-    }
-
-    // Get Maintenance Details to display below ComboBox
-    public String getMaintenanceDetails(int maintId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT m.maintenance_type, m.date, b.bus_number " +
-                "FROM Maintenance m " +
-                "JOIN Bus b ON m.bus_id = b.bus_id " +
-                "WHERE m.maint_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, maintId);
-        ResultSet rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            return String.format("%s - %s (Bus: %s)",
-                    rs.getString("maintenance_type"),
-                    rs.getDate("date"),
-                    rs.getString("bus_number"));
-        }
-        return "Maintenance not found";
-    }
-
-    // Check if Bus exists
-    public boolean isBusExists(int busId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT bus_id FROM Bus WHERE bus_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, busId);
-        ResultSet rs = pstm.executeQuery();
-
-        return rs.next();
-    }
-
-    // Check if Maintenance exists
-    public boolean isMaintenanceExists(int maintId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT maint_id FROM Maintenance WHERE maint_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setInt(1, maintId);
-        ResultSet rs = pstm.executeQuery();
-
-        return rs.next();
-    }
-
-    // Save Part Purchase
-    public boolean savePartPurchase(PartPurchaseDTO dto) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "INSERT INTO Part_Purchases (bus_id, maint_id, part_name, quantity, unit_price, " +
-                "total_cost, supplier_name, part_description, date, created_by) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setObject(1, dto.getBusId());
-        pstm.setObject(2, dto.getMaintId());
-        pstm.setString(3, dto.getPartName());
-        pstm.setInt(4, dto.getQuantity());
-        pstm.setDouble(5, dto.getUnitPrice());
-        pstm.setDouble(6, dto.getTotalCost());
-        pstm.setString(7, dto.getSupplierName());
-        pstm.setString(8, dto.getPartDescription());
-        pstm.setDate(9, Date.valueOf(dto.getDate()));
-        pstm.setInt(10, dto.getCreatedBy());
-
+    @Override
+    public boolean save(PartPurchase pp) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(
+                "INSERT INTO Part_Purchases(bus_id, maint_id, part_name, quantity, unit_price, total_cost, supplier_name, part_description, date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        pstm.setObject(1, pp.getBusId()); pstm.setObject(2, pp.getMaintId());
+        pstm.setString(3, pp.getPartName()); pstm.setInt(4, pp.getQuantity());
+        pstm.setDouble(5, pp.getUnitPrice()); pstm.setDouble(6, pp.getTotalCost());
+        pstm.setString(7, pp.getSupplierName()); pstm.setString(8, pp.getPartDescription());
+        pstm.setDate(9, Date.valueOf(pp.getDate())); pstm.setInt(10, pp.getCreatedBy());
         return pstm.executeUpdate() > 0;
     }
 
-    // Update Part Purchase
-    public boolean updatePartPurchase(PartPurchaseDTO dto) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "UPDATE Part_Purchases SET bus_id = ?, maint_id = ?, part_name = ?, " +
-                "quantity = ?, unit_price = ?, total_cost = ?, supplier_name = ?, " +
-                "part_description = ?, date = ? WHERE purchase_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setObject(1, dto.getBusId());
-        pstm.setObject(2, dto.getMaintId());
-        pstm.setString(3, dto.getPartName());
-        pstm.setInt(4, dto.getQuantity());
-        pstm.setDouble(5, dto.getUnitPrice());
-        pstm.setDouble(6, dto.getTotalCost());
-        pstm.setString(7, dto.getSupplierName());
-        pstm.setString(8, dto.getPartDescription());
-        pstm.setDate(9, Date.valueOf(dto.getDate()));
-        pstm.setInt(10, dto.getPurchaseId());
-
+    @Override
+    public boolean update(PartPurchase pp) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(
+                "UPDATE Part_Purchases SET bus_id=?, maint_id=?, part_name=?, quantity=?, unit_price=?, total_cost=?, supplier_name=?, part_description=?, date=? WHERE purchase_id=?");
+        pstm.setObject(1, pp.getBusId()); pstm.setObject(2, pp.getMaintId());
+        pstm.setString(3, pp.getPartName()); pstm.setInt(4, pp.getQuantity());
+        pstm.setDouble(5, pp.getUnitPrice()); pstm.setDouble(6, pp.getTotalCost());
+        pstm.setString(7, pp.getSupplierName()); pstm.setString(8, pp.getPartDescription());
+        pstm.setDate(9, Date.valueOf(pp.getDate())); pstm.setInt(10, pp.getPurchaseId());
         return pstm.executeUpdate() > 0;
     }
 
-    // Delete Part Purchase
-    public boolean deletePartPurchase(String purchaseId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "DELETE FROM Part_Purchases WHERE purchase_id = ?";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public boolean delete(String purchaseId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("DELETE FROM Part_Purchases WHERE purchase_id=?");
         pstm.setInt(1, Integer.parseInt(purchaseId));
-
         return pstm.executeUpdate() > 0;
     }
 
-    // Get All Part Purchases with TM (for table display)
-    public List<PartPurchaseTM> getAllPartPurchases() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT pp.purchase_id, pp.bus_id, b.bus_number, pp.maint_id, pp.part_name, " +
-                "pp.quantity, pp.unit_price, pp.total_cost, pp.supplier_name, " +
-                "pp.part_description, pp.date, u.username " +
-                "FROM Part_Purchases pp " +
-                "LEFT JOIN Bus b ON pp.bus_id = b.bus_id " +
-                "LEFT JOIN User u ON pp.created_by = u.user_id " +
-                "ORDER BY pp.purchase_id DESC";
-
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        ResultSet rs = pstm.executeQuery();
-
-        List<PartPurchaseTM> partPurchaseList = new ArrayList<>();
-
-        while (rs.next()) {
-            PartPurchaseTM tm = new PartPurchaseTM(
-                    rs.getInt("purchase_id"),
-                    rs.getObject("bus_id", Integer.class),
-                    rs.getString("bus_number"),
-                    rs.getObject("maint_id", Integer.class),
-                    rs.getString("part_name"),
-                    rs.getInt("quantity"),
-                    rs.getDouble("unit_price"),
-                    rs.getDouble("total_cost"),
-                    rs.getString("supplier_name"),
-                    rs.getString("part_description"),
-                    rs.getDate("date").toLocalDate(),
-                    rs.getString("username")
-            );
-            partPurchaseList.add(tm);
-        }
-
-        return partPurchaseList;
+    @Override
+    public boolean delete(int purchaseId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("DELETE FROM Part_Purchases WHERE purchase_id=?");
+        pstm.setInt(1, purchaseId);
+        return pstm.executeUpdate() > 0;
     }
 
-    // Search Part Purchase by ID (returns DTO for form filling)
-    public PartPurchaseDTO searchPartPurchase(String purchaseId) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT * FROM Part_Purchases WHERE purchase_id = ?";
+    @Override
+    public boolean exists(String purchaseId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT purchase_id FROM Part_Purchases WHERE purchase_id=?");
+        pstm.setInt(1, Integer.parseInt(purchaseId));
+        return pstm.executeQuery().next();
+    }
 
-        PreparedStatement pstm = connection.prepareStatement(sql);
+    @Override
+    public boolean exists(int purchaseId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT purchase_id FROM Part_Purchases WHERE purchase_id=?");
+        pstm.setInt(1, purchaseId);
+        return pstm.executeQuery().next();
+    }
+
+    @Override
+    public PartPurchase search(String purchaseId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT * FROM Part_Purchases WHERE purchase_id=?");
         pstm.setInt(1, Integer.parseInt(purchaseId));
         ResultSet rs = pstm.executeQuery();
-
-        if (rs.next()) {
-            return new PartPurchaseDTO(
-                    rs.getInt("purchase_id"),
-                    rs.getObject("bus_id", Integer.class),
-                    rs.getObject("maint_id", Integer.class),
-                    rs.getString("part_name"),
-                    rs.getInt("quantity"),
-                    rs.getDouble("unit_price"),
-                    rs.getDouble("total_cost"),
-                    rs.getString("supplier_name"),
-                    rs.getString("part_description"),
-                    rs.getDate("date").toLocalDate(),
-                    rs.getInt("created_by")
-            );
-        }
+        if (rs.next()) return mapResultSet(rs);
         return null;
     }
 
-    // Search Part Purchases by keyword (returns TM list for table)
+    @Override
     public List<PartPurchaseTM> searchPartPurchases(String keyword) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "SELECT pp.purchase_id, pp.bus_id, b.bus_number, pp.maint_id, pp.part_name, " +
-                "pp.quantity, pp.unit_price, pp.total_cost, pp.supplier_name, " +
-                "pp.part_description, pp.date, u.username " +
-                "FROM Part_Purchases pp " +
-                "LEFT JOIN Bus b ON pp.bus_id = b.bus_id " +
-                "LEFT JOIN User u ON pp.created_by = u.user_id " +
-                "WHERE pp.purchase_id LIKE ? OR pp.part_name LIKE ? OR " +
-                "pp.supplier_name LIKE ? OR b.bus_number LIKE ? " +
-                "ORDER BY pp.purchase_id DESC";
+        String p = "%" + keyword + "%";
+        PreparedStatement pstm = conn().prepareStatement(
+                TM_SQL + "WHERE pp.purchase_id LIKE ? OR pp.part_name LIKE ? OR pp.supplier_name LIKE ? OR b.bus_number LIKE ? ORDER BY pp.purchase_id DESC");
+        pstm.setString(1, p); pstm.setString(2, p); pstm.setString(3, p); pstm.setString(4, p);
+        return mapTMResultSet(pstm.executeQuery());
+    }
 
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        String searchPattern = "%" + keyword + "%";
-        pstm.setString(1, searchPattern);
-        pstm.setString(2, searchPattern);
-        pstm.setString(3, searchPattern);
-        pstm.setString(4, searchPattern);
+    @Override
+    public boolean isBusExists(int busId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT bus_id FROM Bus WHERE bus_id=?");
+        pstm.setInt(1, busId);
+        return pstm.executeQuery().next();
+    }
 
+    @Override
+    public boolean isMaintenanceExists(int maintId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT maint_id FROM Maintenance WHERE maint_id=?");
+        pstm.setInt(1, maintId);
+        return pstm.executeQuery().next();
+    }
+
+    @Override
+    public List<Integer> getAllActiveBusIds() throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT bus_id FROM Bus WHERE bus_status='Active' ORDER BY bus_id");
         ResultSet rs = pstm.executeQuery();
+        List<Integer> ids = new ArrayList<>();
+        while (rs.next()) ids.add(rs.getInt("bus_id"));
+        return ids;
+    }
 
-        List<PartPurchaseTM> partPurchaseList = new ArrayList<>();
+    @Override
+    public List<Integer> getAllMaintenanceIds() throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT maint_id FROM Maintenance ORDER BY maint_id DESC");
+        ResultSet rs = pstm.executeQuery();
+        List<Integer> ids = new ArrayList<>();
+        while (rs.next()) ids.add(rs.getInt("maint_id"));
+        return ids;
+    }
 
+    @Override
+    public String getBusDetails(int busId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement("SELECT bus_number, bus_brand_name, bus_type FROM Bus WHERE bus_id=?");
+        pstm.setInt(1, busId);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) return rs.getString("bus_number") + " - " + rs.getString("bus_brand_name") + " (" + rs.getString("bus_type") + ")";
+        return "Bus not found";
+    }
+
+    @Override
+    public String getMaintenanceDetails(int maintId) throws SQLException {
+        PreparedStatement pstm = conn().prepareStatement(
+                "SELECT m.maintenance_type, m.date, b.bus_number FROM Maintenance m JOIN Bus b ON m.bus_id=b.bus_id WHERE m.maint_id=?");
+        pstm.setInt(1, maintId);
+        ResultSet rs = pstm.executeQuery();
+        if (rs.next()) return rs.getString("maintenance_type") + " - " + rs.getDate("date") + " (Bus: " + rs.getString("bus_number") + ")";
+        return "Maintenance not found";
+    }
+
+    private Connection conn() throws SQLException {
+        return DBConnection.getInstance().getConnection();
+    }
+
+    private PartPurchase mapResultSet(ResultSet rs) throws SQLException {
+        PartPurchase pp = new PartPurchase();
+        pp.setPurchaseId(rs.getInt("purchase_id"));
+        pp.setBusId(rs.getObject("bus_id", Integer.class));
+        pp.setMaintId(rs.getObject("maint_id", Integer.class));
+        pp.setPartName(rs.getString("part_name"));
+        pp.setQuantity(rs.getInt("quantity"));
+        pp.setUnitPrice(rs.getDouble("unit_price"));
+        pp.setTotalCost(rs.getDouble("total_cost"));
+        pp.setSupplierName(rs.getString("supplier_name"));
+        pp.setPartDescription(rs.getString("part_description"));
+        pp.setDate(rs.getDate("date").toLocalDate());
+        pp.setCreatedBy(rs.getInt("created_by"));
+        return pp;
+    }
+
+    private List<PartPurchaseTM> mapTMResultSet(ResultSet rs) throws SQLException {
+        List<PartPurchaseTM> list = new ArrayList<>();
         while (rs.next()) {
-            PartPurchaseTM tm = new PartPurchaseTM(
-                    rs.getInt("purchase_id"),
-                    rs.getObject("bus_id", Integer.class),
-                    rs.getString("bus_number"),
-                    rs.getObject("maint_id", Integer.class),
-                    rs.getString("part_name"),
-                    rs.getInt("quantity"),
-                    rs.getDouble("unit_price"),
-                    rs.getDouble("total_cost"),
-                    rs.getString("supplier_name"),
-                    rs.getString("part_description"),
-                    rs.getDate("date").toLocalDate(),
-                    rs.getString("username")
-            );
-            partPurchaseList.add(tm);
+            list.add(new PartPurchaseTM(
+                    rs.getInt("purchase_id"), rs.getObject("bus_id", Integer.class),
+                    rs.getString("bus_number"), rs.getObject("maint_id", Integer.class),
+                    rs.getString("part_name"), rs.getInt("quantity"),
+                    rs.getDouble("unit_price"), rs.getDouble("total_cost"),
+                    rs.getString("supplier_name"), rs.getString("part_description"),
+                    rs.getDate("date").toLocalDate(), rs.getString("username")
+            ));
         }
-
-        return partPurchaseList;
+        return list;
     }
 }

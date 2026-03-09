@@ -14,9 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.EventDTO;
-import lk.ijse.busmanagementsystem.model.EventModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.EventBO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
@@ -126,8 +126,8 @@ public class EventController implements Initializable {
     @FXML
     private Button backBtn;
 
-    private final EventModel eventModel = new EventModel();
-    private int currentUserId = 1; // This should come from login session
+    private final EventBO eventBO = (EventBO) BOFactory.getInstance().getBO(BOFactory.BOType.EVENT);
+    private int currentUserId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -168,11 +168,11 @@ public class EventController implements Initializable {
 
     private void loadBusComboBox() {
         try {
-            List<String[]> busList = eventModel.getAllActiveBuses();
+            List<String[]> busList = eventBO.getAllActiveBuses();
             ObservableList<String> busItems = FXCollections.observableArrayList();
 
             for (String[] bus : busList) {
-                busItems.add(bus[0] + " - " + bus[1]); // ID with Bus Number
+                busItems.add(bus[0] + " - " + bus[1]);
             }
 
             cmbBusId.setItems(busItems);
@@ -194,7 +194,7 @@ public class EventController implements Initializable {
 
     private void loadEventTable() {
         try {
-            List<EventDTO> eventList = eventModel.getAllEvents();
+            List<EventDTO> eventList = eventBO.getAllEvents();
             ObservableList<EventDTO> obList = FXCollections.observableArrayList(eventList);
             tableCustomer.setItems(obList);
         } catch (Exception e) {
@@ -245,7 +245,7 @@ public class EventController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = eventModel.saveEvent(eventDTO);
+            boolean isSaved = eventBO.saveEvent(eventDTO);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Event saved successfully!").show();
@@ -293,7 +293,7 @@ public class EventController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = eventModel.updateEvent(eventDTO);
+            boolean isUpdated = eventBO.updateEvent(eventDTO);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Event updated successfully!").show();
@@ -326,7 +326,7 @@ public class EventController implements Initializable {
             String id = txtEventId.getText();
 
             try {
-                boolean isDeleted = eventModel.deleteEvent(id);
+                boolean isDeleted = eventBO.deleteEvent(id);
 
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Event deleted successfully!").show();
@@ -358,7 +358,7 @@ public class EventController implements Initializable {
         }
 
         try {
-            List<EventDTO> searchResults = eventModel.searchEvents(keyword);
+            List<EventDTO> searchResults = eventBO.searchEvents(keyword);
             ObservableList<EventDTO> obList = FXCollections.observableArrayList(searchResults);
             tableCustomer.setItems(obList);
 
@@ -477,7 +477,7 @@ public class EventController implements Initializable {
             }
 
             try {
-                EventDTO eventDTO = eventModel.searchEvent(id);
+                EventDTO eventDTO = eventBO.searchEvent(id);
 
                 if (eventDTO != null) {
                     fillFieldsFromSelectedEvent(eventDTO);

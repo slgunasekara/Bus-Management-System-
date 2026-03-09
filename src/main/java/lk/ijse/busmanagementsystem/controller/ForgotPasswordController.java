@@ -6,8 +6,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import lk.ijse.busmanagementsystem.dto.PasswordResetOtpDTO;
 import lk.ijse.busmanagementsystem.dto.UserDTO;
-import lk.ijse.busmanagementsystem.model.PasswordResetOtpModel;
-import lk.ijse.busmanagementsystem.model.UserModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.PasswordResetOtpBO;
+import lk.ijse.busmanagementsystem.bo.custom.UserBO;
 import lk.ijse.busmanagementsystem.services.EmailService;
 
 import java.io.IOException;
@@ -31,8 +32,8 @@ public class ForgotPasswordController implements Initializable {
     @FXML private Button resetPasswordButton;
     @FXML private Hyperlink backToLoginLink;
 
-    private UserModel userModel = new UserModel();
-    private PasswordResetOtpModel otpModel = new PasswordResetOtpModel();
+    private final UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
+    private final PasswordResetOtpBO otpBO = (PasswordResetOtpBO) BOFactory.getInstance().getBO(BOFactory.BOType.PASSWORD_RESET_OTP);
 
     private String currentEmail;
     private String currentOtp;
@@ -64,7 +65,7 @@ public class ForgotPasswordController implements Initializable {
 
         try {
             // Check if email exists in database
-            UserDTO user = userModel.getUserByEmail(email);
+            UserDTO user = userBO.getUserByEmail(email);
 
             if (user == null) {
                 showAlert(Alert.AlertType.ERROR, "Email Not Found",
@@ -82,7 +83,7 @@ public class ForgotPasswordController implements Initializable {
             otpDTO.setEmail(email);
             otpDTO.setExpiresAt(LocalDateTime.now().plusMinutes(10)); // Valid for 10 minutes
 
-            boolean saved = otpModel.saveOTP(otpDTO);
+            boolean saved = otpBO.saveOTP(otpDTO);
 
             if (!saved) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Failed to generate OTP. Please try again!");
@@ -113,6 +114,8 @@ public class ForgotPasswordController implements Initializable {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error",
                     "Error connecting to database: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -133,7 +136,7 @@ public class ForgotPasswordController implements Initializable {
 
         try {
             // Validate OTP
-            Integer userId = otpModel.validateOTP(currentEmail, otp);
+            Integer userId = otpBO.validateOTP(currentEmail, otp);
 
             if (userId == null) {
                 showAlert(Alert.AlertType.ERROR, "Invalid OTP",
@@ -188,11 +191,11 @@ public class ForgotPasswordController implements Initializable {
 
         try {
             // Update password
-            boolean updated = userModel.updatePassword(currentUserId, newPassword);
+            boolean updated = userBO.updatePassword(currentUserId, newPassword);
 
             if (updated) {
                 // Mark OTP as used
-                otpModel.markOTPAsUsed(currentEmail, currentOtp);
+                otpBO.markOTPAsUsed(currentEmail, currentOtp);
 
                 showAlert(Alert.AlertType.INFORMATION, "Success",
                         "Password reset successfully! You can now login with your new password.");

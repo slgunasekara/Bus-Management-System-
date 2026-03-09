@@ -170,9 +170,7 @@
                 </children>
             </AnchorPane>
 
-            <!-- Right Side - Other Tools -->
             <VBox prefHeight="580.0" prefWidth="625.0" spacing="15">
-                <!-- Route Finder with Google Maps -->
                 <AnchorPane prefHeight="170.0" prefWidth="625.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 20, 0, 0, 5); -fx-background-radius: 20;">
                     <children>
                         <VBox layoutX="15.0" layoutY="10.0" prefHeight="150.0" prefWidth="595.0" spacing="10">

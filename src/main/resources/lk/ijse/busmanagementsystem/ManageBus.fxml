@@ -96,7 +96,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="busId" onKeyPressed="#handleSearchCustomer" prefHeight="30.0" prefWidth="425.0" promptText="Auto-generated ID" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <TextField fx:id="txtBusId" onKeyPressed="#handleSearchCustomer" prefHeight="30.0" prefWidth="425.0" promptText="Auto-generated ID" style="-fx-background-color: #f8f9fa; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                                             <font>
                                                                 <Font size="12.0" />
                                                             </font>
@@ -111,7 +111,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="brandName" prefHeight="30.0" prefWidth="425.0" promptText="e.g., Tata, Ashok Leyland" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <TextField fx:id="txtBrandName" prefHeight="30.0" prefWidth="425.0" promptText="e.g., Tata, Ashok Leyland" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                                             <font>
                                                                 <Font size="12.0" />
                                                             </font>
@@ -126,7 +126,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="busNumber" prefHeight="30.0" prefWidth="425.0" promptText="Enter License Plate Number" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <TextField fx:id="txtBusNumber" prefHeight="30.0" prefWidth="425.0" promptText="Enter License Plate Number" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                                             <font>
                                                                 <Font size="12.0" />
                                                             </font>
@@ -141,7 +141,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <ComboBox fx:id="busType" prefHeight="30.0" prefWidth="425.0" promptText="Select Bus Type" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <ComboBox fx:id="cmbBusType" prefHeight="30.0" prefWidth="425.0" promptText="Select Bus Type" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                             </ComboBox>
                                                     </children>
                                                 </HBox>
@@ -153,7 +153,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="noOfSeats" prefHeight="30.0" prefWidth="425.0" promptText="Total Seating Capacity" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <TextField fx:id="txtNoOfSeats" prefHeight="30.0" prefWidth="425.0" promptText="Total Seating Capacity" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                                             <font>
                                                                 <Font size="12.0" />
                                                             </font>
@@ -168,7 +168,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <ComboBox fx:id="busStatus" prefHeight="30.0" prefWidth="425.0" promptText="Select Bus Status" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <ComboBox fx:id="cmbBusStatus" prefHeight="30.0" prefWidth="425.0" promptText="Select Bus Status" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                             </ComboBox>
                                                     </children>
                                                 </HBox>
@@ -180,7 +180,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <DatePicker fx:id="manufactureDate" prefHeight="30.0" prefWidth="425.0" promptText="Select Date" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <DatePicker fx:id="dateManufactureDate" prefHeight="30.0" prefWidth="425.0" promptText="Select Date" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                             </DatePicker>
                                                     </children>
                                                 </HBox>
@@ -192,7 +192,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <DatePicker fx:id="insuranceExpiryDate" prefHeight="30.0" prefWidth="425.0" promptText="Optional" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <DatePicker fx:id="dateInsuranceExpiry" prefHeight="30.0" prefWidth="425.0" promptText="Optional" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                             </DatePicker>
                                                     </children>
                                                 </HBox>
@@ -204,7 +204,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <DatePicker fx:id="licenseRenewalDate" prefHeight="30.0" prefWidth="425.0" promptText="Optional" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <DatePicker fx:id="dateLicenseRenewal" prefHeight="30.0" prefWidth="425.0" promptText="Optional" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                             </DatePicker>
                                                     </children>
                                                 </HBox>
@@ -216,7 +216,7 @@
                                                                 <Font name="System Bold" size="13.0" />
                                                             </font>
                                                         </Label>
-                                                        <TextField fx:id="currentMileage" prefHeight="30.0" prefWidth="425.0" promptText="Optional - Enter in kilometers" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
+                                                        <TextField fx:id="txtCurrentMileage" prefHeight="30.0" prefWidth="425.0" promptText="Optional - Enter in kilometers" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #dee2e6; -fx-border-radius: 10; -fx-border-width: 1.5;">
                                                             <font>
                                                                 <Font size="12.0" />
                                                             </font>
@@ -253,12 +253,12 @@
                                         <children>
                                             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
                                                 <children>
-                                                    <Button mnemonicParsing="false" onAction="#saveCustomer" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="💾 Save" textFill="WHITE">
+                                                    <Button mnemonicParsing="false" onAction="#handleSave" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #11998e, #38ef7d); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="💾 Save" textFill="WHITE">
                                                         <font>
                                                             <Font name="System Bold" size="13.0" />
                                                         </font>
                                                     </Button>
-                                                    <Button mnemonicParsing="false" onAction="#handleCustomerUpdate" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🔄 Update" textFill="WHITE">
+                                                    <Button mnemonicParsing="false" onAction="#handleUpdate" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🔄 Update" textFill="WHITE">
                                                         <font>
                                                             <Font name="System Bold" size="13.0" />
                                                         </font>
@@ -267,12 +267,12 @@
                                             </HBox>
                                             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="302.0" spacing="10">
                                                 <children>
-                                                    <Button mnemonicParsing="false" onAction="#handleCustomerDelete" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #eb3349, #f45c43); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🗑️ Delete" textFill="WHITE">
+                                                    <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #eb3349, #f45c43); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="🗑️ Delete" textFill="WHITE">
                                                         <font>
                                                             <Font name="System Bold" size="13.0" />
                                                         </font>
                                                     </Button>
-                                                    <Button mnemonicParsing="false" onAction="#handleCustomerReset" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #757F9A, #D7DDE8); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="↺ Reset" textFill="WHITE">
+                                                    <Button mnemonicParsing="false" onAction="#handleReset" prefHeight="35.0" prefWidth="135.0" style="-fx-background-color: linear-gradient(to right, #757F9A, #D7DDE8); -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-cursor: hand;" text="↺ Reset" textFill="WHITE">
                                                         <font>
                                                             <Font name="System Bold" size="13.0" />
                                                         </font>
@@ -331,17 +331,17 @@
 
                     <!-- Table -->
                     <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="20.0" layoutY="70.0" prefHeight="203.0" prefWidth="975.0" style="-fx-background-color: transparent; -fx-border-color: #e9ecef; -fx-border-radius: 10; -fx-border-width: 1;">
-                        <TableView fx:id="tableCustomer" prefHeight="200.0" prefWidth="967.0" style="-fx-background-color: transparent;">
+                        <TableView fx:id="tblBus" prefHeight="200.0" prefWidth="967.0" style="-fx-background-color: transparent;">
                             <columns>
                                 <TableColumn fx:id="colId" prefWidth="50.0" style="-fx-alignment: CENTER;" text="ID" />
-                                <TableColumn fx:id="colBrandName" prefWidth="110.0" text="Brand" />
+                                <TableColumn fx:id="colBrand" prefWidth="110.0" text="Brand" />
                                 <TableColumn fx:id="colBusNumber" prefWidth="110.0" text="Bus Number" />
-                                <TableColumn fx:id="colBusType" prefWidth="90.0" text="Type" />
-                                <TableColumn fx:id="colNoOfSeats" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Seats" />
-                                <TableColumn fx:id="colBusStatus" prefWidth="90.0" text="Status" />
-                                <TableColumn fx:id="colManufactureDate" prefWidth="110.0" text="Manufacture" />
-                                <TableColumn fx:id="colInsuranceExpiry" prefWidth="110.0" text="Insurance" />
-                                <TableColumn fx:id="colLicenseRenewal" prefWidth="110.0" text="License" />
+                                <TableColumn fx:id="colType" prefWidth="90.0" text="Type" />
+                                <TableColumn fx:id="colSeats" prefWidth="60.0" style="-fx-alignment: CENTER;" text="Seats" />
+                                <TableColumn fx:id="colStatus" prefWidth="90.0" text="Status" />
+                                <TableColumn fx:id="colManufacture" prefWidth="110.0" text="Manufacture" />
+                                <TableColumn fx:id="colInsurance" prefWidth="110.0" text="Insurance" />
+                                <TableColumn fx:id="colLicense" prefWidth="110.0" text="License" />
                                 <TableColumn fx:id="colMileage" prefWidth="172.0" style="-fx-alignment: CENTER;" text="Mileage" />
                                 <TableColumn fx:id="colCreatedBy" prefWidth="71.0" style="-fx-alignment: CENTER;" text="Created_by" />
                                 <TableColumn fx:id="colCreatedAt" prefWidth="111.0" text="Created_at" />

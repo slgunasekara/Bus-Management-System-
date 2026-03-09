@@ -17,7 +17,8 @@ import javafx.scene.text.Text;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.DashboardDTO;
 import lk.ijse.busmanagementsystem.dto.ProfitChartDTO;
-import lk.ijse.busmanagementsystem.model.DashboardModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.DashboardBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,7 +53,7 @@ public class LayoutController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
-    private final DashboardModel dashboardModel = new DashboardModel();
+    private final DashboardBO dashboardBO = (DashboardBO) BOFactory.getInstance().getBO(BOFactory.BOType.DASHBOARD);
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
 
     @Override
@@ -69,9 +70,8 @@ public class LayoutController implements Initializable {
 
     private void loadDashboardData() {
         try {
-            DashboardDTO dashboardData = dashboardModel.getDashboardSummary();
+            DashboardDTO dashboardData = dashboardBO.getDashboardSummary();
 
-            // Update UI labels
             totalBusesText.setText(String.valueOf(dashboardData.getTotalBuses()));
             totalTripsText.setText(String.valueOf(dashboardData.getTotalTrips()));
             totalEmployeesText.setText(String.valueOf(dashboardData.getTotalEmployees()));
@@ -86,10 +86,9 @@ public class LayoutController implements Initializable {
         }
     }
 
-    //Load profit chart with last 30 days data
     private void loadProfitChart() {
         try {
-            List<ProfitChartDTO> chartData = dashboardModel.getSimplifiedProfitData();
+            List<ProfitChartDTO> chartData = dashboardBO.getSimplifiedProfitData();
 
             // Configure chart axes
             xAxis.setLabel("Date");

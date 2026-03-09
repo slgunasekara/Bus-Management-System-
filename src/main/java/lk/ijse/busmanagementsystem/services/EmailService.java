@@ -13,14 +13,12 @@ public class EmailService {
     private static final String EMAIL_FROM = "praveengunasekara7@gmail.com";
     private static final String EMAIL_PASSWORD = "czwv trod ller weih";
 
-    //Generates a random 6-digit OTP code
     public static String generateOTP() {
         Random random = new Random();
         int otp = 100000 + random.nextInt(900000);
         return String.valueOf(otp);
     }
 
-    //Sends OTP email to the user for password reset
     public static boolean sendOTPEmail(String toEmail, String otpCode, String userName) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -97,7 +95,6 @@ public class EmailService {
                 "</div></div></body></html>";
     }
 
-   //Test method :can be removed in production
     public static void main(String[] args) {
         String testOTP = generateOTP();
         System.out.println("Generated OTP: " + testOTP);

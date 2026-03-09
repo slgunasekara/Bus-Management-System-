@@ -1,4 +1,11 @@
-package lk.ijse.busmanagementsystem.dao;
+package lk.ijse.busmanagementsystem.dao.custom;
 
-public interface DashboardDAO {
+
+import lk.ijse.busmanagementsystem.dao.CrudDAO;
+import lk.ijse.busmanagementsystem.dto.BusDTO;
+import lk.ijse.busmanagementsystem.dto.DashboardDTO;
+import lk.ijse.busmanagementsystem.entity.Dashboard;
+
+public interface DashboardDAO extends CrudDAO<Dashboard> {
+
 }

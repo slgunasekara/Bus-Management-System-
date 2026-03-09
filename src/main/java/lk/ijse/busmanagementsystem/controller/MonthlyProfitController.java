@@ -11,10 +11,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.busmanagementsystem.dto.DailyProfitDTO;
-import lk.ijse.busmanagementsystem.dto.DailyProfitTM;
+import lk.ijse.busmanagementsystem.tm.DailyProfitTM;
 import lk.ijse.busmanagementsystem.dto.MonthlyProfitDTO;
-import lk.ijse.busmanagementsystem.dto.MonthlyProfitTM;
-import lk.ijse.busmanagementsystem.model.MonthlyProfitModel;
+import lk.ijse.busmanagementsystem.tm.MonthlyProfitTM;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.MonthlyProfitBO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -26,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.*;
 
 public class MonthlyProfitController implements Initializable {
@@ -70,7 +70,6 @@ public class MonthlyProfitController implements Initializable {
     @FXML
     private Text totalTripsText;
 
-    // Bottom Table - Monthly Total
     @FXML
     private TableView<MonthlyProfitTM> monthlyProfitTableView;
 
@@ -101,7 +100,6 @@ public class MonthlyProfitController implements Initializable {
     @FXML
     private TableColumn<MonthlyProfitTM, String> netProfitCol;
 
-    // Top Table - Daily Breakdown
     @FXML
     private TableView<DailyProfitTM> monthlyProfitTableView1;
 
@@ -132,7 +130,7 @@ public class MonthlyProfitController implements Initializable {
     @FXML
     private TableColumn<DailyProfitTM, String> netProfitCol1;
 
-    private final MonthlyProfitModel monthlyProfitModel = new MonthlyProfitModel();
+    private final MonthlyProfitBO monthlyProfitBO = (MonthlyProfitBO) BOFactory.getInstance().getBO(BOFactory.BOType.MONTHLY_PROFIT);
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
 
     private static final String[] MONTHS = {
@@ -151,7 +149,6 @@ public class MonthlyProfitController implements Initializable {
     }
 
     private void setupTableColumns() {
-        // Bottom Table - Monthly Total
         monthCol.setCellValueFactory(new PropertyValueFactory<>("month"));
         totalIncomeCol.setCellValueFactory(new PropertyValueFactory<>("totalIncome"));
         tripExpensesCol.setCellValueFactory(new PropertyValueFactory<>("tripExpenses"));
@@ -162,7 +159,6 @@ public class MonthlyProfitController implements Initializable {
         totalExpensesCol.setCellValueFactory(new PropertyValueFactory<>("totalExpenses"));
         netProfitCol.setCellValueFactory(new PropertyValueFactory<>("netProfit"));
 
-        // Top Table - Daily Breakdown
         monthCol1.setCellValueFactory(new PropertyValueFactory<>("date"));
         totalIncomeCol1.setCellValueFactory(new PropertyValueFactory<>("totalIncome"));
         tripExpensesCol1.setCellValueFactory(new PropertyValueFactory<>("tripExpenses"));
@@ -175,10 +171,8 @@ public class MonthlyProfitController implements Initializable {
     }
 
     private void setupComboBoxes() {
-        // Setup Month ComboBox
         monthComboBox.setItems(FXCollections.observableArrayList(MONTHS));
 
-        // Setup Year ComboBox
         int currentYear = YearMonth.now().getYear();
         List<Integer> years = new ArrayList<>();
         for (int i = currentYear; i >= currentYear - 10; i--) {
@@ -186,7 +180,6 @@ public class MonthlyProfitController implements Initializable {
         }
         yearComboBox.setItems(FXCollections.observableArrayList(years));
 
-        // Set current month and year
         YearMonth currentMonth = YearMonth.now();
         monthComboBox.setValue(MONTHS[currentMonth.getMonthValue() - 1]);
         yearComboBox.setValue(currentMonth.getYear());
@@ -213,8 +206,7 @@ public class MonthlyProfitController implements Initializable {
         int monthIndex = Arrays.asList(MONTHS).indexOf(selectedMonth) + 1;
 
         try {
-            // Load monthly summary
-            MonthlyProfitDTO monthlyData = monthlyProfitModel.getMonthlyProfit(selectedYear, monthIndex);
+            MonthlyProfitDTO monthlyData = monthlyProfitBO.getMonthlyProfit(selectedYear, monthIndex);
 
             if (monthlyData == null) {
                 showAlert(Alert.AlertType.INFORMATION, "No Data",
@@ -224,11 +216,9 @@ public class MonthlyProfitController implements Initializable {
                 return;
             }
 
-            // Update summary cards
             updateSummaryCards(monthlyData);
 
-            // Load daily breakdown
-            List<DailyProfitDTO> dailyList = monthlyProfitModel.getDailyBreakdownForMonth(selectedYear, monthIndex);
+            List<DailyProfitDTO> dailyList = monthlyProfitBO.getDailyBreakdownForMonth(selectedYear, monthIndex);
             loadDailyBreakdownTable(dailyList);
 
             showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -265,17 +255,16 @@ public class MonthlyProfitController implements Initializable {
 
     private void loadAllMonthlyProfitData() {
         try {
-            List<MonthlyProfitDTO> monthlyList = monthlyProfitModel.getAllMonthlyProfit();
+            List<MonthlyProfitDTO> monthlyList = monthlyProfitBO.getAllMonthlyProfit();
             loadMonthlyTableData(monthlyList);
 
             if (!monthlyList.isEmpty()) {
                 MonthlyProfitDTO firstMonth = monthlyList.get(0);
                 updateSummaryCards(firstMonth);
 
-                // Load daily breakdown for the most recent month
                 int year = firstMonth.getMonth().getYear();
                 int month = firstMonth.getMonth().getMonthValue();
-                List<DailyProfitDTO> dailyList = monthlyProfitModel.getDailyBreakdownForMonth(year, month);
+                List<DailyProfitDTO> dailyList = monthlyProfitBO.getDailyBreakdownForMonth(year, month);
                 loadDailyBreakdownTable(dailyList);
             } else {
                 resetSummaryCards();
@@ -359,7 +348,7 @@ public class MonthlyProfitController implements Initializable {
         int monthIndex = Arrays.asList(MONTHS).indexOf(selectedMonth) + 1;
 
         try {
-            MonthlyProfitDTO monthlyData = monthlyProfitModel.getMonthlyProfit(selectedYear, monthIndex);
+            MonthlyProfitDTO monthlyData = monthlyProfitBO.getMonthlyProfit(selectedYear, monthIndex);
 
             if (monthlyData == null) {
                 showAlert(Alert.AlertType.WARNING, "No Data",
@@ -367,9 +356,8 @@ public class MonthlyProfitController implements Initializable {
                 return;
             }
 
-            List<DailyProfitDTO> dailyList = monthlyProfitModel.getDailyBreakdownForMonth(selectedYear, monthIndex);
+            List<DailyProfitDTO> dailyList = monthlyProfitBO.getDailyBreakdownForMonth(selectedYear, monthIndex);
 
-            // Prepare parameters for report
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("Month", selectedMonth);
             parameters.put("Year", String.valueOf(selectedYear));
@@ -379,7 +367,6 @@ public class MonthlyProfitController implements Initializable {
             parameters.put("TotalTrips", String.valueOf(monthlyData.getTotalTrips()));
             parameters.put("GeneratedDate", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-            // Load and fill report
             JasperReport jasperReport = JasperCompileManager.compileReport(
                     getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/reports/MonthlyProfitReport.jrxml")
             );

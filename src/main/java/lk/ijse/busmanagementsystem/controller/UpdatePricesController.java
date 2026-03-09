@@ -14,7 +14,8 @@ import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.UpdatePricesDTO;
 import lk.ijse.busmanagementsystem.enums.updateprices.ChangeType;
 import lk.ijse.busmanagementsystem.enums.updateprices.UpdateType;
-import lk.ijse.busmanagementsystem.model.UpdatePricesModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.UpdatePricesBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -91,14 +92,13 @@ public class UpdatePricesController implements Initializable {
     @FXML
     private TableColumn<UpdatePricesDTO, Integer> colCreatedBy;
 
-    private final UpdatePricesModel pricesModel = new UpdatePricesModel();
+    private final UpdatePricesBO pricesBO = (UpdatePricesBO) BOFactory.getInstance().getBO(BOFactory.BOType.UPDATE_PRICES);
     private int currentUserId = 1; // This should come from your login session
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("UpdatePrices is loaded");
 
-        // Setup table columns
         colId.setCellValueFactory(new PropertyValueFactory<>("updatePricesId"));
         colUpdateType.setCellValueFactory(new PropertyValueFactory<>("updateType"));
         colChangeType.setCellValueFactory(new PropertyValueFactory<>("changeType"));
@@ -110,30 +110,23 @@ public class UpdatePricesController implements Initializable {
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
 
-        // Initialize ComboBoxes
         initializeComboBoxes();
 
-        // Load all prices
         loadPricesTable();
 
-        // Make statusId field non-editable
         statusId.setEditable(false);
 
-        // Make calculated fields non-editable
         changeAmount.setEditable(false);
         percentageChange.setEditable(false);
 
-        // Add listeners for automatic calculation
         setupCalculationListeners();
 
-        // Add table row selection listener
         tablePrices.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFieldsFromSelectedPrice(newSelection);
             }
         });
 
-        // Add listener to load latest price when update type changes
         updateTypeCombo.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null && !newValue.isEmpty()) {
                 loadLatestPrice(newValue);
@@ -142,14 +135,12 @@ public class UpdatePricesController implements Initializable {
     }
 
     private void initializeComboBoxes() {
-        // Populate Update Type ComboBox
         ObservableList<String> updateTypes = FXCollections.observableArrayList();
         for (UpdateType type : UpdateType.values()) {
             updateTypes.add(type.getValue());
         }
         updateTypeCombo.setItems(updateTypes);
 
-        // Populate Change Type ComboBox
         ObservableList<String> changeTypes = FXCollections.observableArrayList();
         for (ChangeType type : ChangeType.values()) {
             changeTypes.add(type.getValue());
@@ -158,7 +149,6 @@ public class UpdatePricesController implements Initializable {
     }
 
     private void setupCalculationListeners() {
-        // Calculate change amount and percentage when values change
         previousValue.textProperty().addListener((obs, oldVal, newVal) -> calculateChanges());
         newValue.textProperty().addListener((obs, oldVal, newVal) -> calculateChanges());
     }
@@ -169,12 +159,10 @@ public class UpdatePricesController implements Initializable {
                 double prevValue = Double.parseDouble(previousValue.getText().trim());
                 double newVal = Double.parseDouble(newValue.getText().trim());
 
-                // Calculate change amount
-                double changeAmt = pricesModel.calculateChangeAmount(prevValue, newVal);
+                double changeAmt = pricesBO.calculateChangeAmount(prevValue, newVal);
                 changeAmount.setText(String.format("%.2f", changeAmt));
 
-                // Calculate percentage change
-                double percentChange = pricesModel.calculatePercentageChange(prevValue, newVal);
+                double percentChange = pricesBO.calculatePercentageChange(prevValue, newVal);
                 percentageChange.setText(String.format("%.2f", percentChange));
             } else {
                 changeAmount.setText("");
@@ -188,7 +176,7 @@ public class UpdatePricesController implements Initializable {
 
     private void loadLatestPrice(String updateType) {
         try {
-            Double latestPrice = pricesModel.getLatestPrice(updateType);
+            Double latestPrice = pricesBO.getLatestPrice(updateType);
             if (latestPrice != null) {
                 previousValue.setText(String.format("%.2f", latestPrice));
             } else {
@@ -201,7 +189,7 @@ public class UpdatePricesController implements Initializable {
 
     private void loadPricesTable() {
         try {
-            List<UpdatePricesDTO> pricesList = pricesModel.getAllUpdatePrices();
+            List<UpdatePricesDTO> pricesList = pricesBO.getAllUpdatePrices();
             ObservableList<UpdatePricesDTO> obList = FXCollections.observableArrayList(pricesList);
             tablePrices.setItems(obList);
         } catch (Exception e) {
@@ -242,7 +230,7 @@ public class UpdatePricesController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = pricesModel.saveUpdatePrice(priceDTO);
+            boolean isSaved = pricesBO.saveUpdatePrice(priceDTO);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Price update saved successfully!").show();
@@ -271,7 +259,7 @@ public class UpdatePricesController implements Initializable {
             }
 
             try {
-                UpdatePricesDTO priceDTO = pricesModel.searchUpdatePrice(id);
+                UpdatePricesDTO priceDTO = pricesBO.searchUpdatePrice(id);
 
                 if (priceDTO != null) {
                     fillFieldsFromSelectedPrice(priceDTO);
@@ -303,7 +291,7 @@ public class UpdatePricesController implements Initializable {
             String id = statusId.getText();
 
             try {
-                boolean isDeleted = pricesModel.deleteUpdatePrice(id);
+                boolean isDeleted = pricesBO.deleteUpdatePrice(id);
 
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Price update deleted successfully!").show();
@@ -335,7 +323,7 @@ public class UpdatePricesController implements Initializable {
         }
 
         try {
-            List<UpdatePricesDTO> searchResults = pricesModel.searchUpdatePrices(keyword);
+            List<UpdatePricesDTO> searchResults = pricesBO.searchUpdatePrices(keyword);
             ObservableList<UpdatePricesDTO> obList = FXCollections.observableArrayList(searchResults);
             tablePrices.setItems(obList);
 

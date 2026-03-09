@@ -7,12 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.TripExpensesDTO;
 import lk.ijse.busmanagementsystem.enums.TripExpType;
-import lk.ijse.busmanagementsystem.model.TripExpensesModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.TripExpensesBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +25,6 @@ public class ManageTripExpensesController implements Initializable {
 
     @FXML private AnchorPane tripExpensesContent;
 
-    // Form Fields
     @FXML private TextField tripExpenseId;
     @FXML private ComboBox<Integer> comboTripId;
     @FXML private Label lblTripDetails;
@@ -35,7 +34,6 @@ public class ManageTripExpensesController implements Initializable {
     @FXML private DatePicker dateExpense;
     @FXML private TextField txtSearch;
 
-    // Table
     @FXML private TableView<TripExpensesDTO> tableExpenses;
     @FXML private TableColumn<TripExpensesDTO, Integer> colExpenseId;
     @FXML private TableColumn<TripExpensesDTO, Integer> colTripId;
@@ -45,7 +43,7 @@ public class ManageTripExpensesController implements Initializable {
     @FXML private TableColumn<TripExpensesDTO, LocalDate> colDate;
     @FXML private TableColumn<TripExpensesDTO, Integer> colCreatedBy;
 
-    private final TripExpensesModel expensesModel = new TripExpensesModel();
+    private final TripExpensesBO expensesBO = (TripExpensesBO) BOFactory.getInstance().getBO(BOFactory.BOType.TRIP_EXPENSES);
     private int currentUserId = 1;
 
     @Override
@@ -72,13 +70,11 @@ public class ManageTripExpensesController implements Initializable {
     }
 
     private void loadComboData() {
-        // Load Expense Types
         comboExpenseType.getItems().addAll(TripExpType.values());
         comboExpenseType.setValue(TripExpType.FUEL);
 
-        // Load Trip IDs
         try {
-            List<Integer> tripIds = expensesModel.getAllTripIds();
+            List<Integer> tripIds = expensesBO.getAllTripIds();
             ObservableList<Integer> tripIdList = FXCollections.observableArrayList(tripIds);
             comboTripId.setItems(tripIdList);
             System.out.println(" Loaded " + tripIds.size() + " trip IDs");
@@ -112,7 +108,7 @@ public class ManageTripExpensesController implements Initializable {
 
     private void loadTripDetails(int tripId) {
         try {
-            String details = expensesModel.getTripDetails(tripId);
+            String details = expensesBO.getTripDetails(tripId);
             lblTripDetails.setText(details);
         } catch (Exception e) {
             lblTripDetails.setText("Error loading trip details");
@@ -122,7 +118,7 @@ public class ManageTripExpensesController implements Initializable {
 
     private void loadExpensesTable() {
         try {
-            List<TripExpensesDTO> expensesList = expensesModel.getAllTripExpenses();
+            List<TripExpensesDTO> expensesList = expensesBO.getAllTripExpenses();
             ObservableList<TripExpensesDTO> obList = FXCollections.observableArrayList(expensesList);
             tableExpenses.setItems(obList);
             System.out.println(" Loaded " + expensesList.size() + " expenses");
@@ -153,7 +149,7 @@ public class ManageTripExpensesController implements Initializable {
         try {
             int tripId = comboTripId.getValue();
 
-            if (!expensesModel.isTripExists(tripId)) {
+            if (!expensesBO.isTripExists(tripId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip",
                         "Trip ID does not exist!");
                 return;
@@ -170,7 +166,7 @@ public class ManageTripExpensesController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = expensesModel.saveTripExpense(dto);
+            boolean isSaved = expensesBO.saveTripExpense(dto);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -207,7 +203,7 @@ public class ManageTripExpensesController implements Initializable {
         try {
             int tripId = comboTripId.getValue();
 
-            if (!expensesModel.isTripExists(tripId)) {
+            if (!expensesBO.isTripExists(tripId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip",
                         "Trip ID does not exist!");
                 return;
@@ -224,7 +220,7 @@ public class ManageTripExpensesController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = expensesModel.updateTripExpense(dto);
+            boolean isUpdated = expensesBO.updateTripExpense(dto);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -261,7 +257,7 @@ public class ManageTripExpensesController implements Initializable {
             String id = tripExpenseId.getText();
 
             try {
-                boolean isDeleted = expensesModel.deleteTripExpense(id);
+                boolean isDeleted = expensesBO.deleteTripExpense(id);
 
                 if (isDeleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -296,7 +292,7 @@ public class ManageTripExpensesController implements Initializable {
         }
 
         try {
-            List<TripExpensesDTO> searchResults = expensesModel.searchTripExpenses(keyword);
+            List<TripExpensesDTO> searchResults = expensesBO.searchTripExpenses(keyword);
             ObservableList<TripExpensesDTO> obList = FXCollections.observableArrayList(searchResults);
             tableExpenses.setItems(obList);
 

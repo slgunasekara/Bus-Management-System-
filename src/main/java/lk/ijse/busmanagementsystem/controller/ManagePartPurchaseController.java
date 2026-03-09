@@ -12,8 +12,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.PartPurchaseDTO;
-import lk.ijse.busmanagementsystem.dto.PartPurchaseTM;
-import lk.ijse.busmanagementsystem.model.PartPurchaseModel;
+import lk.ijse.busmanagementsystem.tm.PartPurchaseTM;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.PartPurchaseBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,7 +54,7 @@ public class ManagePartPurchaseController implements Initializable {
     @FXML private TableColumn<PartPurchaseTM, LocalDate> colDate;
     @FXML private TableColumn<PartPurchaseTM, String> colCreatedBy;
 
-    private final PartPurchaseModel partPurchaseModel = new PartPurchaseModel();
+    private final PartPurchaseBO partPurchaseBO = (PartPurchaseBO) BOFactory.getInstance().getBO(BOFactory.BOType.PART_PURCHASE);
     private int currentUserId = 1;
 
     @Override
@@ -87,14 +88,12 @@ public class ManagePartPurchaseController implements Initializable {
 
     private void loadComboData() {
         try {
-            // Load Bus IDs
-            List<Integer> busIds = partPurchaseModel.getAllActiveBusIds();
+            List<Integer> busIds = partPurchaseBO.getAllActiveBusIds();
             ObservableList<Integer> busIdList = FXCollections.observableArrayList(busIds);
             comboBusId.setItems(busIdList);
             System.out.println("✓ Loaded " + busIds.size() + " bus IDs");
 
-            // Load Maintenance IDs
-            List<Integer> maintIds = partPurchaseModel.getAllMaintenanceIds();
+            List<Integer> maintIds = partPurchaseBO.getAllMaintenanceIds();
             ObservableList<Integer> maintIdList = FXCollections.observableArrayList(maintIds);
             comboMaintId.setItems(maintIdList);
             System.out.println("✓ Loaded " + maintIds.size() + " maintenance IDs");
@@ -106,18 +105,15 @@ public class ManagePartPurchaseController implements Initializable {
     }
 
     private void setupEventListeners() {
-        // Auto-calculate total cost
         quantity.textProperty().addListener((obs, oldVal, newVal) -> calculateTotalCost());
         unitPrice.textProperty().addListener((obs, oldVal, newVal) -> calculateTotalCost());
 
-        // Table row selection
         tablePartPurchases.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFieldsFromSelected(newSelection);
             }
         });
 
-        // ComboBox selection listeners
         comboBusId.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 loadBusDetails(newValue);
@@ -149,7 +145,7 @@ public class ManagePartPurchaseController implements Initializable {
 
     private void loadBusDetails(int busId) {
         try {
-            String details = partPurchaseModel.getBusDetails(busId);
+            String details = partPurchaseBO.getBusDetails(busId);
             lblBusDetails.setText(details);
         } catch (Exception e) {
             lblBusDetails.setText("Error loading bus details");
@@ -159,7 +155,7 @@ public class ManagePartPurchaseController implements Initializable {
 
     private void loadMaintenanceDetails(int maintId) {
         try {
-            String details = partPurchaseModel.getMaintenanceDetails(maintId);
+            String details = partPurchaseBO.getMaintenanceDetails(maintId);
             lblMaintDetails.setText(details);
         } catch (Exception e) {
             lblMaintDetails.setText("Error loading maintenance details");
@@ -182,7 +178,7 @@ public class ManagePartPurchaseController implements Initializable {
 
     private void loadPartPurchaseTable() {
         try {
-            List<PartPurchaseTM> partPurchaseList = partPurchaseModel.getAllPartPurchases();
+            List<PartPurchaseTM> partPurchaseList = partPurchaseBO.getAllPartPurchases();
             ObservableList<PartPurchaseTM> obList = FXCollections.observableArrayList(partPurchaseList);
             tablePartPurchases.setItems(obList);
             System.out.println("✓ Loaded " + partPurchaseList.size() + " part purchase records");
@@ -225,13 +221,13 @@ public class ManagePartPurchaseController implements Initializable {
 
         try {
             Integer busId = comboBusId.getValue();
-            if (busId != null && !partPurchaseModel.isBusExists(busId)) {
+            if (busId != null && !partPurchaseBO.isBusExists(busId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus", "Bus ID does not exist!");
                 return;
             }
 
             Integer maintId = comboMaintId.getValue();
-            if (maintId != null && !partPurchaseModel.isMaintenanceExists(maintId)) {
+            if (maintId != null && !partPurchaseBO.isMaintenanceExists(maintId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Maintenance", "Maintenance ID does not exist!");
                 return;
             }
@@ -250,7 +246,7 @@ public class ManagePartPurchaseController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = partPurchaseModel.savePartPurchase(dto);
+            boolean isSaved = partPurchaseBO.savePartPurchase(dto);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Part purchase saved successfully!");
@@ -277,10 +273,9 @@ public class ManagePartPurchaseController implements Initializable {
             }
 
             try {
-                PartPurchaseDTO dto = partPurchaseModel.searchPartPurchase(id);
+                PartPurchaseDTO dto = partPurchaseBO.searchPartPurchase(id);
 
                 if (dto != null) {
-                    // Create TM from DTO for display
                     comboBusId.setValue(dto.getBusId());
                     comboMaintId.setValue(dto.getMaintId());
                     partName.setText(dto.getPartName());
@@ -317,13 +312,13 @@ public class ManagePartPurchaseController implements Initializable {
 
         try {
             Integer busId = comboBusId.getValue();
-            if (busId != null && !partPurchaseModel.isBusExists(busId)) {
+            if (busId != null && !partPurchaseBO.isBusExists(busId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus", "Bus ID does not exist!");
                 return;
             }
 
             Integer maintId = comboMaintId.getValue();
-            if (maintId != null && !partPurchaseModel.isMaintenanceExists(maintId)) {
+            if (maintId != null && !partPurchaseBO.isMaintenanceExists(maintId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Maintenance", "Maintenance ID does not exist!");
                 return;
             }
@@ -342,7 +337,7 @@ public class ManagePartPurchaseController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = partPurchaseModel.updatePartPurchase(dto);
+            boolean isUpdated = partPurchaseBO.updatePartPurchase(dto);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Part purchase updated successfully!");
@@ -375,7 +370,7 @@ public class ManagePartPurchaseController implements Initializable {
             String id = purchaseId.getText();
 
             try {
-                boolean isDeleted = partPurchaseModel.deletePartPurchase(id);
+                boolean isDeleted = partPurchaseBO.deletePartPurchase(id);
 
                 if (isDeleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Part purchase deleted successfully!");
@@ -407,7 +402,7 @@ public class ManagePartPurchaseController implements Initializable {
         }
 
         try {
-            List<PartPurchaseTM> searchResults = partPurchaseModel.searchPartPurchases(keyword);
+            List<PartPurchaseTM> searchResults = partPurchaseBO.searchPartPurchases(keyword);
             ObservableList<PartPurchaseTM> obList = FXCollections.observableArrayList(searchResults);
             tablePartPurchases.setItems(obList);
 

@@ -12,7 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.MaintenanceDTO;
 import lk.ijse.busmanagementsystem.enums.MaintenanceType;
-import lk.ijse.busmanagementsystem.model.MaintenanceModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.MaintenanceBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +26,6 @@ public class ManageMaintenanceController implements Initializable {
 
     @FXML private AnchorPane maintenanceContent;
 
-    // Form Fields
     @FXML private TextField maintenanceId;
     @FXML private ComboBox<Integer> comboBusId;
     @FXML private Label lblBusDetails;
@@ -37,7 +37,6 @@ public class ManageMaintenanceController implements Initializable {
     @FXML private TextField description;
     @FXML private TextField txtSearch;
 
-    // Table
     @FXML private TableView<MaintenanceDTO> tableMaintenance;
     @FXML private TableColumn<MaintenanceDTO, Integer> colMaintenanceId;
     @FXML private TableColumn<MaintenanceDTO, Integer> colBusId;
@@ -49,7 +48,7 @@ public class ManageMaintenanceController implements Initializable {
     @FXML private TableColumn<MaintenanceDTO, String> colDescription;
     @FXML private TableColumn<MaintenanceDTO, Integer> colCreatedBy;
 
-    private final MaintenanceModel maintenanceModel = new MaintenanceModel();
+    private final MaintenanceBO maintenanceBO = (MaintenanceBO) BOFactory.getInstance().getBO(BOFactory.BOType.MAINTENANCE);
     private int currentUserId = 1;
 
     @Override
@@ -78,13 +77,11 @@ public class ManageMaintenanceController implements Initializable {
     }
 
     private void loadComboData() {
-        // Load Maintenance Types
         maintenanceType.getItems().addAll(MaintenanceType.values());
         maintenanceType.setValue(MaintenanceType.FULL_SERVICE);
 
-        // Load Bus IDs
         try {
-            List<Integer> busIds = maintenanceModel.getAllBusIds();
+            List<Integer> busIds = maintenanceBO.getAllBusIds();
             ObservableList<Integer> busIdList = FXCollections.observableArrayList(busIds);
             comboBusId.setItems(busIdList);
             System.out.println(" Loaded " + busIds.size() + " bus IDs");
@@ -118,7 +115,7 @@ public class ManageMaintenanceController implements Initializable {
 
     private void loadBusDetails(int busId) {
         try {
-            String details = maintenanceModel.getBusDetails(busId);
+            String details = maintenanceBO.getBusDetails(busId);
             lblBusDetails.setText(details);
         } catch (Exception e) {
             lblBusDetails.setText("Error loading bus details");
@@ -128,7 +125,7 @@ public class ManageMaintenanceController implements Initializable {
 
     private void loadMaintenanceTable() {
         try {
-            List<MaintenanceDTO> maintenanceList = maintenanceModel.getAllMaintenance();
+            List<MaintenanceDTO> maintenanceList = maintenanceBO.getAllMaintenance();
             ObservableList<MaintenanceDTO> obList = FXCollections.observableArrayList(maintenanceList);
             tableMaintenance.setItems(obList);
             System.out.println(" Loaded " + maintenanceList.size() + " maintenance records");
@@ -161,7 +158,7 @@ public class ManageMaintenanceController implements Initializable {
         try {
             int busIdValue = comboBusId.getValue();
 
-            if (!maintenanceModel.isBusExists(busIdValue)) {
+            if (!maintenanceBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus",
                         "Bus ID does not exist!");
                 return;
@@ -179,7 +176,7 @@ public class ManageMaintenanceController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = maintenanceModel.saveMaintenance(dto);
+            boolean isSaved = maintenanceBO.saveMaintenance(dto);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -216,7 +213,7 @@ public class ManageMaintenanceController implements Initializable {
         try {
             int busIdValue = comboBusId.getValue();
 
-            if (!maintenanceModel.isBusExists(busIdValue)) {
+            if (!maintenanceBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus",
                         "Bus ID does not exist!");
                 return;
@@ -234,7 +231,7 @@ public class ManageMaintenanceController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = maintenanceModel.updateMaintenance(dto);
+            boolean isUpdated = maintenanceBO.updateMaintenance(dto);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -271,7 +268,7 @@ public class ManageMaintenanceController implements Initializable {
             String id = maintenanceId.getText();
 
             try {
-                boolean isDeleted = maintenanceModel.deleteMaintenance(id);
+                boolean isDeleted = maintenanceBO.deleteMaintenance(id);
 
                 if (isDeleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -305,7 +302,7 @@ public class ManageMaintenanceController implements Initializable {
         }
 
         try {
-            List<MaintenanceDTO> searchResults = maintenanceModel.searchMaintenance(id);
+            List<MaintenanceDTO> searchResults = maintenanceBO.searchMaintenance(id);
 
             if (!searchResults.isEmpty()) {
                 fillFieldsFromSelected(searchResults.get(0));
@@ -331,7 +328,7 @@ public class ManageMaintenanceController implements Initializable {
         }
 
         try {
-            List<MaintenanceDTO> searchResults = maintenanceModel.searchMaintenance(keyword);
+            List<MaintenanceDTO> searchResults = maintenanceBO.searchMaintenance(keyword);
             ObservableList<MaintenanceDTO> obList = FXCollections.observableArrayList(searchResults);
             tableMaintenance.setItems(obList);
 

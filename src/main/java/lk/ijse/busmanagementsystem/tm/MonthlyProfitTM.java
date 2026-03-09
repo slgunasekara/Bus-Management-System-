@@ -1,6 +1,4 @@
-package lk.ijse.busmanagementsystem.dto;
-
-import java.time.YearMonth;
+package lk.ijse.busmanagementsystem.tm;
 
 public class MonthlyProfitTM {
     private String month;

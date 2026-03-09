@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.busmanagementsystem.dto.UserDTO;
-import lk.ijse.busmanagementsystem.model.UserModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.UserBO;
 import lk.ijse.busmanagementsystem.util.SessionManager;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class UserManagementController {
     @FXML private ComboBox<String> roleComboBox;
     @FXML private TextField contactField;
     @FXML private TextField nicField;
-    @FXML private TextField emailField;  // NEW
+    @FXML private TextField emailField;  // NeW
     @FXML private TextField searchField;
 
     @FXML private TableView<UserDTO> userTable;
@@ -36,20 +37,19 @@ public class UserManagementController {
     @FXML private TableColumn<UserDTO, String> colRole;
     @FXML private TableColumn<UserDTO, String> colContact;
     @FXML private TableColumn<UserDTO, String> colNic;
-    @FXML private TableColumn<UserDTO, String> colEmail;  // NEW
+    @FXML private TableColumn<UserDTO, String> colEmail;  // NeW
     @FXML private TableColumn<UserDTO, String> colCreatedAt;
 
     @FXML private Button saveButton;
     @FXML private Button updateButton;
     @FXML private Button deleteButton;
 
-    private UserModel userModel = new UserModel();
+    private final UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
     private ObservableList<UserDTO> userList = FXCollections.observableArrayList();
     private UserDTO selectedUser = null;
 
     @FXML
     public void initialize() {
-        // Check if user is Owner
         if (!SessionManager.isOwner()) {
             showAlert(Alert.AlertType.ERROR, "Access Denied",
                     "Only Owners can access User Management!");
@@ -61,16 +61,14 @@ public class UserManagementController {
             return;
         }
 
-        // Set logged user label
+
         loggedUserLabel.setText("Logged: " + SessionManager.getCurrentUserName() +
                 " (" + SessionManager.getCurrentUserRole() + ")");
 
         System.out.println("UserManagement is loaded");
 
-        // Setup role combo box
         roleComboBox.setItems(FXCollections.observableArrayList("Owner", "Manager", "Admin"));
 
-        // Setup table columns
         colUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         colUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -79,7 +77,6 @@ public class UserManagementController {
         colNic.setCellValueFactory(new PropertyValueFactory<>("nic"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));  // NEW
 
-        // Format created_at column
         colCreatedAt.setCellValueFactory(cellData -> {
             if (cellData.getValue().getCreatedAt() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -89,10 +86,8 @@ public class UserManagementController {
             return new javafx.beans.property.SimpleStringProperty("");
         });
 
-        // Load all users
         loadAllUsers();
 
-        // Table row click event
         userTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedUser = newSelection;
@@ -100,30 +95,29 @@ public class UserManagementController {
             }
         });
 
-        // Search functionality
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterUserTable(newValue);
         });
 
-        // Initially disable update button
         updateButton.setDisable(true);
     }
 
     @FXML
     private void loadAllUsers() {
         try {
-            List<UserDTO> users = userModel.getAllUsers();
+            List<UserDTO> users = userBO.getAllUsers();
             userList.clear();
             userList.addAll(users);
             userTable.setItems(userList);
 
-            // Show success message
             System.out.println("Loaded " + users.size() + " users successfully");
 
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error",
                     "Failed to load users: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -134,30 +128,26 @@ public class UserManagementController {
         roleComboBox.setValue(user.getRole());
         contactField.setText(user.getContact());
         nicField.setText(user.getNic());
-        emailField.setText(user.getEmail());  // NEW
+        emailField.setText(user.getEmail());
 
-        // Enable update, disable save
         saveButton.setDisable(true);
         updateButton.setDisable(false);
     }
 
     @FXML
     private void saveUser() {
-        // Validation
         if (!validateFields()) {
             return;
         }
 
         try {
-            // Check if username already exists
-            if (userModel.isUsernameExists(usernameField.getText().trim())) {
+            if (userBO.isUsernameExists(usernameField.getText().trim())) {
                 showAlert(Alert.AlertType.WARNING, "Username Exists",
                         "This username is already taken. Please choose another.");
                 return;
             }
 
-            // Check if email already exists
-            if (userModel.isEmailExists(emailField.getText().trim())) {
+            if (userBO.isEmailExists(emailField.getText().trim())) {
                 showAlert(Alert.AlertType.WARNING, "Email Exists",
                         "This email is already registered!");
                 return;
@@ -172,7 +162,7 @@ public class UserManagementController {
             user.setNic(nicField.getText().trim());
             user.setEmail(emailField.getText().trim());  // NEW
 
-            boolean saved = userModel.saveUser(user);
+            boolean saved = userBO.saveUser(user);
 
             if (saved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -188,6 +178,8 @@ public class UserManagementController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error",
                     "Error saving user: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -199,27 +191,23 @@ public class UserManagementController {
             return;
         }
 
-        // Validation
         if (!validateFields()) {
             return;
         }
 
         try {
-            // Check if username already exists (excluding current user)
-            if (userModel.isUsernameExistsForUpdate(usernameField.getText().trim(), selectedUser.getUserId())) {
+            if (userBO.isUsernameExistsForUpdate(usernameField.getText().trim(), selectedUser.getUserId())) {
                 showAlert(Alert.AlertType.WARNING, "Username Exists",
                         "This username is already taken. Please choose another.");
                 return;
             }
 
-            // Check if email already exists (excluding current user)
-            if (userModel.isEmailExistsForUpdate(emailField.getText().trim(), selectedUser.getUserId())) {
+            if (userBO.isEmailExistsForUpdate(emailField.getText().trim(), selectedUser.getUserId())) {
                 showAlert(Alert.AlertType.WARNING, "Email Exists",
                         "This email is already registered!");
                 return;
             }
 
-            // Prevent updating own role if logged user is updating themselves
             if (selectedUser.getUserId().equals(SessionManager.getCurrentUserId())) {
                 if (!roleComboBox.getValue().equals(selectedUser.getRole())) {
                     showAlert(Alert.AlertType.WARNING, "Invalid Operation",
@@ -236,7 +224,7 @@ public class UserManagementController {
             selectedUser.setNic(nicField.getText().trim());
             selectedUser.setEmail(emailField.getText().trim());  // NEW
 
-            boolean updated = userModel.updateUser(selectedUser);
+            boolean updated = userBO.updateUser(selectedUser);
 
             if (updated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -252,6 +240,8 @@ public class UserManagementController {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error",
                     "Error updating user: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -265,14 +255,12 @@ public class UserManagementController {
             return;
         }
 
-        // Prevent deleting self
         if (user.getUserId().equals(SessionManager.getCurrentUserId())) {
             showAlert(Alert.AlertType.WARNING, "Invalid Operation",
                     "You cannot delete yourself!");
             return;
         }
 
-        // Confirmation dialog
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Confirm Delete");
         confirmAlert.setHeaderText("Delete User?");
@@ -282,7 +270,7 @@ public class UserManagementController {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                boolean deleted = userModel.deleteUser(user.getUserId());
+                boolean deleted = userBO.deleteUser(user.getUserId());
 
                 if (deleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -298,6 +286,8 @@ public class UserManagementController {
                 e.printStackTrace();
                 showAlert(Alert.AlertType.ERROR, "Database Error",
                         "Error deleting user: " + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -310,12 +300,11 @@ public class UserManagementController {
         roleComboBox.setValue(null);
         contactField.clear();
         nicField.clear();
-        emailField.clear();  // NEW
+        emailField.clear();
 
         selectedUser = null;
         userTable.getSelectionModel().clearSelection();
 
-        // Enable save, disable update
         saveButton.setDisable(false);
         updateButton.setDisable(true);
     }

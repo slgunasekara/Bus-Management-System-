@@ -10,8 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.EmployeeSalaryDTO;
-import lk.ijse.busmanagementsystem.dto.EmployeeSalaryTM;
-import lk.ijse.busmanagementsystem.model.EmployeeSalaryModel;
+import lk.ijse.busmanagementsystem.tm.EmployeeSalaryTM;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.EmployeeSalaryBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +25,6 @@ public class ManageEmployeeSalaryController implements Initializable {
 
     @FXML private AnchorPane salaryContent;
 
-    // Form Fields
     @FXML private TextField salaryId;
     @FXML private ComboBox<Integer> comboEmployeeId;
     @FXML private Label lblEmployeeDetails;
@@ -35,7 +35,6 @@ public class ManageEmployeeSalaryController implements Initializable {
     @FXML private DatePicker dateSalary;
     @FXML private TextField txtSearch;
 
-    // Table
     @FXML private TableView<EmployeeSalaryTM> tableSalary;
     @FXML private TableColumn<EmployeeSalaryTM, Integer> colSalaryId;
     @FXML private TableColumn<EmployeeSalaryTM, Integer> colEmployeeId;
@@ -46,7 +45,7 @@ public class ManageEmployeeSalaryController implements Initializable {
     @FXML private TableColumn<EmployeeSalaryTM, LocalDate> colDate;
     @FXML private TableColumn<EmployeeSalaryTM, String> colCreatedBy;
 
-    private final EmployeeSalaryModel salaryModel = new EmployeeSalaryModel();
+    private final EmployeeSalaryBO salaryBO = (EmployeeSalaryBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE_SALARY);
     private int currentUserId = 1;
 
     @Override
@@ -76,14 +75,12 @@ public class ManageEmployeeSalaryController implements Initializable {
 
     private void loadComboData() {
         try {
-            // Load Employee IDs
-            List<Integer> empIds = salaryModel.getAllActiveEmployeeIds();
+            List<Integer> empIds = salaryBO.getAllActiveEmployeeIds();
             ObservableList<Integer> empIdList = FXCollections.observableArrayList(empIds);
             comboEmployeeId.setItems(empIdList);
             System.out.println(" Loaded " + empIds.size() + " employee IDs");
 
-            // Load Trip IDs
-            List<Integer> tripIds = salaryModel.getAllTripIds();
+            List<Integer> tripIds = salaryBO.getAllTripIds();
             ObservableList<Integer> tripIdList = FXCollections.observableArrayList(tripIds);
             comboTripId.setItems(tripIdList);
             System.out.println(" Loaded " + tripIds.size() + " trip IDs");
@@ -132,7 +129,7 @@ public class ManageEmployeeSalaryController implements Initializable {
 
     private void loadEmployeeDetails(int empId) {
         try {
-            String details = salaryModel.getEmployeeDetails(empId);
+            String details = salaryBO.getEmployeeDetails(empId);
             lblEmployeeDetails.setText(details);
         } catch (Exception e) {
             lblEmployeeDetails.setText("Error loading employee details");
@@ -142,7 +139,7 @@ public class ManageEmployeeSalaryController implements Initializable {
 
     private void loadTripDetails(int tripId) {
         try {
-            String details = salaryModel.getTripDetails(tripId);
+            String details = salaryBO.getTripDetails(tripId);
             lblTripDetails.setText(details);
         } catch (Exception e) {
             lblTripDetails.setText("Error loading trip details");
@@ -152,7 +149,7 @@ public class ManageEmployeeSalaryController implements Initializable {
 
     private void loadSalaryTable() {
         try {
-            List<EmployeeSalaryTM> salaryList = salaryModel.getAllEmployeeSalaries();
+            List<EmployeeSalaryTM> salaryList = salaryBO.getAllEmployeeSalaries();
             ObservableList<EmployeeSalaryTM> obList = FXCollections.observableArrayList(salaryList);
             tableSalary.setItems(obList);
             System.out.println(" Loaded " + salaryList.size() + " salary records");
@@ -188,14 +185,14 @@ public class ManageEmployeeSalaryController implements Initializable {
         try {
             int empId = comboEmployeeId.getValue();
 
-            if (!salaryModel.isEmployeeExists(empId)) {
+            if (!salaryBO.isEmployeeExists(empId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Employee",
                         "Employee ID does not exist!");
                 return;
             }
 
             Integer tripId = comboTripId.getValue();
-            if (tripId != null && !salaryModel.isTripExists(tripId)) {
+            if (tripId != null && !salaryBO.isTripExists(tripId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip",
                         "Trip ID does not exist!");
                 return;
@@ -211,7 +208,7 @@ public class ManageEmployeeSalaryController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = salaryModel.saveEmployeeSalary(dto);
+            boolean isSaved = salaryBO.saveEmployeeSalary(dto);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -248,14 +245,14 @@ public class ManageEmployeeSalaryController implements Initializable {
         try {
             int empId = comboEmployeeId.getValue();
 
-            if (!salaryModel.isEmployeeExists(empId)) {
+            if (!salaryBO.isEmployeeExists(empId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Employee",
                         "Employee ID does not exist!");
                 return;
             }
 
             Integer tripId = comboTripId.getValue();
-            if (tripId != null && !salaryModel.isTripExists(tripId)) {
+            if (tripId != null && !salaryBO.isTripExists(tripId)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip",
                         "Trip ID does not exist!");
                 return;
@@ -271,7 +268,7 @@ public class ManageEmployeeSalaryController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = salaryModel.updateEmployeeSalary(dto);
+            boolean isUpdated = salaryBO.updateEmployeeSalary(dto);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -308,7 +305,7 @@ public class ManageEmployeeSalaryController implements Initializable {
             String id = salaryId.getText();
 
             try {
-                boolean isDeleted = salaryModel.deleteEmployeeSalary(id);
+                boolean isDeleted = salaryBO.deleteEmployeeSalary(id);
 
                 if (isDeleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -343,7 +340,7 @@ public class ManageEmployeeSalaryController implements Initializable {
         }
 
         try {
-            List<EmployeeSalaryTM> searchResults = salaryModel.searchEmployeeSalaries(keyword);
+            List<EmployeeSalaryTM> searchResults = salaryBO.searchEmployeeSalaries(keyword);
             ObservableList<EmployeeSalaryTM> obList = FXCollections.observableArrayList(searchResults);
             tableSalary.setItems(obList);
 

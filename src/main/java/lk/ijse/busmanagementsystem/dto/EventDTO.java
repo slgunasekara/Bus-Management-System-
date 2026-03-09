@@ -26,6 +26,7 @@ public class EventDTO {
     }
 
 
+
     public EventDTO(int eventId, int busId, String busNumber, String startLocation,
                     String endLocation, double eventValue, LocalDate eventDate,
                     String customerName, String customerContact, String customerNic,

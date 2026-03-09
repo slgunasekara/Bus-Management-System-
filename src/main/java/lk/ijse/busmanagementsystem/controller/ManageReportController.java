@@ -15,7 +15,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.*;
-import lk.ijse.busmanagementsystem.model.ReportModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.ReportBO;
+import lk.ijse.busmanagementsystem.tm.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -68,7 +70,7 @@ public class ManageReportController implements Initializable {
     @FXML private TableColumn<TripReportTM, String> tripRouteCol;
     @FXML private TableColumn<TripReportTM, String> tripStatusCol;
 
-    private final ReportModel reportModel = new ReportModel();
+    private final ReportBO reportBO = (ReportBO) BOFactory.getInstance().getBO(BOFactory.BOType.REPORT);
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
 
     @Override
@@ -162,7 +164,7 @@ public class ManageReportController implements Initializable {
     }
 
     private void loadReportSummary(LocalDate fromDate, LocalDate toDate) throws SQLException, ClassNotFoundException {
-        ReportDTO reportDTO = reportModel.getReportSummary(fromDate, toDate);
+        ReportDTO reportDTO = reportBO.getReportSummary(fromDate, toDate);
         totalIncomeText.setText("Rs. " + df.format(reportDTO.getTotalIncome()));
         totalExpensesText.setText("Rs. " + df.format(reportDTO.getTotalExpenses()));
         totalSalaryText.setText("Rs. " + df.format(reportDTO.getTotalSalary()));
@@ -170,11 +172,11 @@ public class ManageReportController implements Initializable {
     }
 
     private void loadIncomeReport(LocalDate fromDate, LocalDate toDate) throws SQLException, ClassNotFoundException {
-        List<TripDTO> tripList = reportModel.getIncomeReport(fromDate, toDate);
+        List<TripDTO> tripList = reportBO.getIncomeReport(fromDate, toDate);
         ObservableList<IncomeTM> incomeTMList = FXCollections.observableArrayList();
 
         for (TripDTO dto : tripList) {
-            String busNumber = reportModel.getBusNumberById(dto.getBusId());
+            String busNumber = reportBO.getBusNumberById(dto.getBusId());
             IncomeTM tm = new IncomeTM(
                     dto.getTripId(),
                     busNumber,
@@ -187,7 +189,7 @@ public class ManageReportController implements Initializable {
     }
 
     private void loadExpenseReport(LocalDate fromDate, LocalDate toDate) throws SQLException, ClassNotFoundException {
-        List<TripExpensesDTO> expenseList = reportModel.getExpenseReport(fromDate, toDate);
+        List<TripExpensesDTO> expenseList = reportBO.getExpenseReport(fromDate, toDate);
         ObservableList<ExpenseTM> expenseTMList = FXCollections.observableArrayList();
 
         for (TripExpensesDTO dto : expenseList) {
@@ -202,7 +204,7 @@ public class ManageReportController implements Initializable {
     }
 
     private void loadSalaryReport(LocalDate fromDate, LocalDate toDate) throws SQLException, ClassNotFoundException {
-        List<EmployeeSalaryTM> salaryList = reportModel.getSalaryReport(fromDate, toDate);
+        List<EmployeeSalaryTM> salaryList = reportBO.getSalaryReport(fromDate, toDate);
         ObservableList<SalaryTM> salaryTMList = FXCollections.observableArrayList();
 
         for (EmployeeSalaryTM dto : salaryList) {
@@ -218,12 +220,12 @@ public class ManageReportController implements Initializable {
     }
 
     private void loadTripReport(LocalDate fromDate, LocalDate toDate) throws SQLException, ClassNotFoundException {
-        List<TripDTO> tripList = reportModel.getTripReport(fromDate, toDate);
+        List<TripDTO> tripList = reportBO.getTripReport(fromDate, toDate);
         ObservableList<TripReportTM> tripTMList = FXCollections.observableArrayList();
 
         for (TripDTO dto : tripList) {
             String route = dto.getStartLocation() + " → " + dto.getEndLocation();
-            String busNumber = reportModel.getBusNumberById(dto.getBusId());
+            String busNumber = reportBO.getBusNumberById(dto.getBusId());
             TripReportTM tm = new TripReportTM(
                     dto.getTripId(),
                     dto.getTripDate(),
