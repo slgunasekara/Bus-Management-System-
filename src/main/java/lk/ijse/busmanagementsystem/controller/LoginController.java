@@ -14,7 +14,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import lk.ijse.busmanagementsystem.dto.UserDTO;
-import lk.ijse.busmanagementsystem.model.UserModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.UserBO;
 import lk.ijse.busmanagementsystem.util.SessionManager;
 import static lk.ijse.busmanagementsystem.Main.setRoot;
 
@@ -32,7 +33,7 @@ public class LoginController implements Initializable {
     @FXML
     private Hyperlink forgotPasswordLink;
 
-    private UserModel userModel = new UserModel();
+    private final UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,7 +97,7 @@ public class LoginController implements Initializable {
         }
 
         try {
-            UserDTO user = userModel.authenticateUser(username, password);
+            UserDTO user = userBO.authenticateUser(username, password);
 
             if (user != null) {
                 System.out.println("Login successful: " + user.getName() + " - " + user.getRole());

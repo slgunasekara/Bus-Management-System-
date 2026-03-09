@@ -6,7 +6,6 @@ SHOW DATABASES;
 
 
 
--- Bus Management System Database Schema (Clean Rescheduled Version)
 
 CREATE TABLE User (
                       user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,15 +42,15 @@ CREATE TABLE Password_Reset_OTP (
 
 CREATE TABLE Update_Prices (
                                update_prices_id INT AUTO_INCREMENT PRIMARY KEY,
-                               update_type VARCHAR(50) NOT NULL,          -- FUEL / TICKET
-                               change_type VARCHAR(20) NOT NULL,        -- INCREMENT / DECREMENT
-                               previous_value DECIMAL(10,2),            -- old value
-                               new_value DECIMAL(10,2) NOT NULL,        -- new value
-                               change_amount DECIMAL(10,2),             -- increment/decrement amount
-                               percentage_change DECIMAL(10,2),         -- % change
-                               change_date DATE NOT NULL,               -- date ekath NOT NULL
+                               update_type VARCHAR(50) NOT NULL,
+                               change_type VARCHAR(20) NOT NULL,
+                               previous_value DECIMAL(10,2),
+                               new_value DECIMAL(10,2) NOT NULL,
+                               change_amount DECIMAL(10,2),
+                               percentage_change DECIMAL(10,2),
+                               change_date DATE NOT NULL,
                                description TEXT,
-                               created_by INT NOT NULL,                 -- only user FK
+                               created_by INT NOT NULL,
                                FOREIGN KEY (created_by) REFERENCES User(user_id)
 );
 
@@ -61,11 +60,6 @@ INSERT INTO Update_Prices (update_type, change_type, previous_value, new_value, 
 
 
 
-# CREATE TABLE Employee_Category (
-#                                    emp_cat_id INT AUTO_INCREMENT PRIMARY KEY,
-#                                    emp_cat_name VARCHAR(100) NOT NULL,
-#                                    description TEXT
-# );
 
 CREATE TABLE Employee (
                           emp_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -91,26 +85,8 @@ INSERT INTO Employee (emp_category, emp_name, address, contact_no, nic_no, ntc_n
 ('DRIVER','Mahesh Silva','Kurunegala','0713456789','925678901V','NTC45678','B3456789','2021-07-30',NULL,'ACTIVE',1),
 ('DRIVER','Chamara Senanayake','Anuradhapura','0714567890','927890123V','NTC56789','B4567890','2023-02-14',NULL,'ACTIVE',1);
 
-# CREATE TABLE Trip_Category (
-#                                trip_cat_id INT AUTO_INCREMENT PRIMARY KEY,
-#                                trip_cat_name VARCHAR(100),
-#                                description TEXT
-# );
 
-# CREATE TABLE Bus (
-#                      bus_id INT AUTO_INCREMENT PRIMARY KEY,
-#                      bus_brand_name VARCHAR(100),
-#                      bus_number VARCHAR(20),
-#                      bus_type VARCHAR(50),
-#                      no_of_seats INT,
-#                      bus_status VARCHAR(20),
-#                      manufacture_date DATE,
-#                      insurance_Expiry_Date DATE,
-#                      license_Renewal_Date DATE,
-#                      current_Mileage INT,
-#                      created_by INT,
-#                      FOREIGN KEY (created_by) REFERENCES User(user_id)
-# );
+
 
 CREATE TABLE Bus (
                      bus_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,6 +103,26 @@ CREATE TABLE Bus (
                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                      FOREIGN KEY (created_by) REFERENCES User(user_id)
+);
+
+CREATE TABLE Event (
+                       event_id INT AUTO_INCREMENT PRIMARY KEY,
+                       bus_id INT NOT NULL,
+                       start_location VARCHAR(100) NOT NULL,
+                       end_location VARCHAR(100) NOT NULL,
+                       event_value DECIMAL(10,2) NOT NULL,
+                       event_date DATE NOT NULL,
+                       customer_name VARCHAR(100) NOT NULL,
+                       customer_contact VARCHAR(20) NOT NULL,
+                       customer_nic VARCHAR(20) NOT NULL,
+                       customer_address VARCHAR(200) NOT NULL,
+                       description TEXT,
+                       event_completed BOOLEAN DEFAULT FALSE,
+                       created_by INT NOT NULL,
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       FOREIGN KEY (bus_id) REFERENCES Bus(bus_id) ON DELETE RESTRICT,
+                       FOREIGN KEY (created_by) REFERENCES User(user_id)
 );
 
 
@@ -287,7 +283,7 @@ CREATE TABLE Trip_Employee (
 
 
 
-SELECT * FROM Bus;
+SELECT * FROM Event;
 
 
 

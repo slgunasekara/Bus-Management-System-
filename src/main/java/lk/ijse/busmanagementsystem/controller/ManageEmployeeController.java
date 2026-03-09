@@ -12,7 +12,8 @@ import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.EmployeeDTO;
 import lk.ijse.busmanagementsystem.enums.EmployeeCategory;
 import lk.ijse.busmanagementsystem.enums.EmployeeStatus;
-import lk.ijse.busmanagementsystem.model.EmployeeModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.EmployeeBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -101,14 +102,13 @@ public class ManageEmployeeController implements Initializable {
     @FXML
     private TableColumn<EmployeeDTO, Integer> colCreatedBy;
 
-    private final EmployeeModel employeeModel = new EmployeeModel();
-    private int currentUserId = 1; // This should come from your login session
+    private final EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
+    private int currentUserId = 1;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("ManageEmployee is loaded");
 
-        // Setup table columns - Database column names use කරනවා
         colId.setCellValueFactory(new PropertyValueFactory<>("empId"));
         colEmpCategory.setCellValueFactory(new PropertyValueFactory<>("empCategory"));
         colEmpName.setCellValueFactory(new PropertyValueFactory<>("empName"));
@@ -122,20 +122,16 @@ public class ManageEmployeeController implements Initializable {
         colEmpStatus.setCellValueFactory(new PropertyValueFactory<>("empStatus"));
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
 
-        // Load enum values to ComboBoxes
         empCategory.getItems().addAll(EmployeeCategory.values());
-        empCategory.setValue(EmployeeCategory.DRIVER); // Default value
+        empCategory.setValue(EmployeeCategory.DRIVER);
 
         empStatus.getItems().addAll(EmployeeStatus.values());
-        empStatus.setValue(EmployeeStatus.ACTIVE); // Default value
+        empStatus.setValue(EmployeeStatus.ACTIVE);
 
-        // Load all employees
         loadEmployeeTable();
 
-        // Make empId field non-editable
         empId.setEditable(false);
 
-        // Add table row selection listener
         tableEmployee.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFieldsFromSelectedEmployee(newSelection);
@@ -145,7 +141,7 @@ public class ManageEmployeeController implements Initializable {
 
     private void loadEmployeeTable() {
         try {
-            List<EmployeeDTO> employeeList = employeeModel.getAllEmployees();
+            List<EmployeeDTO> employeeList = employeeBO.getAllEmployees();
             ObservableList<EmployeeDTO> obList = FXCollections.observableArrayList(employeeList);
             tableEmployee.setItems(obList);
         } catch (Exception e) {
@@ -175,8 +171,7 @@ public class ManageEmployeeController implements Initializable {
         }
 
         try {
-            // Check if NIC already exists
-            if (employeeModel.isNicExists(empNic.getText().trim())) {
+            if (employeeBO.isNicExists(empNic.getText().trim())) {
                 new Alert(Alert.AlertType.WARNING, "NIC Number already exists! Please enter a unique NIC.").show();
                 return;
             }
@@ -196,7 +191,7 @@ public class ManageEmployeeController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = employeeModel.saveEmployee(employeeDTO);
+            boolean isSaved = employeeBO.saveEmployee(employeeDTO);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Employee saved successfully!").show();
@@ -226,8 +221,7 @@ public class ManageEmployeeController implements Initializable {
         try {
             int employeeId = Integer.parseInt(empId.getText().trim());
 
-            // Check if NIC exists for another employee
-            if (employeeModel.isNicExistsForOther(empNic.getText().trim(), employeeId)) {
+            if (employeeBO.isNicExistsForOther(empNic.getText().trim(), employeeId)) {
                 new Alert(Alert.AlertType.WARNING, "NIC Number already exists for another employee!").show();
                 return;
             }
@@ -247,7 +241,7 @@ public class ManageEmployeeController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = employeeModel.updateEmployee(employeeDTO);
+            boolean isUpdated = employeeBO.updateEmployee(employeeDTO);
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully!").show();
@@ -280,7 +274,7 @@ public class ManageEmployeeController implements Initializable {
             String id = empId.getText();
 
             try {
-                boolean isDeleted = employeeModel.deleteEmployee(id);
+                boolean isDeleted = employeeBO.deleteEmployee(id);
 
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Employee deleted successfully!").show();
@@ -312,7 +306,7 @@ public class ManageEmployeeController implements Initializable {
         }
 
         try {
-            List<EmployeeDTO> searchResults = employeeModel.searchEmployees(keyword);
+            List<EmployeeDTO> searchResults = employeeBO.searchEmployees(keyword);
 
             ObservableList<EmployeeDTO> obList = FXCollections.observableArrayList();
 
@@ -354,49 +348,42 @@ public class ManageEmployeeController implements Initializable {
     }
 
     private boolean validateFields() {
-        // Employee Category validation
         if (empCategory.getValue() == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an Employee Category!").show();
             empCategory.requestFocus();
             return false;
         }
 
-        // Name validation
         if (empName.getText().trim().isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter Employee Name!").show();
             empName.requestFocus();
             return false;
         }
 
-        // Address validation
         if (empAddress.getText().trim().isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter Employee Address!").show();
             empAddress.requestFocus();
             return false;
         }
 
-        // Contact validation
         if (empContact.getText().trim().isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter Contact Number!").show();
             empContact.requestFocus();
             return false;
         }
 
-        // Contact number format validation (10 digits)
         if (!empContact.getText().trim().matches("\\d{10}")) {
             new Alert(Alert.AlertType.WARNING, "Contact Number must be 10 digits!").show();
             empContact.requestFocus();
             return false;
         }
 
-        // NIC validation
         if (empNic.getText().trim().isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter NIC Number!").show();
             empNic.requestFocus();
             return false;
         }
 
-        // NIC format validation (old: 9 digits + V, new: 12 digits)
         String nicPattern = "^([0-9]{9}[vVxX]|[0-9]{12})$";
         if (!empNic.getText().trim().matches(nicPattern)) {
             new Alert(Alert.AlertType.WARNING, "Invalid NIC format! Use 9 digits + V or 12 digits.").show();
@@ -404,23 +391,19 @@ public class ManageEmployeeController implements Initializable {
             return false;
         }
 
-        // Join Date validation
         if (empJoinDate.getValue() == null) {
             new Alert(Alert.AlertType.WARNING, "Please select Join Date!").show();
             empJoinDate.requestFocus();
             return false;
         }
 
-        // Join date cannot be in the future
         if (empJoinDate.getValue().isAfter(LocalDate.now())) {
             new Alert(Alert.AlertType.WARNING, "Join Date cannot be in the future!").show();
             empJoinDate.requestFocus();
             return false;
         }
 
-        // Exit Date validation (if provided)
         if (empExitDate.getValue() != null) {
-            // Exit date must be after join date
             if (empExitDate.getValue().isBefore(empJoinDate.getValue())) {
                 new Alert(Alert.AlertType.WARNING, "Exit Date must be after Join Date!").show();
                 empExitDate.requestFocus();
@@ -428,7 +411,6 @@ public class ManageEmployeeController implements Initializable {
             }
         }
 
-        // Employee Status validation
         if (empStatus.getValue() == null) {
             new Alert(Alert.AlertType.WARNING, "Please select Employee Status!").show();
             empStatus.requestFocus();

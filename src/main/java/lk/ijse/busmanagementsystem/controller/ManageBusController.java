@@ -1,572 +1,475 @@
 package lk.ijse.busmanagementsystem.controller;
 
+//OK
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import lk.ijse.busmanagementsystem.Main;
-import lk.ijse.busmanagementsystem.dto.BusDTO;
-import lk.ijse.busmanagementsystem.model.BusModel;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.BusBO;
+import lk.ijse.busmanagementsystem.dto.BusDTO;
+import lk.ijse.busmanagementsystem.tm.BusTM;
+import lk.ijse.busmanagementsystem.util.SessionManager;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 
 public class ManageBusController implements Initializable {
 
-    @FXML
-    private AnchorPane BusContent;
+    @FXML private TextField txtBusId;
+    @FXML private TextField txtBrandName;
+    @FXML private TextField txtBusNumber;
+    @FXML private ComboBox<String> cmbBusType;
+    @FXML private TextField txtNoOfSeats;
+    @FXML private ComboBox<String> cmbBusStatus;
+    @FXML private DatePicker dateManufactureDate;
+    @FXML private DatePicker dateInsuranceExpiry;
+    @FXML private DatePicker dateLicenseRenewal;
+    @FXML private TextField txtCurrentMileage;
 
-    @FXML
-    private TextField busId;
+    @FXML private TableView<BusTM> tblBus;
+    @FXML private TableColumn<BusTM, Integer>   colId;
+    @FXML private TableColumn<BusTM, String>    colBrand;
+    @FXML private TableColumn<BusTM, String>    colBusNumber;
+    @FXML private TableColumn<BusTM, String>    colType;
+    @FXML private TableColumn<BusTM, Integer>   colSeats;
+    @FXML private TableColumn<BusTM, String>    colStatus;
+    @FXML private TableColumn<BusTM, LocalDate> colManufacture;
+    @FXML private TableColumn<BusTM, LocalDate> colInsurance;
+    @FXML private TableColumn<BusTM, LocalDate> colLicense;
+    @FXML private TableColumn<BusTM, Integer>   colMileage;
+    @FXML private TableColumn<BusTM, String>    colCreatedBy;
+    @FXML private TableColumn<BusTM, LocalDateTime> colCreatedAt;
+    @FXML private TableColumn<BusTM, LocalDateTime> colUpdatedAt;
 
-    @FXML
-    private TextField brandName;
+    @FXML private TextField txtSearch;
 
-    @FXML
-    private TextField busNumber;
+    private final BusBO busBO =
+            (BusBO) BOFactory.getInstance().getBO(BOFactory.BOType.BUS);
 
-    @FXML
-    private ComboBox<String> busType;
-
-    @FXML
-    private TextField noOfSeats;
-
-    @FXML
-    private ComboBox<String> busStatus;
-
-    @FXML
-    private DatePicker manufactureDate;
-
-    @FXML
-    private DatePicker insuranceExpiryDate;
-
-    @FXML
-    private DatePicker licenseRenewalDate;
-
-    @FXML
-    private TextField currentMileage;
-
-    @FXML
-    private TextField txtSearch;
-
-    @FXML
-    private TableView<BusDTO> tableCustomer;
-
-    @FXML
-    private TableColumn<BusDTO, Integer> colId;
-
-    @FXML
-    private TableColumn<BusDTO, String> colBrandName;
-
-    @FXML
-    private TableColumn<BusDTO, String> colBusNumber;
-
-    @FXML
-    private TableColumn<BusDTO, String> colBusType;
-
-    @FXML
-    private TableColumn<BusDTO, Integer> colNoOfSeats;
-
-    @FXML
-    private TableColumn<BusDTO, String> colBusStatus;
-
-    @FXML
-    private TableColumn<BusDTO, LocalDate> colManufactureDate;
-
-    @FXML
-    private TableColumn<BusDTO, LocalDate> colInsuranceExpiry;
-
-    @FXML
-    private TableColumn<BusDTO, LocalDate> colLicenseRenewal;
-
-    @FXML
-    private TableColumn<BusDTO, Integer> colMileage;
-
-    @FXML
-    private TableColumn<BusDTO, Integer> colCreatedBy;
-
-    @FXML
-    private TableColumn<BusDTO, LocalDateTime> colCreatedAt;
-
-    @FXML
-    private TableColumn<BusDTO, LocalDateTime> colUpdatedAt;
-
-    private final BusModel busModel = new BusModel();
-    private int currentUserId = 1; // This should come from your login session
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("ManageBus is loaded");
+        initComboBoxes();
+        initTableColumns();
+        loadAllBuses();
+        loadNextBusId();
+        setupTableRowClick();
 
-        // Initialize ComboBoxes
-        setupComboBoxes();
-
-        // Setup table columns
-        setupTableColumns();
-
-        // Load all buses
-        loadBusTable();
-
-        // Make busId field non-editable
-        busId.setEditable(false);
-
-        // Add table row selection listener
-        tableCustomer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                fillFieldsFromSelectedBus(newSelection);
-            }
-        });
     }
 
-    private void setupComboBoxes() {
-        // Bus Type ComboBox
-        ObservableList<String> busTypes = FXCollections.observableArrayList(
-                "Non-AC", "AC", "Semi Luxury", "Luxury"
-        );
-        busType.setItems(busTypes);
-        busType.setPromptText("Select Bus Type");
 
-        // Bus Status ComboBox
-        ObservableList<String> busStatuses = FXCollections.observableArrayList(
+    private void initComboBoxes() {
+        cmbBusType.setItems(FXCollections.observableArrayList(
+                "Luxury", "Semi-Luxury", "Normal", "Mini", "Tourist", "School"
+        ));
+        cmbBusStatus.setItems(FXCollections.observableArrayList(
                 "Active", "Maintenance", "Inactive", "Sold"
-        );
-        busStatus.setItems(busStatuses);
-        busStatus.setPromptText("Select Bus Status");
-        busStatus.setValue("Active"); // Default value
+        ));
     }
 
-    private void setupTableColumns() {
+    private void initTableColumns() {
         colId.setCellValueFactory(new PropertyValueFactory<>("busId"));
-        colBrandName.setCellValueFactory(new PropertyValueFactory<>("busBrandName"));
+        colBrand.setCellValueFactory(new PropertyValueFactory<>("busBrandName"));
         colBusNumber.setCellValueFactory(new PropertyValueFactory<>("busNumber"));
-        colBusType.setCellValueFactory(new PropertyValueFactory<>("busType"));
-        colNoOfSeats.setCellValueFactory(new PropertyValueFactory<>("noOfSeats"));
-        colBusStatus.setCellValueFactory(new PropertyValueFactory<>("busStatus"));
-        colManufactureDate.setCellValueFactory(new PropertyValueFactory<>("manufactureDate"));
-        colInsuranceExpiry.setCellValueFactory(new PropertyValueFactory<>("insuranceExpiryDate"));
-        colLicenseRenewal.setCellValueFactory(new PropertyValueFactory<>("licenseRenewalDate"));
+        colType.setCellValueFactory(new PropertyValueFactory<>("busType"));
+        colSeats.setCellValueFactory(new PropertyValueFactory<>("noOfSeats"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("busStatus"));
+        colManufacture.setCellValueFactory(new PropertyValueFactory<>("manufactureDate"));
+        colInsurance.setCellValueFactory(new PropertyValueFactory<>("insuranceExpiryDate"));
+        colLicense.setCellValueFactory(new PropertyValueFactory<>("licenseRenewalDate"));
         colMileage.setCellValueFactory(new PropertyValueFactory<>("currentMileage"));
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
         colCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         colUpdatedAt.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
-    }
 
-    private void loadBusTable() {
-        try {
-            List<BusDTO> busList = busModel.getAllBuses();
-            ObservableList<BusDTO> obList = FXCollections.observableArrayList(busList);
-            tableCustomer.setItems(obList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to load buses: " + e.getMessage()).show();
-        }
-    }
-
-    private void fillFieldsFromSelectedBus(BusDTO bus) {
-        busId.setText(String.valueOf(bus.getBusId()));
-        brandName.setText(bus.getBusBrandName());
-        busNumber.setText(bus.getBusNumber());
-        busType.setValue(bus.getBusType());
-        noOfSeats.setText(String.valueOf(bus.getNoOfSeats()));
-        busStatus.setValue(bus.getBusStatus());
-        manufactureDate.setValue(bus.getManufactureDate());
-        insuranceExpiryDate.setValue(bus.getInsuranceExpiryDate());
-        licenseRenewalDate.setValue(bus.getLicenseRenewalDate());
-        currentMileage.setText(String.valueOf(bus.getCurrentMileage()));
-    }
-
-    @FXML
-    private void saveCustomer(ActionEvent event) {
-        if (!validateFields()) {
-            return;
-        }
-
-        try {
-            // Check if bus number already exists
-            if (busModel.isBusNumberExists(busNumber.getText().trim())) {
-                new Alert(Alert.AlertType.WARNING, "Bus number already exists!").show();
-                return;
-            }
-
-            BusDTO busDTO = new BusDTO(
-                    0, // ID will be auto-generated
-                    brandName.getText().trim(),
-                    busNumber.getText().trim(),
-                    busType.getValue(),
-                    Integer.parseInt(noOfSeats.getText().trim()),
-                    busStatus.getValue(),
-                    manufactureDate.getValue(),
-                    insuranceExpiryDate.getValue(),
-                    licenseRenewalDate.getValue(),
-                    currentMileage.getText().trim().isEmpty() ? 0 : Integer.parseInt(currentMileage.getText().trim()),
-                    currentUserId
-            );
-
-            boolean isSaved = busModel.saveBus(busDTO);
-
-            if (isSaved) {
-                new Alert(Alert.AlertType.INFORMATION, "Bus saved successfully!").show();
-                cleanFields();
-                loadBusTable();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to save bus!").show();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error saving bus: " + e.getMessage()).show();
-        }
-    }
-
-    @FXML
-    private void handleSearchCustomer(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            String id = busId.getText();
-
-            if (id.isEmpty()) {
-                new Alert(Alert.AlertType.WARNING, "Please enter Bus ID!").show();
-                return;
-            }
-
-            try {
-                BusDTO busDTO = busModel.searchBus(id);
-
-                if (busDTO != null) {
-                    fillFieldsFromSelectedBus(busDTO);
+        colStatus.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Bus not found!").show();
+                    setText(item);
+                    switch (item) {
+                        case "Active"      -> setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+                        case "Maintenance" -> setStyle("-fx-text-fill: #e67e22; -fx-font-weight: bold;");
+                        case "Inactive"    -> setStyle("-fx-text-fill: #95a5a6; -fx-font-weight: bold;");
+                        case "Sold"        -> setStyle("-fx-text-fill: #e74c3c; -fx-font-weight: bold;");
+                        default            -> setStyle("");
+                    }
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Error searching bus: " + e.getMessage()).show();
             }
+        });
+    }
+
+    private void setupTableRowClick() {
+        tblBus.setOnMouseClicked(event -> {
+            BusTM selected = tblBus.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                populateForm(selected);
+            }
+        });
+    }
+
+
+    private void loadAllBuses() {
+        try {
+            List<BusDTO> buses = busBO.getAllBuses();
+            populateTable(buses);
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load buses: " + e.getMessage());
         }
     }
 
-    @FXML
-    private void handleCustomerUpdate(ActionEvent event) {
-        if (busId.getText().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please select a bus to update!").show();
-            return;
+    private void loadNextBusId() {
+        try {
+            Integer nextId = busBO.getNextBusId();
+            txtBusId.setText(String.valueOf(nextId));
+        } catch (Exception e) {
+            txtBusId.setText("1");
         }
+    }
 
-        if (!validateFields()) {
-            return;
+    private void populateTable(List<BusDTO> buses) {
+        ObservableList<BusTM> tmList = FXCollections.observableArrayList();
+        for (BusDTO dto : buses) {
+            tmList.add(new BusTM(
+                    dto.getBusId(),
+                    dto.getBusBrandName(),
+                    dto.getBusNumber(),
+                    dto.getBusType(),
+                    dto.getNoOfSeats() != null ? dto.getNoOfSeats() : 0,
+                    dto.getBusStatus(),
+                    dto.getManufactureDate(),
+                    dto.getInsuranceExpiryDate(),
+                    dto.getLicenseRenewalDate(),
+                    dto.getCurrentMileage(),
+                    // createdBy is a user ID; for display, just show it as string
+                    dto.getCreatedBy() != null ? String.valueOf(dto.getCreatedBy()) : "-",
+                    dto.getCreatedAt(),
+                    dto.getUpdatedAt()
+            ));
         }
+        tblBus.setItems(tmList);
+    }
+
+    private void populateForm(BusTM tm) {
+        txtBusId.setText(String.valueOf(tm.getBusId()));
+        txtBrandName.setText(tm.getBusBrandName());
+        txtBusNumber.setText(tm.getBusNumber());
+        cmbBusType.setValue(tm.getBusType());
+        txtNoOfSeats.setText(String.valueOf(tm.getNoOfSeats()));
+        cmbBusStatus.setValue(tm.getBusStatus());
+        dateManufactureDate.setValue(tm.getManufactureDate());
+        dateInsuranceExpiry.setValue(tm.getInsuranceExpiryDate());
+        dateLicenseRenewal.setValue(tm.getLicenseRenewalDate());
+        txtCurrentMileage.setText(tm.getCurrentMileage() != null
+                ? String.valueOf(tm.getCurrentMileage()) : "");
+    }
+
+
+    @FXML
+    void handleSave(ActionEvent event) {
+        if (!validateForm()) return;
 
         try {
-            int currentBusId = Integer.parseInt(busId.getText().trim());
-
-            // Check if bus number exists for another bus
-            if (busModel.isBusNumberExistsForUpdate(busNumber.getText().trim(), currentBusId)) {
-                new Alert(Alert.AlertType.WARNING, "Bus number already exists for another bus!").show();
-                return;
-            }
-
-            BusDTO busDTO = new BusDTO(
-                    currentBusId,
-                    brandName.getText().trim(),
-                    busNumber.getText().trim(),
-                    busType.getValue(),
-                    Integer.parseInt(noOfSeats.getText().trim()),
-                    busStatus.getValue(),
-                    manufactureDate.getValue(),
-                    insuranceExpiryDate.getValue(),
-                    licenseRenewalDate.getValue(),
-                    currentMileage.getText().trim().isEmpty() ? 0 : Integer.parseInt(currentMileage.getText().trim()),
-                    currentUserId
-            );
-
-            boolean isUpdated = busModel.updateBus(busDTO);
-
-            if (isUpdated) {
-                new Alert(Alert.AlertType.INFORMATION, "Bus updated successfully!").show();
-                cleanFields();
-                loadBusTable();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to update bus!").show();
-            }
-
+            BusDTO dto = buildDTOFromForm();
+            busBO.saveBus(dto);
+            showAlert(Alert.AlertType.INFORMATION, "Success",
+                    "Bus '" + dto.getBusNumber() + "' saved successfully!");
+            handleReset(null);
+            loadAllBuses();
+        } catch (RuntimeException e) {
+            showAlert(Alert.AlertType.WARNING, "Validation Error", e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error updating bus: " + e.getMessage()).show();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to save bus: " + e.getMessage());
         }
     }
 
     @FXML
-    private void handleCustomerDelete(ActionEvent event) {
-        if (busId.getText().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please select a bus to delete!").show();
+    void handleUpdate(ActionEvent event) {
+        String idText = txtBusId.getText().trim();
+        if (idText.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Warning",
+                    "Please select a bus from the table to update.");
             return;
         }
-
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Delete");
-        confirmAlert.setHeaderText("Delete Bus");
-        confirmAlert.setContentText("Are you sure you want to delete this bus?");
-
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            String id = busId.getText();
-
-            try {
-                boolean isDeleted = busModel.deleteBus(id);
-
-                if (isDeleted) {
-                    new Alert(Alert.AlertType.INFORMATION, "Bus deleted successfully!").show();
-                    cleanFields();
-                    loadBusTable();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to delete bus!").show();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Error deleting bus: " + e.getMessage()).show();
-            }
-        }
-    }
-
-    @FXML
-    private void handleCustomerReset(ActionEvent event) {
-        cleanFields();
-    }
-
-    @FXML
-    public void handleSearch(ActionEvent event) {
-        String keyword = txtSearch.getText().trim();
-
-        if (keyword.isEmpty()) {
-            loadBusTable();
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
-            List<BusDTO> searchResults = busModel.searchBuses(keyword);
-            ObservableList<BusDTO> obList = FXCollections.observableArrayList(searchResults);
-            tableCustomer.setItems(obList);
-
-            if (searchResults.isEmpty()) {
-                new Alert(Alert.AlertType.INFORMATION, "No buses found matching: " + keyword).show();
-            }
-
+            BusDTO dto = buildDTOFromForm();
+            dto.setBusId(Integer.parseInt(idText));
+            busBO.updateBus(dto);
+            showAlert(Alert.AlertType.INFORMATION, "Success",
+                    "Bus '" + dto.getBusNumber() + "' updated successfully!");
+            handleReset(null);
+            loadAllBuses();
+        } catch (RuntimeException e) {
+            showAlert(Alert.AlertType.WARNING, "Validation Error", e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error searching buses: " + e.getMessage()).show();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to update bus: " + e.getMessage());
         }
     }
 
     @FXML
-    public void handleRefresh(ActionEvent event) {
+    void handleDelete(ActionEvent event) {
+        String idText = txtBusId.getText().trim();
+        if (idText.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Warning",
+                    "Please select a bus from the table to delete.");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm Delete");
+        confirm.setHeaderText("Are you sure?");
+        confirm.setContentText("Delete bus #" + idText + "? This action cannot be undone.");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    busBO.deleteBus(Integer.parseInt(idText));
+                    showAlert(Alert.AlertType.INFORMATION, "Deleted",
+                            "Bus deleted successfully.");
+                    handleReset(null);
+                    loadAllBuses();
+                } catch (Exception e) {
+                    showAlert(Alert.AlertType.ERROR, "Error",
+                            "Failed to delete bus: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    @FXML
+    void handleReset(ActionEvent event) {
+        txtBrandName.clear();
+        txtBusNumber.clear();
+        cmbBusType.setValue(null);
+        txtNoOfSeats.clear();
+        cmbBusStatus.setValue(null);
+        dateManufactureDate.setValue(null);
+        dateInsuranceExpiry.setValue(null);
+        dateLicenseRenewal.setValue(null);
+        txtCurrentMileage.clear();
         txtSearch.clear();
-        loadBusTable();
-        new Alert(Alert.AlertType.INFORMATION, "Bus list refreshed successfully!").show();
+        tblBus.getSelectionModel().clearSelection();
+        loadNextBusId();
+        loadAllBuses();
+        txtBrandName.requestFocus();
+    }
+
+
+    @FXML
+    void handleSearchCustomer(KeyEvent event) {
+        String input = txtBusId.getText().trim();
+        if (input.isEmpty()) {
+            loadAllBuses();
+            return;
+        }
+        try {
+            Integer id = Integer.parseInt(input);
+            BusDTO dto = busBO.getBusById(id);
+            if (dto != null) {
+                ObservableList<BusTM> result = FXCollections.observableArrayList(
+                        new BusTM(dto.getBusId(), dto.getBusBrandName(), dto.getBusNumber(),
+                                dto.getBusType(), dto.getNoOfSeats() != null ? dto.getNoOfSeats() : 0,
+                                dto.getBusStatus(), dto.getManufactureDate(),
+                                dto.getInsuranceExpiryDate(), dto.getLicenseRenewalDate(),
+                                dto.getCurrentMileage(),
+                                dto.getCreatedBy() != null ? String.valueOf(dto.getCreatedBy()) : "-",
+                                dto.getCreatedAt(), dto.getUpdatedAt())
+                );
+                tblBus.setItems(result);
+
+                BusTM tm = result.get(0);
+                populateForm(tm);
+            } else {
+                tblBus.setItems(FXCollections.observableArrayList());
+            }
+        } catch (NumberFormatException ignored) {
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Search error: " + e.getMessage());
+        }
     }
 
     @FXML
-    public void logout(ActionEvent event) throws IOException {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Logout");
-        confirmAlert.setHeaderText("Confirm Logout");
-        confirmAlert.setContentText("Are you sure you want to logout?");
-
-        Optional<ButtonType> result = confirmAlert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            Main.setRoot("login");
-            System.out.println("Logging out...");
+    void handleSearch(ActionEvent event) {
+        String keyword = txtSearch.getText().trim();
+        if (keyword.isEmpty()) {
+            loadAllBuses();
+            return;
+        }
+        try {
+            List<BusDTO> results = busBO.searchBuses(keyword);
+            populateTable(results);
+            if (results.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "No Results",
+                        "No buses found for: \"" + keyword + "\"");
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Search failed: " + e.getMessage());
         }
     }
 
-    private boolean validateFields() {
-        if (brandName.getText().trim().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please enter brand name!").show();
-            return false;
-        }
+    @FXML
+    void handleRefresh(ActionEvent event) {
+        handleReset(null);
+    }
 
-        if (busNumber.getText().trim().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please enter bus number!").show();
-            return false;
-        }
 
-        if (busType.getValue() == null || busType.getValue().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please select bus type!").show();
-            return false;
-        }
-
-        if (noOfSeats.getText().trim().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please enter number of seats!").show();
-            return false;
-        }
-
+    @FXML
+    void handlePrint(ActionEvent event) {
         try {
-            int seats = Integer.parseInt(noOfSeats.getText().trim());
-            if (seats <= 0) {
-                new Alert(Alert.AlertType.WARNING, "Number of seats must be positive!").show();
+            List<BusDTO> buses = busBO.getAllBuses();
+            if (buses.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "No Data", "No buses to print.");
+                return;
+            }
+
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(buses);
+
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(
+                    getClass().getResourceAsStream(
+                            "/lk/ijse/busmanagementsystem/reports/BusFleetReport.jasper")
+            );
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("GeneratedDate",
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            params.put("ActiveBuses",      String.valueOf(busBO.getActiveBusCount()));
+            params.put("MaintenanceBuses", String.valueOf(busBO.getMaintenanceBusCount()));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Report Error",
+                    "Could not generate report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    void logout(ActionEvent event) {
+        try {
+            SessionManager.clearSession();
+            lk.ijse.busmanagementsystem.Main.setRoot("login");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Logout failed: " + e.getMessage());
+        }
+    }
+
+
+    private boolean validateForm() {
+        if (txtBrandName.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Validation", "Brand Name is required!");
+            txtBrandName.requestFocus();
+            return false;
+        }
+        if (txtBusNumber.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Validation", "Bus Number is required!");
+            txtBusNumber.requestFocus();
+            return false;
+        }
+        if (cmbBusType.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Validation", "Please select Bus Type!");
+            cmbBusType.requestFocus();
+            return false;
+        }
+        if (txtNoOfSeats.getText().trim().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Validation", "Number of Seats is required!");
+            txtNoOfSeats.requestFocus();
+            return false;
+        }
+        try {
+            int seats = Integer.parseInt(txtNoOfSeats.getText().trim());
+            if (seats <= 0 || seats > 100) {
+                showAlert(Alert.AlertType.WARNING, "Validation",
+                        "Number of seats must be between 1 and 100!");
+                txtNoOfSeats.requestFocus();
                 return false;
             }
         } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.WARNING, "Number of seats must be a valid number!").show();
+            showAlert(Alert.AlertType.WARNING, "Validation",
+                    "Number of Seats must be a valid number!");
+            txtNoOfSeats.requestFocus();
             return false;
         }
-
-        if (busStatus.getValue() == null || busStatus.getValue().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please select bus status!").show();
+        if (cmbBusStatus.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Validation", "Please select Bus Status!");
+            cmbBusStatus.requestFocus();
             return false;
         }
-
-        if (manufactureDate.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please select manufacture date!").show();
+        if (dateManufactureDate.getValue() == null) {
+            showAlert(Alert.AlertType.WARNING, "Validation",
+                    "Manufacture Date is required!");
+            dateManufactureDate.requestFocus();
             return false;
         }
-
-        if (manufactureDate.getValue().isAfter(LocalDate.now())) {
-            new Alert(Alert.AlertType.WARNING, "Manufacture date cannot be in the future!").show();
-            return false;
-        }
-
-        // Validate insurance expiry date if provided
-        if (insuranceExpiryDate.getValue() != null && insuranceExpiryDate.getValue().isBefore(LocalDate.now())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Insurance Warning");
-            alert.setHeaderText("Insurance Expired");
-            alert.setContentText("The insurance expiry date is in the past. Please renew the insurance.");
-            alert.showAndWait();
-        }
-
-        // Validate license renewal date if provided
-        if (licenseRenewalDate.getValue() != null && licenseRenewalDate.getValue().isBefore(LocalDate.now())) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("License Warning");
-            alert.setHeaderText("License Renewal Overdue");
-            alert.setContentText("The license renewal date is in the past. Please renew the license.");
-            alert.showAndWait();
-        }
-
-        // Validate mileage if provided
-        if (!currentMileage.getText().trim().isEmpty()) {
+        if (!txtCurrentMileage.getText().trim().isEmpty()) {
             try {
-                int mileage = Integer.parseInt(currentMileage.getText().trim());
+                int mileage = Integer.parseInt(txtCurrentMileage.getText().trim());
                 if (mileage < 0) {
-                    new Alert(Alert.AlertType.WARNING, "Mileage cannot be negative!").show();
+                    showAlert(Alert.AlertType.WARNING, "Validation",
+                            "Mileage cannot be negative!");
+                    txtCurrentMileage.requestFocus();
                     return false;
                 }
             } catch (NumberFormatException e) {
-                new Alert(Alert.AlertType.WARNING, "Mileage must be a valid number!").show();
+                showAlert(Alert.AlertType.WARNING, "Validation",
+                        "Current Mileage must be a valid number!");
+                txtCurrentMileage.requestFocus();
                 return false;
             }
         }
-
         return true;
     }
 
-    private void cleanFields() {
-        busId.setText("");
-        brandName.setText("");
-        busNumber.setText("");
-        busType.setValue(null);
-        noOfSeats.setText("");
-        busStatus.setValue("Active");
-        manufactureDate.setValue(null);
-        insuranceExpiryDate.setValue(null);
-        licenseRenewalDate.setValue(null);
-        currentMileage.setText("");
-    }
-    public void setCurrentUserId(int userId) {
-        this.currentUserId = userId;
-    }
 
-
-    //Jasper Report
-    public void handlePrint(ActionEvent actionEvent) {
-        try {
-            // Get the current table data
-            ObservableList<BusDTO> busList = tableCustomer.getItems();
-
-            if (busList.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "No Data", "No buses to generate report!");
-                return;
-            }
-
-            // Load the JRXML file
-            InputStream reportStream = getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/reports/BusManagementReport.jrxml");
-
-            if (reportStream == null) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Report template not found!");
-                return;
-            }
-
-            // Compile the report
-            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
-
-            // Calculate statistics
-            int totalBuses = busList.size();
-            long activeBuses = busList.stream()
-                    .filter(bus -> "Active".equalsIgnoreCase(bus.getBusStatus()))
-                    .count();
-            long maintenanceBuses = busList.stream()
-                    .filter(bus -> bus.getBusStatus() != null &&
-                            (bus.getBusStatus().toLowerCase().contains("maintenance") ||
-                                    bus.getBusStatus().toLowerCase().contains("repair")))
-                    .count();
-
-            // Create parameters map
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("GeneratedDate", LocalDateTime.now()
-                    .format(DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm a")));
-            parameters.put("TotalBuses", String.valueOf(totalBuses));
-            parameters.put("ActiveBuses", String.valueOf(activeBuses));
-            parameters.put("MaintenanceBuses", String.valueOf(maintenanceBuses));
-
-            // Convert ObservableList to JRBeanCollectionDataSource
-            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(busList);
-
-            // Fill the report
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-            // Generate filename with timestamp
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-            String outputPath = "BusFleetReport_" + timestamp + ".pdf";
-
-            // Export to PDF
-            JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
-
-            // Show success message
-            showAlert(Alert.AlertType.INFORMATION, "Success",
-                    "Report generated successfully!\nSaved as: " + outputPath);
-
-            // Optional: Open the PDF automatically
-            Desktop.getDesktop().open(new File(outputPath));
-
-        } catch (JRException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Error generating report: " + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error",
-                    "Error opening PDF: " + e.getMessage());
+    private BusDTO buildDTOFromForm() {
+        Integer mileage = null;
+        if (!txtCurrentMileage.getText().trim().isEmpty()) {
+            mileage = Integer.parseInt(txtCurrentMileage.getText().trim());
         }
+
+        return new BusDTO(
+                txtBrandName.getText().trim(),
+                txtBusNumber.getText().trim().toUpperCase(),
+                cmbBusType.getValue(),
+                Integer.parseInt(txtNoOfSeats.getText().trim()),
+                cmbBusStatus.getValue(),
+                dateManufactureDate.getValue(),
+                dateInsuranceExpiry.getValue(),
+                dateLicenseRenewal.getValue(),
+                mileage,
+                SessionManager.getCurrentUserId()
+        );
     }
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
+
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

@@ -12,7 +12,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.busmanagementsystem.Main;
 import lk.ijse.busmanagementsystem.dto.OtherServicesDTO;
-import lk.ijse.busmanagementsystem.model.OtherServicesModel;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.OtherServicesBO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +46,7 @@ public class ManageOtherServicesController implements Initializable {
     @FXML private TableColumn<OtherServicesDTO, String> colDescription;
     @FXML private TableColumn<OtherServicesDTO, Integer> colCreatedBy;
 
-    private final OtherServicesModel servicesModel = new OtherServicesModel();
+    private final OtherServicesBO servicesBO = (OtherServicesBO) BOFactory.getInstance().getBO(BOFactory.BOType.OTHER_SERVICES);
     private int currentUserId = 1;
 
     @Override
@@ -75,14 +76,12 @@ public class ManageOtherServicesController implements Initializable {
 
     private void loadComboData() {
         try {
-            // Load Bus IDs
-            List<Integer> busIds = servicesModel.getAllBusIds();
+            List<Integer> busIds = servicesBO.getAllBusIds();
             ObservableList<Integer> busIdList = FXCollections.observableArrayList(busIds);
             comboBusId.setItems(busIdList);
             System.out.println("✓ Loaded " + busIds.size() + " bus IDs");
 
-            // Load Trip IDs
-            List<Integer> tripIds = servicesModel.getAllTripIds();
+            List<Integer> tripIds = servicesBO.getAllTripIds();
             ObservableList<Integer> tripIdList = FXCollections.observableArrayList(tripIds);
             comboTripId.setItems(tripIdList);
             System.out.println("✓ Loaded " + tripIds.size() + " trip IDs");
@@ -131,7 +130,7 @@ public class ManageOtherServicesController implements Initializable {
 
     private void loadBusDetails(int busId) {
         try {
-            String details = servicesModel.getBusDetails(busId);
+            String details = servicesBO.getBusDetails(busId);
             lblBusDetails.setText(details);
         } catch (Exception e) {
             lblBusDetails.setText("Error loading bus details");
@@ -141,7 +140,7 @@ public class ManageOtherServicesController implements Initializable {
 
     private void loadTripDetails(int tripId) {
         try {
-            String details = servicesModel.getTripDetails(tripId);
+            String details = servicesBO.getTripDetails(tripId);
             lblTripDetails.setText(details);
         } catch (Exception e) {
             lblTripDetails.setText("Error loading trip details");
@@ -151,7 +150,7 @@ public class ManageOtherServicesController implements Initializable {
 
     private void loadServicesTable() {
         try {
-            List<OtherServicesDTO> servicesList = servicesModel.getAllServices();
+            List<OtherServicesDTO> servicesList = servicesBO.getAllServices();
             ObservableList<OtherServicesDTO> obList = FXCollections.observableArrayList(servicesList);
             tableServices.setItems(obList);
         } catch (Exception e) {
@@ -193,13 +192,12 @@ public class ManageOtherServicesController implements Initializable {
             Integer busIdValue = comboBusId.getValue();
             Integer tripIdValue = comboTripId.getValue();
 
-            // Validate if IDs exist (only if provided)
-            if (busIdValue != null && !servicesModel.isBusExists(busIdValue)) {
+            if (busIdValue != null && !servicesBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus", "Bus ID does not exist!");
                 return;
             }
 
-            if (tripIdValue != null && !servicesModel.isTripExists(tripIdValue)) {
+            if (tripIdValue != null && !servicesBO.isTripExists(tripIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip", "Trip ID does not exist!");
                 return;
             }
@@ -215,7 +213,7 @@ public class ManageOtherServicesController implements Initializable {
                     currentUserId
             );
 
-            boolean isSaved = servicesModel.saveService(serviceDTO);
+            boolean isSaved = servicesBO.saveService(serviceDTO);
 
             if (isSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Service saved successfully!");
@@ -244,7 +242,7 @@ public class ManageOtherServicesController implements Initializable {
             }
 
             try {
-                OtherServicesDTO serviceDTO = servicesModel.searchService(id);
+                OtherServicesDTO serviceDTO = servicesBO.searchService(id);
 
                 if (serviceDTO != null) {
                     fillFieldsFromSelectedService(serviceDTO);
@@ -274,12 +272,12 @@ public class ManageOtherServicesController implements Initializable {
             Integer busIdValue = comboBusId.getValue();
             Integer tripIdValue = comboTripId.getValue();
 
-            if (busIdValue != null && !servicesModel.isBusExists(busIdValue)) {
+            if (busIdValue != null && !servicesBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus", "Bus ID does not exist!");
                 return;
             }
 
-            if (tripIdValue != null && !servicesModel.isTripExists(tripIdValue)) {
+            if (tripIdValue != null && !servicesBO.isTripExists(tripIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Trip", "Trip ID does not exist!");
                 return;
             }
@@ -295,7 +293,7 @@ public class ManageOtherServicesController implements Initializable {
                     currentUserId
             );
 
-            boolean isUpdated = servicesModel.updateService(serviceDTO);
+            boolean isUpdated = servicesBO.updateService(serviceDTO);
 
             if (isUpdated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully!");
@@ -330,7 +328,7 @@ public class ManageOtherServicesController implements Initializable {
             String id = serviceId.getText();
 
             try {
-                boolean isDeleted = servicesModel.deleteService(id);
+                boolean isDeleted = servicesBO.deleteService(id);
 
                 if (isDeleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Service deleted successfully!");
@@ -362,7 +360,7 @@ public class ManageOtherServicesController implements Initializable {
         }
 
         try {
-            List<OtherServicesDTO> searchResults = servicesModel.searchServices(keyword);
+            List<OtherServicesDTO> searchResults = servicesBO.searchServices(keyword);
             ObservableList<OtherServicesDTO> obList = FXCollections.observableArrayList(searchResults);
             tableServices.setItems(obList);
 

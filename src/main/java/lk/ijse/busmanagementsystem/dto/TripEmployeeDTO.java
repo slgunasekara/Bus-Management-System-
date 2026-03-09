@@ -1,8 +1,6 @@
 package lk.ijse.busmanagementsystem.dto;
 
-/**
- * DTO Class - Database සහ Application layer අතර data transfer කරන්න
- */
+
 public class TripEmployeeDTO {
 
     private int tripEmpId;
@@ -11,11 +9,11 @@ public class TripEmployeeDTO {
     private String roleInTrip;
     private int createdBy;
 
-    // Default Constructor
+
     public TripEmployeeDTO() {
     }
 
-    // Constructor without tripEmpId (for INSERT operations)
+
     public TripEmployeeDTO(int tripId, int empId, String roleInTrip, int createdBy) {
         this.tripId = tripId;
         this.empId = empId;
@@ -23,7 +21,7 @@ public class TripEmployeeDTO {
         this.createdBy = createdBy;
     }
 
-    // Full Constructor (for SELECT operations)
+
     public TripEmployeeDTO(int tripEmpId, int tripId, int empId, String roleInTrip, int createdBy) {
         this.tripEmpId = tripEmpId;
         this.tripId = tripId;
@@ -32,7 +30,7 @@ public class TripEmployeeDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
+
     public int getTripEmpId() {
         return tripEmpId;
     }

@@ -5,18 +5,18 @@ import java.time.LocalDate;
 public class EmployeeSalaryDTO {
     private int salaryId;
     private int empId;
-    private Integer tripId;  // Nullable - can be null if not trip-related
+    private Integer tripId;
     private double amount;
     private String description;
     private LocalDate date;
     private int createdBy;
     private String createdByUsername;
 
-    // Default Constructor
+
     public EmployeeSalaryDTO() {
     }
 
-    // Constructor without createdByUsername
+
     public EmployeeSalaryDTO(int salaryId, int empId, Integer tripId,
                              double amount, String description,
                              LocalDate date, int createdBy) {
@@ -29,7 +29,7 @@ public class EmployeeSalaryDTO {
         this.createdBy = createdBy;
     }
 
-    // Constructor with createdByUsername
+
     public EmployeeSalaryDTO(int salaryId, int empId, Integer tripId,
                              double amount, String description,
                              LocalDate date, int createdBy,

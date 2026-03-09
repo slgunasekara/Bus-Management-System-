@@ -7,7 +7,7 @@ public class TripExpensesDTO {
     private int tripExpId;
     private int tripId;
     private TripExpType tripExpType;
-    private Integer salaryId;  // Nullable
+    private Integer salaryId;
     private double amount;
     private String description;
     private LocalDate date;
@@ -44,7 +44,7 @@ public class TripExpensesDTO {
         this.createdByUsername = createdByUsername;
     }
 
-    // Getters and Setters
+
     public int getTripExpId() {
         return tripExpId;
     }

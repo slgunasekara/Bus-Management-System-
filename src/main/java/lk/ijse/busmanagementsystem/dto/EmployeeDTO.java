@@ -14,16 +14,16 @@ public class EmployeeDTO {
     private String ntcNo;
     private String drivingLicenceNo;
     private LocalDate joinDate;
-    private LocalDate exitDate;  // Database එකේ exit_date
+    private LocalDate exitDate;
     private EmployeeStatus empStatus;
     private int createdBy;
     private String createdByUsername;
 
-    // Default Constructor
+
     public EmployeeDTO() {
     }
 
-    // Constructor without createdByUsername
+
     public EmployeeDTO(int empId, EmployeeCategory empCategory, String empName,
                        String address, String contactNo, String nicNo,
                        String ntcNo, String drivingLicenceNo, LocalDate joinDate,
@@ -42,7 +42,7 @@ public class EmployeeDTO {
         this.createdBy = createdBy;
     }
 
-    // Constructor with createdByUsername
+
     public EmployeeDTO(int empId, EmployeeCategory empCategory, String empName,
                        String address, String contactNo, String nicNo,
                        String ntcNo, String drivingLicenceNo, LocalDate joinDate,
@@ -63,7 +63,7 @@ public class EmployeeDTO {
         this.createdByUsername = createdByUsername;
     }
 
-    // Getters and Setters
+
     public int getEmpId() {
         return empId;
     }

@@ -5,18 +5,30 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lk.ijse.busmanagementsystem.Main;
+
+
+
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.BusBO;
+import lk.ijse.busmanagementsystem.bo.custom.EmployeeBO;
+import lk.ijse.busmanagementsystem.bo.custom.TripBO;
+import lk.ijse.busmanagementsystem.bo.custom.TripEmployeeBO;
 import lk.ijse.busmanagementsystem.dto.*;
 import lk.ijse.busmanagementsystem.enums.TripCategory;
-import lk.ijse.busmanagementsystem.model.*;
+import lk.ijse.busmanagementsystem.tm.TripEmployeeTM;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -25,11 +37,10 @@ public class ManageTripController implements Initializable {
 
     @FXML private AnchorPane tripContent;
 
-    // ===================== Trip Form Fields =====================
     @FXML private TextField tripId;
     @FXML private ComboBox<TripCategory> tripCategory;
-    @FXML private ComboBox<Integer> comboBusId;  // ⭐ Changed to ComboBox
-    @FXML private Label lblBusNumber;  // ⭐ New Label for Bus Number
+    @FXML private ComboBox<Integer> comboBusId;
+    @FXML private Label lblBusNumber;
     @FXML private TextField startLocation;
     @FXML private TextField endLocation;
     @FXML private TextField distance;
@@ -38,13 +49,11 @@ public class ManageTripController implements Initializable {
     @FXML private TextField description;
     @FXML private TextField txtSearch;
 
-    // ===================== Employee Assignment Fields =====================
     @FXML private ComboBox<Number> comboEmployee;
     @FXML private Label lblEmployeeName;
     @FXML private Label lblEmployeeCategory;
     @FXML private ComboBox<String> comboRoleInTrip;
 
-    // ===================== Trip Table =====================
     @FXML private TableView<TripDTO> tableTrip;
     @FXML private TableColumn<TripDTO, Integer> colTripId;
     @FXML private TableColumn<TripDTO, TripCategory> colTripCategory;
@@ -57,7 +66,6 @@ public class ManageTripController implements Initializable {
     @FXML private TableColumn<TripDTO, String> colDescription;
     @FXML private TableColumn<TripDTO, String> colCreatedBy;
 
-    // ===================== Employee Assignment Table =====================
     @FXML private TableView<TripEmployeeTM> tblTripEmployees;
     @FXML private TableColumn<TripEmployeeTM, Integer> colEmpId;
     @FXML private TableColumn<TripEmployeeTM, String> colEmpName;
@@ -66,13 +74,11 @@ public class ManageTripController implements Initializable {
     @FXML private TableColumn<TripEmployeeTM, String> colEmpContact;
     @FXML private TableColumn<TripEmployeeTM, Void> colAction;
 
-    // ===================== Models =====================
-    private final TripModel tripModel = new TripModel();
-    private final EmployeeModel employeeModel = new EmployeeModel();
-    private final TripEmployeeModel tripEmployeeModel = new TripEmployeeModel();
-    private final BusModel busModel = new BusModel();  // ⭐ New Bus Model
+    private final TripBO tripBO = (TripBO) BOFactory.getInstance().getBO(BOFactory.BOType.TRIP);
+    private final EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.EMPLOYEE);
+    private final TripEmployeeBO tripEmployeeBO = (TripEmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOType.TRIP_EMPLOYEE);
+    private final BusBO busBO = (BusBO) BOFactory.getInstance().getBO(BOFactory.BOType.BUS);
 
-    // ===================== State Variables =====================
     private int currentSelectedTripId = 0;
     private final ObservableList<TripEmployeeTM> employeeObList = FXCollections.observableArrayList();
     private int currentUserId = 1;
@@ -87,9 +93,7 @@ public class ManageTripController implements Initializable {
         setupEventListeners();
     }
 
-    /**
-     * Setup Trip Table Columns
-     */
+
     private void setupTripTable() {
         colTripId.setCellValueFactory(new PropertyValueFactory<>("tripId"));
         colTripCategory.setCellValueFactory(new PropertyValueFactory<>("tripCategory"));
@@ -103,9 +107,7 @@ public class ManageTripController implements Initializable {
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<>("createdByUsername"));
     }
 
-    /**
-     * Setup Employee Assignment Table Columns
-     */
+
     private void setupEmployeeTable() {
         colEmpId.setCellValueFactory(new PropertyValueFactory<>("empId"));
         colEmpName.setCellValueFactory(new PropertyValueFactory<>("empName"));
@@ -140,26 +142,22 @@ public class ManageTripController implements Initializable {
         });
     }
 
-    /**
-     * Load Initial Data
-     */
+
     private void loadInitialData() {
         tripCategory.getItems().addAll(TripCategory.values());
         tripCategory.setValue(TripCategory.ROUTE);
         comboRoleInTrip.getItems().addAll("DRIVER", "CONDUCTOR", "HELPER", "ASSISTANT");
-        loadComboBus();  // ⭐ Load Bus IDs
+        loadComboBus();
         loadComboEmployee();
         loadTripTable();
         tripId.setEditable(false);
-        lblBusNumber.setText("-");  // ⭐ Initialize bus number label
+        lblBusNumber.setText("-");
     }
 
-    /**
-     * ⭐ Load Bus IDs to ComboBox
-     */
+
     private void loadComboBus() {
         try {
-            List<BusDTO> busList = busModel.getAllBuses();
+            List<BusDTO> busList = busBO.getAllBuses();
             ObservableList<Integer> busIdObList = FXCollections.observableArrayList();
 
             for (BusDTO bus : busList) {
@@ -175,9 +173,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * ⭐ Handle Bus ComboBox Selection - Display Bus Number
-     */
+
     @FXML
     private void handleSelectBus(ActionEvent event) {
         try {
@@ -187,7 +183,7 @@ public class ManageTripController implements Initializable {
                 return;
             }
 
-            BusDTO bus = busModel.searchBus(String.valueOf(selectedBusId));
+            BusDTO bus = busBO.getBusById(selectedBusId);
 
             if (bus != null) {
                 lblBusNumber.setText(bus.getBusNumber() + " (" + bus.getBusBrandName() + ")");
@@ -204,9 +200,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Setup Event Listeners
-     */
+
     private void setupEventListeners() {
         tableTrip.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -218,12 +212,10 @@ public class ManageTripController implements Initializable {
         });
     }
 
-    /**
-     * Load Employees to ComboBox
-     */
+
     private void loadComboEmployee() {
         try {
-            List<EmployeeDTO> employeeList = employeeModel.getAllEmployees();
+            List<EmployeeDTO> employeeList = employeeBO.getAllEmployees();
             ObservableList<Number> empIdObList = FXCollections.observableArrayList();
 
             for (EmployeeDTO emp : employeeList) {
@@ -241,12 +233,10 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Load Employees for Selected Trip
-     */
+
     private void loadEmployeesForSelectedTrip(int tripId) {
         try {
-            List<TripEmployeeTM> employees = tripEmployeeModel.getEmployeesByTrip(tripId);
+            List<TripEmployeeTM> employees = tripEmployeeBO.getEmployeesByTrip(tripId);
 
             employeeObList.clear();
             employeeObList.addAll(employees);
@@ -260,9 +250,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Handle Employee ComboBox Selection
-     */
+
     @FXML
     private void handleSelectEmployee(ActionEvent event) {
         try {
@@ -270,7 +258,7 @@ public class ManageTripController implements Initializable {
             if (selectedId == null) return;
 
             int empId = selectedId.intValue();
-            EmployeeDTO emp = employeeModel.searchEmployee(String.valueOf(empId));
+            EmployeeDTO emp = employeeBO.searchEmployee(String.valueOf(empId));
 
             if (emp != null) {
                 lblEmployeeName.setText(emp.getEmpName());
@@ -283,9 +271,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Add Employee to Trip
-     */
+
     @FXML
     private void handleAddEmployee(ActionEvent event) {
         if (currentSelectedTripId == 0) {
@@ -308,7 +294,7 @@ public class ManageTripController implements Initializable {
             int empId = comboEmployee.getValue().intValue();
             String role = comboRoleInTrip.getValue();
 
-            boolean alreadyAssigned = tripEmployeeModel.isEmployeeAssigned(
+            boolean alreadyAssigned = tripEmployeeBO.isEmployeeAssigned(
                     currentSelectedTripId, empId, role);
 
             if (alreadyAssigned) {
@@ -324,7 +310,7 @@ public class ManageTripController implements Initializable {
                     currentUserId
             );
 
-            boolean assigned = tripEmployeeModel.assignEmployeeToTrip(dto);
+            boolean assigned = tripEmployeeBO.assignEmployeeToTrip(dto);
 
             if (assigned) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -341,9 +327,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Remove Employee from Trip
-     */
+
     private void handleRemoveEmployee(TripEmployeeTM employee) {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmAlert.setTitle("Confirm Removal");
@@ -358,7 +342,7 @@ public class ManageTripController implements Initializable {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                boolean removed = tripEmployeeModel.removeEmployeeFromTrip(employee.getTripEmpId());
+                boolean removed = tripEmployeeBO.removeEmployeeFromTrip(employee.getTripEmpId());
 
                 if (removed) {
                     employeeObList.remove(employee);
@@ -375,9 +359,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Save Trip
-     */
+
     @FXML
     private void handleSaveTripWithEmployees(ActionEvent event) {
         if (!validateTripFields()) {
@@ -385,9 +367,9 @@ public class ManageTripController implements Initializable {
         }
 
         try {
-            int busIdValue = comboBusId.getValue();  // ⭐ Get from ComboBox
+            int busIdValue = comboBusId.getValue();  // Get from ComboBox
 
-            if (!tripModel.isBusExists(busIdValue)) {
+            if (!tripBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus",
                         "Bus ID " + busIdValue + " does not exist!");
                 return;
@@ -406,7 +388,7 @@ public class ManageTripController implements Initializable {
                     currentUserId
             );
 
-            boolean tripSaved = tripModel.saveTrip(tripDTO);
+            boolean tripSaved = tripBO.saveTrip(tripDTO);
 
             if (tripSaved) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -416,7 +398,7 @@ public class ManageTripController implements Initializable {
 
                 loadTripTable();
 
-                List<TripDTO> allTrips = tripModel.getAllTrips();
+                List<TripDTO> allTrips = tripBO.getAllTrips();
                 if (!allTrips.isEmpty()) {
                     TripDTO lastTrip = allTrips.get(allTrips.size() - 1);
                     tableTrip.getSelectionModel().select(lastTrip);
@@ -438,9 +420,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Update Trip
-     */
+
     @FXML
     private void handleUpdateTrip(ActionEvent event) {
         if (tripId.getText().isEmpty()) {
@@ -455,9 +435,9 @@ public class ManageTripController implements Initializable {
 
         try {
             int selectedTripId = Integer.parseInt(tripId.getText().trim());
-            int busIdValue = comboBusId.getValue();  // ⭐ Get from ComboBox
+            int busIdValue = comboBusId.getValue();  // Get from ComboBox
 
-            if (!tripModel.isBusExists(busIdValue)) {
+            if (!tripBO.isBusExists(busIdValue)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Bus",
                         "Bus ID does not exist!");
                 return;
@@ -476,7 +456,7 @@ public class ManageTripController implements Initializable {
                     currentUserId
             );
 
-            boolean updated = tripModel.updateTrip(tripDTO);
+            boolean updated = tripBO.updateTrip(tripDTO);
 
             if (updated) {
                 showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -493,9 +473,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Delete Trip
-     */
+
     @FXML
     private void handleDeleteTrip(ActionEvent event) {
         if (tripId.getText().isEmpty()) {
@@ -519,7 +497,7 @@ public class ManageTripController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
                 String id = tripId.getText();
-                boolean deleted = tripModel.deleteTrip(id);
+                boolean deleted = tripBO.deleteTrip(id);
 
                 if (deleted) {
                     showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -539,23 +517,19 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Reset All Fields
-     */
+
     @FXML
     private void handleReset(ActionEvent event) {
         cleanFields();
         showAlert(Alert.AlertType.INFORMATION, "Reset", "All fields cleared!");
     }
 
-    /**
-     * Refresh Tables
-     */
+
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadTripTable();
         loadComboEmployee();
-        loadComboBus();  // ⭐ Refresh bus list
+        loadComboBus();  // Refresh bus list
 
         if (currentSelectedTripId != 0) {
             loadEmployeesForSelectedTrip(currentSelectedTripId);
@@ -565,9 +539,7 @@ public class ManageTripController implements Initializable {
                 "All data refreshed successfully!");
     }
 
-    /**
-     * Search Trips
-     */
+
     @FXML
     private void handleSearchTrip(ActionEvent event) {
         String keyword = txtSearch.getText().trim();
@@ -578,7 +550,7 @@ public class ManageTripController implements Initializable {
         }
 
         try {
-            List<TripDTO> searchResults = tripModel.searchTrips(keyword);
+            List<TripDTO> searchResults = tripBO.searchTrips(keyword);
             ObservableList<TripDTO> obList = FXCollections.observableArrayList(searchResults);
             tableTrip.setItems(obList);
 
@@ -595,9 +567,7 @@ public class ManageTripController implements Initializable {
         }
     }
 
-    /**
-     * Logout
-     */
+
     @FXML
     public void logout(ActionEvent event) throws IOException {
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -615,7 +585,7 @@ public class ManageTripController implements Initializable {
 
     private void loadTripTable() {
         try {
-            List<TripDTO> tripList = tripModel.getAllTrips();
+            List<TripDTO> tripList = tripBO.getAllTrips();
             ObservableList<TripDTO> obList = FXCollections.observableArrayList(tripList);
             tableTrip.setItems(obList);
             System.out.println(" Loaded " + tripList.size() + " trips");
@@ -628,11 +598,11 @@ public class ManageTripController implements Initializable {
 
     private void fillFieldsFromSelectedTrip(TripDTO trip) {
         tripId.setText(String.valueOf(trip.getTripId()));
-        comboBusId.setValue(trip.getBusId());  // ⭐ Set ComboBox value
+        comboBusId.setValue(trip.getBusId());  // Set ComboBox value
 
-        // ⭐ Load bus number when trip is selected
+        //Load bus number when trip is selected
         try {
-            BusDTO bus = busModel.searchBus(String.valueOf(trip.getBusId()));
+            BusDTO bus = busBO.getBusById(trip.getBusId());
             if (bus != null) {
                 lblBusNumber.setText(bus.getBusNumber() + " (" + bus.getBusBrandName() + ")");
                 lblBusNumber.setStyle("-fx-text-fill: #2ecc71; -fx-font-weight: bold;");
@@ -657,7 +627,7 @@ public class ManageTripController implements Initializable {
             return false;
         }
 
-        if (comboBusId.getValue() == null) {  // ⭐ Changed validation
+        if (comboBusId.getValue() == null) {  //  Changed validation
             showAlert(Alert.AlertType.WARNING, "Validation Error",
                     "Please select Bus ID!");
             return false;
@@ -726,8 +696,8 @@ public class ManageTripController implements Initializable {
 
     private void cleanFields() {
         tripId.setText("");
-        comboBusId.setValue(null);  // ⭐ Clear ComboBox
-        lblBusNumber.setText("-");  // ⭐ Clear bus number label
+        comboBusId.setValue(null);
+        lblBusNumber.setText("-");
         tripCategory.setValue(null);
         startLocation.setText("");
         endLocation.setText("");
@@ -750,6 +720,33 @@ public class ManageTripController implements Initializable {
         lblEmployeeName.setText("-");
         lblEmployeeCategory.setText("-");
     }
+
+
+    @FXML
+    private void tripEvent(ActionEvent event) throws Exception {
+        openWindow("EventManage", "Event Manage - Gunasekara Travels");
+    }
+
+    private void openWindow(String fxmlName, String title) {
+        try {
+            Parent root = Main.loadFXML(fxmlName);
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setFullScreen(true);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setMaximized(true);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/lk/ijse/busmanagementsystem/assets/Gunasekara.jpg")));
+            stage.setResizable(true);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading " + fxmlName + " window: " + e.getMessage());
+        }
+    }
+
+
 
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);

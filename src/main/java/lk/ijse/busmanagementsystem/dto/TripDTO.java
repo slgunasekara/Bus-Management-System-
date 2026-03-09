@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class TripDTO {
     private int tripId;
     private int busId;
-    private TripCategory tripCategory;  // enum type එක add කරන්න
+    private TripCategory tripCategory;
     private String startLocation;
     private String endLocation;
     private double distance;

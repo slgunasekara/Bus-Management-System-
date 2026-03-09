@@ -11,8 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lk.ijse.busmanagementsystem.dto.DailyProfitDTO;
-import lk.ijse.busmanagementsystem.dto.DailyProfitTM;
-import lk.ijse.busmanagementsystem.model.DailyProfitModel;
+import lk.ijse.busmanagementsystem.tm.DailyProfitTM;
+import lk.ijse.busmanagementsystem.bo.BOFactory;
+import lk.ijse.busmanagementsystem.bo.custom.DailyProfitBO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
@@ -97,20 +98,17 @@ public class DailyProfitController implements Initializable {
     @FXML
     private TableColumn<DailyProfitTM, String> netProfitCol;
 
-    private final DailyProfitModel dailyProfitModel = new DailyProfitModel();
+    private final DailyProfitBO dailyProfitBO = (DailyProfitBO) BOFactory.getInstance().getBO(BOFactory.BOType.DAILY_PROFIT);
     private final DecimalFormat df = new DecimalFormat("#,##0.00");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("DailyProfit window is loaded");
 
-        // Setup table columns
         setupTableColumns();
 
-        // Setup button actions
         setupButtonActions();
 
-        // Load initial data (all data)
         loadAllDailyProfitData();
     }
 
@@ -150,8 +148,8 @@ public class DailyProfitController implements Initializable {
         }
 
         try {
-            // Load data for selected date range
-            List<DailyProfitDTO> dailyProfitList = dailyProfitModel.getDailyProfitByDateRange(fromDate, toDate);
+
+            List<DailyProfitDTO> dailyProfitList = dailyProfitBO.getDailyProfitByDateRange(fromDate, toDate);
 
             if (dailyProfitList.isEmpty()) {
                 showAlert(Alert.AlertType.INFORMATION, "No Data",
@@ -161,10 +159,8 @@ public class DailyProfitController implements Initializable {
                 return;
             }
 
-            // Update table
             loadTableData(dailyProfitList);
 
-            // Update summary cards
             updateSummaryCards(dailyProfitList, fromDate, toDate);
 
             showAlert(Alert.AlertType.INFORMATION, "Success",
@@ -200,7 +196,7 @@ public class DailyProfitController implements Initializable {
 
     private void loadAllDailyProfitData() {
         try {
-            List<DailyProfitDTO> dailyProfitList = dailyProfitModel.getAllDailyProfit();
+            List<DailyProfitDTO> dailyProfitList = dailyProfitBO.getAllDailyProfit();
             loadTableData(dailyProfitList);
 
             if (!dailyProfitList.isEmpty()) {
@@ -259,7 +255,6 @@ public class DailyProfitController implements Initializable {
 
         double netProfit = totalIncome - totalExpenses;
 
-        // Calculate number of days
         long daysBetween = ChronoUnit.DAYS.between(fromDate, toDate) + 1;
         double avgDailyProfit = daysBetween > 0 ? netProfit / daysBetween : 0;
 
@@ -287,7 +282,7 @@ public class DailyProfitController implements Initializable {
         }
 
         try {
-            List<DailyProfitDTO> dailyProfitList = dailyProfitModel.getDailyProfitByDateRange(fromDate, toDate);
+            List<DailyProfitDTO> dailyProfitList = dailyProfitBO.getDailyProfitByDateRange(fromDate, toDate);
 
             if (dailyProfitList.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "No Data",
@@ -310,7 +305,6 @@ public class DailyProfitController implements Initializable {
             parameters.put("TotalExpenses", "Rs. " + df.format(totalExpenses));
             parameters.put("NetProfit", "Rs. " + df.format(netProfit));
 
-            // FIX: Use LocalDateTime instead of LocalDate for timestamp
             parameters.put("GeneratedDate", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             // Load and fill report

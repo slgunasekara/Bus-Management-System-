@@ -4,30 +4,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BusDTO {
-    private int busId;
+    private Integer busId;
     private String busBrandName;
     private String busNumber;
     private String busType;
-    private int noOfSeats;
+    private Integer noOfSeats;
     private String busStatus;
     private LocalDate manufactureDate;
     private LocalDate insuranceExpiryDate;
     private LocalDate licenseRenewalDate;
-    private int currentMileage;
-    private int createdBy;
+    private Integer currentMileage;
+    private Integer createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    // Default Constructor
-    public BusDTO() {
-    }
+    public BusDTO() {}
 
-    // Full Constructor
-    public BusDTO(int busId, String busBrandName, String busNumber, String busType,
-                  int noOfSeats, String busStatus, LocalDate manufactureDate,
+    public BusDTO(Integer busId, String busBrandName, String busNumber, String busType,
+                  Integer noOfSeats, String busStatus, LocalDate manufactureDate,
                   LocalDate insuranceExpiryDate, LocalDate licenseRenewalDate,
-                  int currentMileage, int createdBy, LocalDateTime createdAt,
-                  LocalDateTime updatedAt) {
+                  Integer currentMileage, Integer createdBy,
+                  LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.busId = busId;
         this.busBrandName = busBrandName;
         this.busNumber = busNumber;
@@ -43,12 +40,11 @@ public class BusDTO {
         this.updatedAt = updatedAt;
     }
 
-    // Constructor without timestamps (for insert operations)
-    public BusDTO(int busId, String busBrandName, String busNumber, String busType,
-                  int noOfSeats, String busStatus, LocalDate manufactureDate,
+    // Constructor for saving new bus (without id, createdAt, updatedAt)
+    public BusDTO(String busBrandName, String busNumber, String busType,
+                  Integer noOfSeats, String busStatus, LocalDate manufactureDate,
                   LocalDate insuranceExpiryDate, LocalDate licenseRenewalDate,
-                  int currentMileage, int createdBy) {
-        this.busId = busId;
+                  Integer currentMileage, Integer createdBy) {
         this.busBrandName = busBrandName;
         this.busNumber = busNumber;
         this.busType = busType;
@@ -61,110 +57,44 @@ public class BusDTO {
         this.createdBy = createdBy;
     }
 
-    // Getters and Setters
-    public int getBusId() {
-        return busId;
-    }
+    public Integer getBusId() { return busId; }
+    public void setBusId(Integer busId) { this.busId = busId; }
 
-    public void setBusId(int busId) {
-        this.busId = busId;
-    }
+    public String getBusBrandName() { return busBrandName; }
+    public void setBusBrandName(String busBrandName) { this.busBrandName = busBrandName; }
 
-    public String getBusBrandName() {
-        return busBrandName;
-    }
+    public String getBusNumber() { return busNumber; }
+    public void setBusNumber(String busNumber) { this.busNumber = busNumber; }
 
-    public void setBusBrandName(String busBrandName) {
-        this.busBrandName = busBrandName;
-    }
+    public String getBusType() { return busType; }
+    public void setBusType(String busType) { this.busType = busType; }
 
-    public String getBusNumber() {
-        return busNumber;
-    }
+    public Integer getNoOfSeats() { return noOfSeats; }
+    public void setNoOfSeats(Integer noOfSeats) { this.noOfSeats = noOfSeats; }
 
-    public void setBusNumber(String busNumber) {
-        this.busNumber = busNumber;
-    }
+    public String getBusStatus() { return busStatus; }
+    public void setBusStatus(String busStatus) { this.busStatus = busStatus; }
 
-    public String getBusType() {
-        return busType;
-    }
+    public LocalDate getManufactureDate() { return manufactureDate; }
+    public void setManufactureDate(LocalDate manufactureDate) { this.manufactureDate = manufactureDate; }
 
-    public void setBusType(String busType) {
-        this.busType = busType;
-    }
+    public LocalDate getInsuranceExpiryDate() { return insuranceExpiryDate; }
+    public void setInsuranceExpiryDate(LocalDate insuranceExpiryDate) { this.insuranceExpiryDate = insuranceExpiryDate; }
 
-    public int getNoOfSeats() {
-        return noOfSeats;
-    }
+    public LocalDate getLicenseRenewalDate() { return licenseRenewalDate; }
+    public void setLicenseRenewalDate(LocalDate licenseRenewalDate) { this.licenseRenewalDate = licenseRenewalDate; }
 
-    public void setNoOfSeats(int noOfSeats) {
-        this.noOfSeats = noOfSeats;
-    }
+    public Integer getCurrentMileage() { return currentMileage; }
+    public void setCurrentMileage(Integer currentMileage) { this.currentMileage = currentMileage; }
 
-    public String getBusStatus() {
-        return busStatus;
-    }
+    public Integer getCreatedBy() { return createdBy; }
+    public void setCreatedBy(Integer createdBy) { this.createdBy = createdBy; }
 
-    public void setBusStatus(String busStatus) {
-        this.busStatus = busStatus;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public LocalDate getManufactureDate() {
-        return manufactureDate;
-    }
-
-    public void setManufactureDate(LocalDate manufactureDate) {
-        this.manufactureDate = manufactureDate;
-    }
-
-    public LocalDate getInsuranceExpiryDate() {
-        return insuranceExpiryDate;
-    }
-
-    public void setInsuranceExpiryDate(LocalDate insuranceExpiryDate) {
-        this.insuranceExpiryDate = insuranceExpiryDate;
-    }
-
-    public LocalDate getLicenseRenewalDate() {
-        return licenseRenewalDate;
-    }
-
-    public void setLicenseRenewalDate(LocalDate licenseRenewalDate) {
-        this.licenseRenewalDate = licenseRenewalDate;
-    }
-
-    public int getCurrentMileage() {
-        return currentMileage;
-    }
-
-    public void setCurrentMileage(int currentMileage) {
-        this.currentMileage = currentMileage;
-    }
-
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
     @Override
     public String toString() {
@@ -179,9 +109,6 @@ public class BusDTO {
                 ", insuranceExpiryDate=" + insuranceExpiryDate +
                 ", licenseRenewalDate=" + licenseRenewalDate +
                 ", currentMileage=" + currentMileage +
-                ", createdBy=" + createdBy +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

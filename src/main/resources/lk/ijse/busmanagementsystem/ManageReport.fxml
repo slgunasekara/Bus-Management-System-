@@ -73,17 +73,17 @@
                     </children>
                 </HBox>
 
-              <!-- Logo -->
-              <ImageView fitHeight="101.0" fitWidth="198.0" layoutX="728.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 0, 0, 0, 0);">
-                  <image>
-                      <Image url="@assets/Gunasekara.jpg" />
-                  </image>
-              </ImageView>
+                <!-- Logo -->
+                <ImageView fitHeight="101.0" fitWidth="198.0" layoutX="728.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 0, 0, 0, 0);">
+                    <image>
+                        <Image url="@assets/Gunasekara.jpg" />
+                    </image>
+                </ImageView>
             </children>
         </AnchorPane>
 
         <!-- Summary Cards -->
-        <HBox layoutX="17.0" layoutY="206.0" prefHeight="66.0" prefWidth="1009.0" spacing="20.0">
+        <HBox layoutX="56.0" layoutY="202.0" prefHeight="66.0" prefWidth="936.0" spacing="20.0">
             <children>
                 <!-- Income Card -->
                 <AnchorPane prefHeight="60.0" prefWidth="154.0" style="-fx-background-color: linear-gradient(to bottom right, #2ecc71, #27ae60); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);">
@@ -99,9 +99,9 @@
                             </font>
                         </Text>
                     </children>
-               <HBox.margin>
-                  <Insets right="42.0" />
-               </HBox.margin>
+                    <HBox.margin>
+                        <Insets right="83.0" />
+                    </HBox.margin>
                 </AnchorPane>
 
                 <!-- Expenses Card -->
@@ -118,9 +118,9 @@
                             </font>
                         </Text>
                     </children>
-               <HBox.margin>
-                  <Insets right="42.0" />
-               </HBox.margin>
+                    <HBox.margin>
+                        <Insets right="83.0" />
+                    </HBox.margin>
                 </AnchorPane>
 
                 <!-- Salary Card -->
@@ -137,28 +137,9 @@
                             </font>
                         </Text>
                     </children>
-               <HBox.margin>
-                  <Insets right="42.0" />
-               </HBox.margin>
-                </AnchorPane>
-
-                <!-- Net Profit Card -->
-                <AnchorPane prefHeight="75.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 5);">
-                    <children>
-                        <Text fill="WHITE" layoutX="15.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="📈 Net Profit">
-                            <font>
-                                <Font name="System Bold" size="16.0" />
-                            </font>
-                        </Text>
-                        <Text fx:id="netProfitText" fill="WHITE" layoutX="15.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rs. 0.00">
-                            <font>
-                                <Font name="System Bold" size="22.0" />
-                            </font>
-                        </Text>
-                    </children>
-               <HBox.margin>
-                  <Insets right="42.0" />
-               </HBox.margin>
+                    <HBox.margin>
+                        <Insets right="83.0" />
+                    </HBox.margin>
                 </AnchorPane>
 
                 <!-- Trips Card -->
@@ -175,9 +156,9 @@
                             </font>
                         </Text>
                     </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
                 </AnchorPane>
             </children>
         </HBox>
@@ -193,17 +174,12 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
-                  <Region prefHeight="35.0" prefWidth="165.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="🔄" textFill="#3498db">
+                        <Region prefHeight="35.0" prefWidth="217.0" />
+                        <Button fx:id="printIncomeBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
-                  <Button fx:id="printIncomeBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #2ecc71; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
                     </children>
                 </HBox>
                 <TableView fx:id="incomeTableView" prefHeight="108.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
@@ -227,24 +203,19 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
-                  <Region prefHeight="35.0" prefWidth="166.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="🔄" textFill="#3498db">
+                        <Region prefHeight="35.0" prefWidth="193.0" />
+                        <Button fx:id="printExpensesBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #c0392b); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
-                  <Button fx:id="printExpensesBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom right, #e74c3c, #c0392b); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
                     </children>
                 </HBox>
-                <TableView fx:id="expensesTableView" prefHeight="108.0" prefWidth="510.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                <TableView fx:id="expensesTableView" prefHeight="108.0" prefWidth="485.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
                     <columns>
                         <TableColumn fx:id="expenseDateCol" prefWidth="130.0" text="Date" />
                         <TableColumn fx:id="expenseAmountCol" prefWidth="212.0" text="Amount (Rs.)" />
-                        <TableColumn fx:id="expenseCategoryCol" prefWidth="167.0" text="Category" />
+                        <TableColumn fx:id="expenseCategoryCol" prefWidth="164.0" text="Category" />
                     </columns>
                 </TableView>
             </children>
@@ -260,17 +231,12 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
-                  <Region prefHeight="35.0" prefWidth="177.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="🔄" textFill="#3498db">
+                        <Region prefHeight="35.0" prefWidth="222.0" />
+                        <Button fx:id="printSalaryBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom right, #f39c12, #e67e22); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
-                  <Button fx:id="printSalaryBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom right, #f39c12, #e67e22); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
                     </children>
                 </HBox>
                 <TableView fx:id="salaryTableView" prefHeight="108.0" prefWidth="500.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
@@ -294,99 +260,94 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Text>
-                  <Region prefHeight="35.0" prefWidth="204.0" />
-                        <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="🔄" textFill="#3498db">
+                        <Region prefHeight="35.0" prefWidth="236.0" />
+                        <Button fx:id="printTripBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #667eea; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
                             <font>
-                                <Font size="14.0" />
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
-                  <Button fx:id="printTripBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #667eea; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="📄 Print" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
                     </children>
                 </HBox>
                 <TableView fx:id="tripTableView" prefHeight="108.0" prefWidth="510.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);">
                     <columns>
-                        <TableColumn fx:id="tripIdCol" prefWidth="80.0" text="Trip ID" />
-                        <TableColumn fx:id="tripDateCol" prefWidth="120.0" text="Date" />
-                        <TableColumn fx:id="tripBusIdCol" prefWidth="100.0" text="Bus ID" />
-                        <TableColumn fx:id="tripRouteCol" prefWidth="120.0" text="Route" />
-                        <TableColumn fx:id="tripStatusCol" prefWidth="88.0" text="Status" />
+                        <TableColumn fx:id="tripIdCol" prefWidth="70.0" text="Trip ID" />
+                        <TableColumn fx:id="tripDateCol" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="tripBusIdCol" prefWidth="100.0" text="Bus No" />
+                        <TableColumn fx:id="tripRouteCol" prefWidth="150.0" text="Route" />
+                        <TableColumn fx:id="tripStatusCol" prefWidth="88.0" text="Category" />
                     </columns>
                 </TableView>
             </children>
         </VBox>
-      <HBox layoutX="13.0" layoutY="290.0" prefHeight="66.0" prefWidth="1009.0" style="-fx-background-color: White; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);">
-         <children>
-            <Button fx:id="dailyProfitBtn" mnemonicParsing="false" onAction="#dailyProfit" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="💰 Daily Profit" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="40.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-            <Region prefHeight="66.0" prefWidth="133.0" />
-            <Text fill="#1e3c72" strokeType="OUTSIDE" strokeWidth="0.0" text="Profit Reports">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets top="20.0" />
-               </HBox.margin>
-            </Text>
-            <Region prefHeight="66.0" prefWidth="132.0" />
-            <Button fx:id="monthlyProfitBtn" mnemonicParsing="false" onAction="#monthlyProfit" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="💰 Monthly Profit" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="19.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="20.0" right="40.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-      <VBox prefHeight="60.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%);; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 3);">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1035.0" spacing="15">
-               <children>
-                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <HBox.margin>
-                        <Insets left="25.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <VBox spacing="2">
-                     <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="View Reports">
-                           <font>
-                              <Font name="System Bold" size="26.0" />
-                           </font>
-                        </Text>
-                        <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Track Bus System Data">
-                           <font>
-                              <Font size="11.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
-                  <Region prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 1.5; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="25.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
-                     </padding>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+        <HBox layoutX="13.0" layoutY="290.0" prefHeight="66.0" prefWidth="1009.0" style="-fx-background-color: White; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);">
+            <children>
+                <Button fx:id="dailyProfitBtn" mnemonicParsing="false" onAction="#dailyProfit" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="💰 Daily Profit" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                    </HBox.margin>
+                </Button>
+                <Region prefHeight="66.0" prefWidth="133.0" />
+                <Text fill="#1e3c72" strokeType="OUTSIDE" strokeWidth="0.0" text="Profit Reports">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets top="20.0" />
+                    </HBox.margin>
+                </Text>
+                <Region prefHeight="66.0" prefWidth="132.0" />
+                <Button fx:id="monthlyProfitBtn" mnemonicParsing="false" onAction="#monthlyProfit" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: linear-gradient(to bottom right, #3498db, #2980b9); -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);" text="💰 Monthly Profit" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="20.0" right="40.0" top="10.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <VBox prefHeight="60.0" prefWidth="1035.0" style="-fx-background-color: linear-gradient(to right, #3498db 0%, #1a5580 50%, #000000 100%);; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 3);">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="1035.0" spacing="15">
+                    <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                        </ImageView>
+                        <VBox spacing="2">
+                            <children>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="View Reports">
+                                    <font>
+                                        <Font name="System Bold" size="26.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="#e0e0e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Track Bus System Data">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <Region prefHeight="60.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#logout" style="-fx-background-color: rgba(255, 255, 255, 0.2); -fx-background-radius: 25; -fx-border-color: white; -fx-border-radius: 25; -fx-border-width: 1.5; -fx-cursor: hand;" text="← Logout" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets right="25.0" />
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="8.0" left="20.0" right="20.0" top="8.0" />
+                            </padding>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
 
     </children>
 </AnchorPane>
