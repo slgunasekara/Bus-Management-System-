@@ -163,7 +163,6 @@ public class ManageBusController implements Initializable {
                     dto.getInsuranceExpiryDate(),
                     dto.getLicenseRenewalDate(),
                     dto.getCurrentMileage(),
-                    // createdBy is a user ID; for display, just show it as string
                     dto.getCreatedBy() != null ? String.valueOf(dto.getCreatedBy()) : "-",
                     dto.getCreatedAt(),
                     dto.getUpdatedAt()
