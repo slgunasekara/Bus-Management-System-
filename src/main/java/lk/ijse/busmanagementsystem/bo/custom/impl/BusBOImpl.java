@@ -97,7 +97,6 @@ public class BusBOImpl implements BusBO {
                         && b.getBusId() != busId);
     }
 
-    // ── DTO → Entity ─────────────────────────────────────────────────────────────
     private Bus toEntity(BusDTO dto) {
         Bus bus = new Bus();
         bus.setBusId(dto.getBusId() != null ? dto.getBusId() : 0);
@@ -116,7 +115,6 @@ public class BusBOImpl implements BusBO {
         return bus;
     }
 
-    // ── Entity → DTO ─────────────────────────────────────────────────────────────
     private BusDTO toDTO(Bus bus) {
         BusDTO dto = new BusDTO();
         dto.setBusId(bus.getBusId());
