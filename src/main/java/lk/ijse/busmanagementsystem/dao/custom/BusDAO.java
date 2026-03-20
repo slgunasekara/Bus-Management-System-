@@ -1,22 +1,22 @@
 package lk.ijse.busmanagementsystem.dao.custom;
 
 import lk.ijse.busmanagementsystem.dao.CrudDAO;
-import lk.ijse.busmanagementsystem.dto.BusDTO;
+import lk.ijse.busmanagementsystem.entity.Bus;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface BusDAO extends CrudDAO<BusDTO> {
+public interface BusDAO extends CrudDAO<Bus> {
 
-    BusDTO get(Integer id) throws SQLException, ClassNotFoundException;
+    Bus get(Integer id) throws SQLException, ClassNotFoundException;
 
     Integer getNextId() throws SQLException, ClassNotFoundException;
 
     List<String> getAllBusNumbers() throws SQLException, ClassNotFoundException;
 
-    BusDTO getByBusNumber(String busNumber) throws SQLException, ClassNotFoundException;
+    Bus getByBusNumber(String busNumber) throws SQLException, ClassNotFoundException;
 
-    List<BusDTO> searchBuses(String keyword) throws SQLException, ClassNotFoundException;
+    List<Bus> searchBuses(String keyword) throws SQLException, ClassNotFoundException;
 
     int getCountByStatus(String status) throws SQLException, ClassNotFoundException;
 
